@@ -55,6 +55,7 @@ map.on('load', () => {
     map.on('zoomend', () => {
         if (map.getZoom() >= 9 || selectedCounty != null) {
             map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'visible');
+            map.setLayoutProperty('counties-totals', 'visibility', 'none');
             map.setFilter('states-totals', null);
         } else if (map.getZoom() >= 5 || selectedState != null) {
             map.setLayoutProperty('counties-totals', 'visibility', 'visible');
@@ -81,19 +82,27 @@ map.on('load', () => {
     // of the feature and display congressional districts and top line stats
     map.on('click', ['states-totals'], (e) => {
 
-        selectedCounty = null;
-        map.fitBounds(turf.bbox(e.features[0]), {padding: 50});
+        if (!selectedCounty) {
 
-        let feature = e.features[0]
-        selectedStateId = e.features[0].id;
+            selectedCounty = null;
+            map.fitBounds(turf.bbox(e.features[0]), {padding: 50});
 
-        map.setPaintProperty('counties-totals', 'fill-color', [
-            'case',
-            ['==', ['get', 'ST_GEOID'], e.features[0].properties['GEOID']], defaultCountyColors,
-            'grey'
-        ]);
+            let feature = e.features[0]
+            selectedState = e.features[0].properties['GEOID'];
 
-        map.setFilter('states-totals', ['!=', ['get', 'GEOID'], feature.properties['GEOID']])
+            map.setPaintProperty('counties-totals', 'fill-color', [
+                'case',
+                ['==', ['get', 'ST_GEOID'], e.features[0].properties['GEOID']], defaultCountyColors,
+                'grey'
+            ]);
+
+            map.setFilter('states-totals', ['!=', ['get', 'GEOID'], selectedState])
+            
+        } else {
+            
+        }
+
+        
         
 
         // if (e.features[0].layer.id == 'states-totals') {
@@ -150,6 +159,26 @@ map.on('load', () => {
 
 
     });
+
+    map.on('click', ['counties-totals'], (e) => {
+
+        if (!selectedCounty) {
+            let zoom;
+            if (map.getZoom() > 7) {
+                zoom = map.getZoom()
+            } else {
+                zoom = 9
+            }
+            map.easeTo({center: e.lngLat, zoom: zoom});
+            selectedCounty = e.features[0].properties['GEOID'];
+    
+            map.setFilter('counties-totals', ['!=', ['get', 'ST_GEOID'], selectedState]);
+            map.setLayoutProperty('counties-totals', 'visibility', 'none'); 
+        } else {
+            
+        }
+
+    })
 
 
 })
