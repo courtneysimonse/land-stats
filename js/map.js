@@ -87,16 +87,15 @@ map.on('load', () => {
             selectedCounty = null;
             map.fitBounds(turf.bbox(e.features[0]), {padding: 50});
 
-            let feature = e.features[0]
             selectedState = e.features[0].properties['GEOID'];
 
             map.setPaintProperty('counties-totals', 'fill-color', [
                 'case',
-                ['==', ['get', 'ST_GEOID'], e.features[0].properties['GEOID']], defaultCountyColors,
+                ['==', ['get', 'ST_GEOID'], selectedState], defaultCountyColors,
                 'grey'
             ]);
 
-            map.setFilter('states-totals', ['!=', ['get', 'GEOID'], selectedState])
+            map.on('idle', () => {map.setFilter('states-totals', ['!=', ['get', 'GEOID'], selectedState])})
             
         } else {
             
