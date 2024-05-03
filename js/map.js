@@ -21,6 +21,7 @@ let filters = {};
 map.on('load', () => {
 
     const defaultStateColors = map.getPaintProperty('states-totals', 'fill-color');
+    const defaultCountyColors = map.getPaintProperty('counties-totals', 'fill-color')
     // // Add the control to the map.
     // map.addControl(
     //     new MapboxGeocoder({
@@ -54,11 +55,15 @@ map.on('load', () => {
     map.on('zoomend', () => {
         if (map.getZoom() >= 9 || selectedCounty != null) {
             map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'visible');
+            map.setFilter('states-totals', null);
         } else if (map.getZoom() >= 5 || selectedState != null) {
             map.setLayoutProperty('counties-totals', 'visibility', 'visible');
             map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
+            map.setFilter('states-totals', null);
         } else {
             map.setLayoutProperty('counties-totals', 'visibility', 'none');
+            map.setFilter('states-totals', null);
+            map.setPaintProperty('counties-totals', 'fill-color', defaultCountyColors);
         }
 
     });
@@ -74,47 +79,74 @@ map.on('load', () => {
 
     // When a click event occurs on a feature in the states layer, zoom to bounds
     // of the feature and display congressional districts and top line stats
-    map.on('click', ['states-totals', 'counties-totals'], (e) => {
+    map.on('click', ['states-totals'], (e) => {
 
-        if (e.features[0].layer.id == 'states-totals') {
-            selectedCounty = null;
-            map.fitBounds(e.features[0].properties.bbox, {padding: 50});
+        selectedCounty = null;
+        map.fitBounds(turf.bbox(e.features[0]), {padding: 50});
 
-            selectedStateId = e.features[0].id;
-        } else {
+        let feature = e.features[0]
+        selectedStateId = e.features[0].id;
 
-            map.setPaintProperty('states-totals', 'fill-color', [
-                'case',
-                ['==', ['get', 'GEOID'], e.features[0].properties['GEOID']], defaultStateColors,
-                'grey'
-            ]);
+        map.setPaintProperty('counties-totals', 'fill-color', [
+            'case',
+            ['==', ['get', 'ST_GEOID'], e.features[0].properties['GEOID']], defaultCountyColors,
+            'grey'
+        ]);
+
+        map.setFilter('states-totals', ['!=', ['get', 'GEOID'], feature.properties['GEOID']])
+        
+
+        // if (e.features[0].layer.id == 'states-totals') {
+        //     selectedCounty = null;
+        //     map.fitBounds(turf.bbox(e.features[0]), {padding: 50});
+
+        //     selectedStateId = e.features[0].id;
+
+        //     map.setPaintProperty('counties-totals', 'fill-color', [
+        //         'case',
+        //         ['==', ['get', 'ST_GEOID'], e.features[0].properties['GEOID']], defaultCountyColors,
+        //         'grey'
+        //     ]);
+        // } else {
+
+        //     map.setPaintProperty('states-totals', 'fill-color', [
+        //         'case',
+        //         ['==', ['get', 'GEOID'], e.features[0].properties['GEOID']], defaultStateColors,
+        //         'grey'
+        //     ]);
+
+        //     map.setPaintProperty('counties-totals', 'fill-color', [
+        //         'case',
+        //         ['==', ['get', 'ST_GEOID'], e.features[0].properties['GEOID']], defaultCountyColors,
+        //         'grey'
+        //     ]);
 
 
-            if (selectedCountyId) {
+        //     if (selectedCountyId) {
 
-                map.setFeatureState(
-                    {
-                        source: 'composite',
-                        sourceLayer: 'counties-totals',
-                        id: selectedCountyId
-                    },
-                    { selected: false }
-                );
+        //         map.setFeatureState(
+        //             {
+        //                 source: 'composite',
+        //                 sourceLayer: 'counties-totals',
+        //                 id: selectedCountyId
+        //             },
+        //             { selected: false }
+        //         );
 
-            }
+        //     }
 
-            map.setFeatureState(
-                {
-                    source: 'composite',
-                    sourceLayer: 'counties-totals',
-                    id: e.features[0].id
-                },
-                { selected: true }
-            );
+        //     map.setFeatureState(
+        //         {
+        //             source: 'composite',
+        //             sourceLayer: 'counties-totals',
+        //             id: e.features[0].id
+        //         },
+        //         { selected: true }
+        //     );
 
-            selectedCountyId = e.features[0].id;
+        //     selectedCountyId = e.features[0].id;
 
-        }
+        // }
 
 
     });
