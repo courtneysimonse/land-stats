@@ -25,22 +25,22 @@
 
                 <div class="data-filters">
                     <label for="state-select" class="form-label">State:</label>
-                    <input class="form-control" list="stateOptions" id="state-select" placeholder="All">
-                    <datalist id="stateOptions">
-                        <option value="All" data-fips="">
-                    </datalist>
+                    <!-- <input class="form-control" list="stateOptions" id="state-select" placeholder="All"> -->
+                    <select class="form-select" id="state-select">
+                        <option value="All" data-fips="">All</option>
+                    </select>
             
                     <label for="county-select" class="form-label">County:</label>
-                    <input disabled class="form-control" list="countyOptions" id="county-select" placeholder="All">
-                    <datalist id="countyOptions">
-                        <option value="All" data-fips="">
-                    </datalist>
+                    <!-- <input disabled class="form-control" list="countyOptions" id="county-select" placeholder="All"> -->
+                    <select class="form-select" id="county-select" disabled>
+                        <option value="All" data-fips="">All</option>
+                    </select>
 
                     <label for="zip-select" class="form-label">ZIP Code:</label>
-                    <input disabled class="form-control" list="zipOptions" id="zip-select" placeholder="All">
-                    <datalist id="zipOptions">
-                        <option value="All" data-fips="">
-                    </datalist>
+                    <!-- <input disabled class="form-control" list="zipOptions" id="zip-select" placeholder="All"> -->
+                    <select class="form-select" id="zip-select" disabled>
+                        <option value="All" data-fips="">All</option>
+                    </select>
             
                 </div>        
 

@@ -1,3 +1,4 @@
+import * as d3 from "https://cdn.jsdelivr.net/npm/d3-fetch@3/+esm";
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibGFuZHN0YXRzIiwiYSI6ImNsbHd1cDV5czBmNjQzb2xlbnE4c2F6MDkifQ.8VJ8wEZCS_jJFbvtOXwSng';
 
@@ -19,8 +20,15 @@ let hoverCounty;
 
 let filters = {};
 
-// api data placeholder
+// load CSVs
+const states = await d3.csv('./data/states.csv');
+const counties = await d3.csv('./data/counties.csv');
 
+// add options to filters
+const stateSelect = document.getElementById('state-select');
+addOptions(stateSelect, states);
+
+const countySelect = document.getElementById('county-select');
 
 map.on('load', () => {
 
@@ -55,6 +63,10 @@ map.on('load', () => {
     //     }
     //     return matchingFeatures;
     // }
+
+    stateSelect.addEventListener('change', (e) => {
+        filterState(e.target.value);
+    })
 
     map.on('zoomend', () => {
         if (map.getZoom() >= 9 || selectedCounty != null) {
@@ -93,13 +105,11 @@ map.on('load', () => {
 
             selectedState = e.features[0].properties['GEOID'];
 
-            map.setPaintProperty('counties-totals', 'fill-color', [
-                'case',
-                ['==', ['get', 'ST_GEOID'], selectedState], defaultCountyColors,
-                'grey'
-            ]);
+            // add options to sidebar filter
+            addOptions(countySelect, counties);
+            countySelect.removeAttribute('disabled');
 
-            map.on('idle', () => {map.setFilter('states-totals', ['!=', ['get', 'GEOID'], selectedState])})
+            filterState(selectedState);
             
         } else {
             
@@ -183,8 +193,19 @@ map.on('load', () => {
 
     })
 
+    function filterState(geoid) {
+    
+        map.setPaintProperty('counties-totals', 'fill-color', [
+            'case',
+            ['==', ['get', 'ST_GEOID'], geoid], defaultCountyColors,
+            'grey'
+        ]);
 
-})
+        map.on('idle', () => {map.setFilter('states-totals', ['!=', ['get', 'GEOID'], selectedState])})
+    
+    }
+
+})  // end map on load
 
 // Because features come from tiled vector data,
 // feature geometries may be split
@@ -202,4 +223,19 @@ function getUniqueFeatures(features, comparatorProperty) {
         }
     }
     return uniqueFeatures;
+}
+
+function addOptions(selectEl, data) {
+    data.forEach(d => {
+        let opt = createOptEl(d);
+        selectEl.appendChild(opt);
+    })
+}
+
+function createOptEl(data) {
+    let el = document.createElement('option');
+    el.value = data["GEOID"];
+    el.textContent = data["NAME"];
+
+    return el;
 }
