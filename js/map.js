@@ -1,3 +1,4 @@
+
 mapboxgl.accessToken = 'pk.eyJ1IjoibGFuZHN0YXRzIiwiYSI6ImNsbHd1cDV5czBmNjQzb2xlbnE4c2F6MDkifQ.8VJ8wEZCS_jJFbvtOXwSng';
 
 const map = new mapboxgl.Map({
@@ -18,18 +19,21 @@ let hoverCounty;
 
 let filters = {};
 
+// api data placeholder
+
+
 map.on('load', () => {
 
     const defaultStateColors = map.getPaintProperty('states-totals', 'fill-color');
     const defaultCountyColors = map.getPaintProperty('counties-totals', 'fill-color')
-    // // Add the control to the map.
-    // map.addControl(
-    //     new MapboxGeocoder({
-    //         accessToken: mapboxgl.accessToken,
-    //         mapboxgl: mapboxgl,
-    //         localGeocoder: forwardGeocoder
-    //     })
-    // );
+    // Add the control to the map.
+    map.addControl(
+        new MapboxGeocoder({
+            accessToken: mapboxgl.accessToken,
+            mapboxgl: mapboxgl,
+            // localGeocoder: forwardGeocoder
+        })
+    );
 
     // function forwardGeocoder(query) {
     //     var matchingFeatures = [];
@@ -41,9 +45,9 @@ map.on('load', () => {
     //                 .toLowerCase()
     //                 .search(query.toLowerCase()) !== -1
     //         ) {
-    //             // add a tree emoji as a prefix for custom data results
+    //             
     //             // using carmen geojson format: https://github.com/mapbox/carmen/blob/master/carmen-geojson.md
-    //             feature['place_name'] = '🌲 ' + feature.properties.title;
+    //             feature['place_name'] = feature.properties.name;
     //             feature['center'] = feature.geometry.coordinates;
     //             feature['place_type'] = ['park'];
     //             matchingFeatures.push(feature);
