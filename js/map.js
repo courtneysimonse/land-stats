@@ -65,7 +65,22 @@ map.on('load', () => {
     // }
 
     stateSelect.addEventListener('change', (e) => {
-        filterState(e.target.value);
+        if (!selectedCounty) {
+
+            selectedCounty = null;
+            // map.fitBounds(turf.bbox(e.features[0]), {padding: 50});
+
+            selectedState = e.target.value;
+
+            // add options to sidebar filter
+            addOptions(countySelect, counties);
+            countySelect.removeAttribute('disabled');
+
+            filterState(selectedState);
+            
+        } else {
+            
+        }
     })
 
     map.on('zoomend', () => {
