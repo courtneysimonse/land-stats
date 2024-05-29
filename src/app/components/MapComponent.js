@@ -1,7 +1,7 @@
 // src/components/MapComponent.js
 
 import React, { useEffect, useRef, useState } from 'react';
-import mapboxgl from 'mapbox-gl';
+import mapboxgl from '!mapbox-gl'
 import * as d3 from 'd3-fetch';
 import * as turf from '@turf/turf';
 import { MapboxGeocoder } from '@mapbox/mapbox-gl-geocoder';

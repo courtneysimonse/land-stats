@@ -2,7 +2,7 @@
 
 import React from 'react';
 import './App.css';
-import MapComponent from './components/MapComponent';
+import MapComponent from './app/components/MapComponent';
 
 function App() {
   return (
