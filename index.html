@@ -16,50 +16,30 @@
         <link href='https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css' rel='stylesheet' />
     </head>
     <body>
-        <header>
-            <h1>LandStats</h1>
-        </header>
-        <div id="filter-sidebar">
-            <details open>
-                <summary>Refine Data</summary>
-
-                <div class="data-filters">
-                    <label for="state-select" class="form-label">State:</label>
-                    <!-- <input class="form-control" list="stateOptions" id="state-select" placeholder="All"> -->
-                    <select class="form-select" id="state-select">
-                        <option value="All" data-fips="">All</option>
-                    </select>
-            
-                    <label for="county-select" class="form-label">County:</label>
-                    <!-- <input disabled class="form-control" list="countyOptions" id="county-select" placeholder="All"> -->
-                    <select class="form-select" id="county-select" disabled>
-                        <option value="All" data-fips="">All</option>
-                    </select>
-
-                    <label for="zip-select" class="form-label">ZIP Code:</label>
-                    <!-- <input disabled class="form-control" list="zipOptions" id="zip-select" placeholder="All"> -->
-                    <select class="form-select" id="zip-select" disabled>
-                        <option value="All" data-fips="">All</option>
-                    </select>
-            
-                </div>        
-
-            </details>
-
-            <details open>
-                <summary>Data for <span id="data-label"></span></summary>
-
-                <div id="data-summaries">
-                    <ul>
-                        <li>Data 1: </li>
-                        <li>Data 2: </li>
-                    </ul>
+        <div id="map-filters">
+            <fieldset>
+                <div class="filter-group">
+                    <label for="status-select">Status:</label>
+                    <select name="status" id="status-select"></select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="time-select">Time Frame:</label>
+                    <select name="time-frame" id="time-select"></select>
+                </div>
+        
+                <div class="filter-group">
+                    <label for="acres-select">Acreages:</label>
+                    <select name="acreages" id="acres-select"></select>
                 </div>
 
-            </details>
-            
-    
+                <div class="filter-group">
+                    <label for="stats-select">Statistics:</label>
+                    <select name="statistics" id="stats-select"></select>
+                </div>
+            </fieldset>
         </div>
+        
         <div id="map"></div>
         
         <!-- Turf -->

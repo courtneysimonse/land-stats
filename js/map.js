@@ -1,5 +1,101 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3-fetch@3/+esm";
 
+let statCats = {
+    "Sold": {
+        "Inventory Count": "sold_count",
+        "Median Price": "sold_median_price",
+        "Median Price/Acre": "sold_median_price_per_acre",
+        "Days on Market": "sold_median_days_on_market",
+        "List/Sale Ratio": "list_sale_ratio",
+        "Absorption Rate": "absorption_rate",
+        "Months of Supply": "months_of_supply"
+    },
+    "For Sale": {
+        "Inventory Count": "for_sale_count",
+        "Median Price": "for_sale_median_price",
+        "Median Price/Acre": "for_sale_median_price_per_acre",
+        "Days on Market": "for_sale_median_days_on_market",
+        "List/Sale Ratio": "list_sale_ratio",
+        "Absorption Rate": "absorption_rate",
+        "Months of Supply": "months_of_supply"
+    }
+}
+
+let selectedStatus = "Sold";
+let selectedStat = statCats[selectedStatus]["Inventory Count"];
+
+const statusSelect = document.getElementById('status-select');
+const statsSelect = document.getElementById('stats-select');
+
+addStatuses(statusSelect, statCats);
+statusSelect.value = selectedStatus;
+
+function addStatuses(selectEl, data) {
+    Object.entries(data).forEach(([status, stats]) => {
+
+        let el = document.createElement('option');
+        el.value = status;
+        el.textContent = status;
+
+        selectEl.appendChild(el);
+        
+    });
+
+}
+
+updateStatsOpts(statsSelect, statCats[selectedStatus]);
+statsSelect.value = statCats[selectedStatus][selectedStat];
+
+function updateStatsOpts(selectEl, data) {
+    selectEl.innerHTML = '';
+    Object.entries(data).forEach(([statLbl, statVar]) => {
+
+        let el = document.createElement('option');
+        el.value = statVar;
+        el.textContent = statLbl;
+
+        selectEl.appendChild(el);
+        
+    });
+}
+
+let timeFrames = {
+    "7 days": "7D",
+    "30 days": "30D",
+    "90 days": "90D",
+    "6 months": "6M",
+    "12 months": "12M",
+    "24 months": "24M",
+    "36 months": "36M",
+    "Pending": "PENDING"
+}
+
+let selectedTime = "12 months";
+
+const timeSelect = document.getElementById('time-select');
+
+addStatuses(timeSelect, timeFrames);
+timeSelect.value = selectedTime;
+
+let acreageRanges = {
+    "0-1 acres": "0-1",
+    "1-2 acres": "1-2",
+    "2-5 acres": "2-5",
+    "5-10 acres": "5-10",
+    "10-20 acres": "10-20",
+    "20-50 acres": "20-50",
+    "50-100 acres": "50-100",
+    "100+ acres": "100+",
+    "All Acreages": "TOTAL"
+}
+
+let selectedAcres = "All Acreages";
+
+const acresSelect = document.getElementById('acres-select');
+
+addStatuses(acresSelect, acreageRanges);
+acresSelect.value = selectedAcres;
+
 mapboxgl.accessToken = 'pk.eyJ1IjoibGFuZHN0YXRzIiwiYSI6ImNsbHd1cDV5czBmNjQzb2xlbnE4c2F6MDkifQ.8VJ8wEZCS_jJFbvtOXwSng';
 
 const map = new mapboxgl.Map({
@@ -9,6 +105,9 @@ const map = new mapboxgl.Map({
 	zoom: 3.5, // starting zoom
     projection: 'mercator'
 });
+
+const countyZoomThreshold = 5;
+const zipZoomThreshold = 9;
 
 
 let selectedState;
@@ -24,11 +123,11 @@ let filters = {};
 const states = await d3.csv('./data/states.csv');
 const counties = await d3.csv('./data/counties.csv');
 
-// add options to filters
-const stateSelect = document.getElementById('state-select');
-addOptions(stateSelect, states);
+// // add options to filters
+// const stateSelect = document.getElementById('state-select');
+// addOptions(stateSelect, states);
 
-const countySelect = document.getElementById('county-select');
+// const countySelect = document.getElementById('county-select');
 
 map.on('load', () => {
 
@@ -42,6 +141,31 @@ map.on('load', () => {
             // localGeocoder: forwardGeocoder
         })
     );
+
+    // change variable displayed on selections
+    statusSelect.addEventListener('change', (e) => {
+        updateStatsOpts(statsSelect, statCats[e.target.value]);
+
+        updateColors();
+    });
+
+    timeSelect.addEventListener('change', (e) => {
+        updateColors();
+    });
+
+    acresSelect.addEventListener('change', (e) => {
+        updateColors();
+    });
+
+    statsSelect.addEventListener('change', (e) => {
+        updateColors();
+    })
+
+    function updateColors() {
+        let colorExps = setNewVariable();
+        map.setPaintProperty('states-totals', 'fill-color', colorExps.state);
+        map.setPaintProperty('counties-totals', 'fill-color', colorExps.county);
+    }
 
     // function forwardGeocoder(query) {
     //     var matchingFeatures = [];
@@ -64,31 +188,31 @@ map.on('load', () => {
     //     return matchingFeatures;
     // }
 
-    stateSelect.addEventListener('change', (e) => {
-        if (!selectedCounty) {
+    // stateSelect.addEventListener('change', (e) => {
+    //     if (!selectedCounty) {
 
-            selectedCounty = null;
-            // map.fitBounds(turf.bbox(e.features[0]), {padding: 50});
+    //         selectedCounty = null;
+    //         // map.fitBounds(turf.bbox(e.features[0]), {padding: 50});
 
-            selectedState = e.target.value;
+    //         selectedState = e.target.value;
 
-            // add options to sidebar filter
-            addOptions(countySelect, counties);
-            countySelect.removeAttribute('disabled');
+    //         // add options to sidebar filter
+    //         addOptions(countySelect, counties);
+    //         countySelect.removeAttribute('disabled');
 
-            filterState(selectedState);
+    //         filterState(selectedState);
             
-        } else {
+    //     } else {
             
-        }
-    })
+    //     }
+    // })
 
     map.on('zoomend', () => {
-        if (map.getZoom() >= 9 || selectedCounty != null) {
+        if (map.getZoom() >= zipZoomThreshold || selectedCounty != null) {
             map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'visible');
             map.setLayoutProperty('counties-totals', 'visibility', 'none');
             map.setFilter('states-totals', null);
-        } else if (map.getZoom() >= 5 || selectedState != null) {
+        } else if (map.getZoom() >= countyZoomThreshold || selectedState != null) {
             map.setLayoutProperty('counties-totals', 'visibility', 'visible');
             map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
             map.setFilter('states-totals', null);
@@ -120,9 +244,9 @@ map.on('load', () => {
 
             selectedState = e.features[0].properties['GEOID'];
 
-            // add options to sidebar filter
-            addOptions(countySelect, counties);
-            countySelect.removeAttribute('disabled');
+            // // add options to sidebar filter
+            // addOptions(countySelect, counties);
+            // countySelect.removeAttribute('disabled');
 
             filterState(selectedState);
             
@@ -218,6 +342,51 @@ map.on('load', () => {
 
         map.on('idle', () => {map.setFilter('states-totals', ['!=', ['get', 'GEOID'], selectedState])})
     
+    }
+
+    function setNewVariable() {
+        selectedTime = timeSelect.value;
+        selectedAcres = acresSelect.value;
+        selectedStat = statsSelect.value;
+        selectedStatus = statusSelect.value;
+
+        let newVar = `${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.${selectedStat}`;
+
+        let stateColor = [
+            "interpolate",
+            ["linear"],
+            [
+              "get",
+              newVar
+            ],
+            0,
+            "#0f9b4a",
+            15000,
+            "#fecc08",
+            30000,
+            "#f69938",
+            70000,
+            "#f3663a"
+          ]
+
+        let countyColor = [
+            "interpolate",
+            ["linear"],
+            [
+              "get",
+              newVar
+            ],
+            0,
+            "#0f9b4a",
+            7500,
+            "#fecc08",
+            15000,
+            "#f69938",
+            31000,
+            "#f3663a"
+          ]
+
+        return {state: stateColor, county: countyColor}
     }
 
 })  // end map on load
