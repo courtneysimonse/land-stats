@@ -60,9 +60,9 @@ function updateStatsOpts(selectEl, data) {
 }
 
 let timeFrames = {
-    "7 days": "7D",
-    "30 days": "30D",
-    "90 days": "90D",
+    "7 days": "7d",
+    "30 days": "30d",
+    "90 days": "90d",
     "6 months": "6M",
     "12 months": "12M",
     "24 months": "24M",
@@ -122,6 +122,10 @@ let filters = {};
 // load CSVs
 const states = await d3.csv('./data/states.csv');
 const counties = await d3.csv('./data/counties.csv');
+
+// load propertyMinMaxs
+const statesMinMax = await d3.json('./data/state_properties.json');
+const countiesMinMax = await d3.json('./data/counties_properties.json');
 
 // // add options to filters
 // const stateSelect = document.getElementById('state-select');
@@ -352,22 +356,31 @@ map.on('load', () => {
 
         let newVar = `${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.${selectedStat}`;
 
-        let stateColor = [
-            "interpolate",
-            ["linear"],
-            [
-              "get",
-              newVar
-            ],
-            0,
-            "#0f9b4a",
-            15000,
-            "#fecc08",
-            30000,
-            "#f69938",
-            70000,
-            "#f3663a"
-          ]
+        let varMinMaxState = statesMinMax[newVar];
+        let varMinMaxCounty = countiesMinMax[newVar];
+
+        let stateColor;
+
+        if (varMinMaxState.max != varMinMaxState.min) {
+            stateColor = [
+                "interpolate",
+                ["linear"],
+                [
+                  "get",
+                  newVar
+                ],
+                varMinMaxState.min,
+                "#0f9b4a",
+                (varMinMaxState.max - varMinMaxState.min)*(1/3) + varMinMaxState.min,
+                "#fecc08",
+                (varMinMaxState.max - varMinMaxState.min)*(2/3) + varMinMaxState.min,
+                "#f69938",
+                varMinMaxState.max,
+                "#f3663a"
+              ]
+        } else {
+            stateColor = "#0f9b4a";
+        }
 
         let countyColor = [
             "interpolate",
@@ -376,13 +389,13 @@ map.on('load', () => {
               "get",
               newVar
             ],
-            0,
+            varMinMaxCounty.min,
             "#0f9b4a",
-            7500,
+            (varMinMaxCounty.max - varMinMaxCounty.min)*(1/3) + varMinMaxCounty.min,
             "#fecc08",
-            15000,
+            (varMinMaxCounty.max - varMinMaxCounty.min)*(2/3) + varMinMaxCounty.min,
             "#f69938",
-            31000,
+            varMinMaxCounty.max,
             "#f3663a"
           ]
 
