@@ -44,7 +44,7 @@ function addStatuses(selectEl, data) {
 }
 
 updateStatsOpts(statsSelect, statCats[selectedStatus]);
-statsSelect.value = statCats[selectedStatus][selectedStat];
+statsSelect.value = selectedStat;
 
 function updateStatsOpts(selectEl, data) {
     selectEl.innerHTML = '';
@@ -101,8 +101,8 @@ mapboxgl.accessToken = 'pk.eyJ1IjoibGFuZHN0YXRzIiwiYSI6ImNsbHd1cDV5czBmNjQzb2xlb
 const map = new mapboxgl.Map({
 	container: 'map', // container ID
 	style: 'mapbox://styles/landstats/clvfmorch02dd01pecuq9e0hr', // style URL
-	center: [-99, 40], // starting position [lng, lat]
-	zoom: 3.5, // starting zoom
+	center: [-99, 43], // starting position [lng, lat]
+	zoom: 3, // starting zoom
     projection: 'mercator'
 });
 
@@ -143,7 +143,8 @@ map.on('load', () => {
             accessToken: mapboxgl.accessToken,
             mapboxgl: mapboxgl,
             // localGeocoder: forwardGeocoder
-        })
+        }),
+        'bottom-left'
     );
 
     // change variable displayed on selections
@@ -215,15 +216,18 @@ map.on('load', () => {
         if (map.getZoom() >= zipZoomThreshold || selectedCounty != null) {
             map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'visible');
             map.setLayoutProperty('counties-totals', 'visibility', 'none');
+            map.setLayoutProperty('states-totals', 'visibility', 'none');
             map.setFilter('states-totals', null);
         } else if (map.getZoom() >= countyZoomThreshold || selectedState != null) {
             map.setLayoutProperty('counties-totals', 'visibility', 'visible');
             map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
+            map.setLayoutProperty('states-totals', 'visibility', 'none');
             map.setFilter('states-totals', null);
         } else {
+            map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
             map.setLayoutProperty('counties-totals', 'visibility', 'none');
+            map.setLayoutProperty('states-totals', 'visibility', 'visible');
             map.setFilter('states-totals', null);
-            map.setPaintProperty('counties-totals', 'fill-color', defaultCountyColors);
         }
 
     });
@@ -237,104 +241,104 @@ map.on('load', () => {
     })
 
 
-    // When a click event occurs on a feature in the states layer, zoom to bounds
-    // of the feature and display congressional districts and top line stats
-    map.on('click', ['states-totals'], (e) => {
+    // // When a click event occurs on a feature in the states layer, zoom to bounds
+    // // of the feature and display congressional districts and top line stats
+    // map.on('click', ['states-totals'], (e) => {
 
-        if (!selectedCounty) {
+    //     if (!selectedCounty) {
 
-            selectedCounty = null;
-            map.fitBounds(turf.bbox(e.features[0]), {padding: 50});
+    //         selectedCounty = null;
+    //         map.fitBounds(turf.bbox(e.features[0]), {padding: 50});
 
-            selectedState = e.features[0].properties['GEOID'];
+    //         selectedState = e.features[0].properties['GEOID'];
 
-            // // add options to sidebar filter
-            // addOptions(countySelect, counties);
-            // countySelect.removeAttribute('disabled');
+    //         // // add options to sidebar filter
+    //         // addOptions(countySelect, counties);
+    //         // countySelect.removeAttribute('disabled');
 
-            filterState(selectedState);
+    //         filterState(selectedState);
             
-        } else {
+    //     } else {
             
-        }
+    //     }
 
         
         
 
-        // if (e.features[0].layer.id == 'states-totals') {
-        //     selectedCounty = null;
-        //     map.fitBounds(turf.bbox(e.features[0]), {padding: 50});
+    //     // if (e.features[0].layer.id == 'states-totals') {
+    //     //     selectedCounty = null;
+    //     //     map.fitBounds(turf.bbox(e.features[0]), {padding: 50});
 
-        //     selectedStateId = e.features[0].id;
+    //     //     selectedStateId = e.features[0].id;
 
-        //     map.setPaintProperty('counties-totals', 'fill-color', [
-        //         'case',
-        //         ['==', ['get', 'ST_GEOID'], e.features[0].properties['GEOID']], defaultCountyColors,
-        //         'grey'
-        //     ]);
-        // } else {
+    //     //     map.setPaintProperty('counties-totals', 'fill-color', [
+    //     //         'case',
+    //     //         ['==', ['get', 'ST_GEOID'], e.features[0].properties['GEOID']], defaultCountyColors,
+    //     //         'grey'
+    //     //     ]);
+    //     // } else {
 
-        //     map.setPaintProperty('states-totals', 'fill-color', [
-        //         'case',
-        //         ['==', ['get', 'GEOID'], e.features[0].properties['GEOID']], defaultStateColors,
-        //         'grey'
-        //     ]);
+    //     //     map.setPaintProperty('states-totals', 'fill-color', [
+    //     //         'case',
+    //     //         ['==', ['get', 'GEOID'], e.features[0].properties['GEOID']], defaultStateColors,
+    //     //         'grey'
+    //     //     ]);
 
-        //     map.setPaintProperty('counties-totals', 'fill-color', [
-        //         'case',
-        //         ['==', ['get', 'ST_GEOID'], e.features[0].properties['GEOID']], defaultCountyColors,
-        //         'grey'
-        //     ]);
-
-
-        //     if (selectedCountyId) {
-
-        //         map.setFeatureState(
-        //             {
-        //                 source: 'composite',
-        //                 sourceLayer: 'counties-totals',
-        //                 id: selectedCountyId
-        //             },
-        //             { selected: false }
-        //         );
-
-        //     }
-
-        //     map.setFeatureState(
-        //         {
-        //             source: 'composite',
-        //             sourceLayer: 'counties-totals',
-        //             id: e.features[0].id
-        //         },
-        //         { selected: true }
-        //     );
-
-        //     selectedCountyId = e.features[0].id;
-
-        // }
+    //     //     map.setPaintProperty('counties-totals', 'fill-color', [
+    //     //         'case',
+    //     //         ['==', ['get', 'ST_GEOID'], e.features[0].properties['GEOID']], defaultCountyColors,
+    //     //         'grey'
+    //     //     ]);
 
 
-    });
+    //     //     if (selectedCountyId) {
 
-    map.on('click', ['counties-totals'], (e) => {
+    //     //         map.setFeatureState(
+    //     //             {
+    //     //                 source: 'composite',
+    //     //                 sourceLayer: 'counties-totals',
+    //     //                 id: selectedCountyId
+    //     //             },
+    //     //             { selected: false }
+    //     //         );
 
-        if (!selectedCounty) {
-            let zoom;
-            if (map.getZoom() > 7) {
-                zoom = map.getZoom()
-            } else {
-                zoom = 9
-            }
-            map.easeTo({center: e.lngLat, zoom: zoom});
-            selectedCounty = e.features[0].properties['GEOID'];
+    //     //     }
+
+    //     //     map.setFeatureState(
+    //     //         {
+    //     //             source: 'composite',
+    //     //             sourceLayer: 'counties-totals',
+    //     //             id: e.features[0].id
+    //     //         },
+    //     //         { selected: true }
+    //     //     );
+
+    //     //     selectedCountyId = e.features[0].id;
+
+    //     // }
+
+
+    // });
+
+    // map.on('click', ['counties-totals'], (e) => {
+
+    //     if (!selectedCounty) {
+    //         let zoom;
+    //         if (map.getZoom() > 7) {
+    //             zoom = map.getZoom()
+    //         } else {
+    //             zoom = 9
+    //         }
+    //         map.easeTo({center: e.lngLat, zoom: zoom});
+    //         selectedCounty = e.features[0].properties['GEOID'];
     
-            map.setFilter('counties-totals', ['!=', ['get', 'ST_GEOID'], selectedState]);
-            map.setLayoutProperty('counties-totals', 'visibility', 'none'); 
-        } else {
+    //         map.setFilter('counties-totals', ['!=', ['get', 'ST_GEOID'], selectedState]);
+    //         map.setLayoutProperty('counties-totals', 'visibility', 'none'); 
+    //     } else {
             
-        }
+    //     }
 
-    })
+    // })
 
     function filterState(geoid) {
     
@@ -382,22 +386,28 @@ map.on('load', () => {
             stateColor = "#0f9b4a";
         }
 
-        let countyColor = [
-            "interpolate",
-            ["linear"],
-            [
-              "get",
-              newVar
-            ],
-            varMinMaxCounty.min,
-            "#0f9b4a",
-            (varMinMaxCounty.max - varMinMaxCounty.min)*(1/3) + varMinMaxCounty.min,
-            "#fecc08",
-            (varMinMaxCounty.max - varMinMaxCounty.min)*(2/3) + varMinMaxCounty.min,
-            "#f69938",
-            varMinMaxCounty.max,
-            "#f3663a"
-          ]
+        let countyColor
+        
+        if (varMinMaxCounty.max != varMinMaxCounty.min) {
+            countyColor = [
+                "interpolate",
+                ["linear"],
+                [
+                "get",
+                newVar
+                ],
+                varMinMaxCounty.min,
+                "#0f9b4a",
+                (varMinMaxCounty.max - varMinMaxCounty.min)*(1/3) + varMinMaxCounty.min,
+                "#fecc08",
+                (varMinMaxCounty.max - varMinMaxCounty.min)*(2/3) + varMinMaxCounty.min,
+                "#f69938",
+                varMinMaxCounty.max,
+                "#f3663a"
+            ]
+        } else {
+            countyColor = "#0f9b4a";
+        }
 
         return {state: stateColor, county: countyColor}
     }
