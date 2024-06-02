@@ -1,4 +1,12 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3-fetch@3/+esm";
+import LegendControl from "./LegendControl.js";
+
+let colors = [
+    "#f3663a",
+    "#f69938",
+    "#fecc08",
+    "#0f9b4a"
+]
 
 let statCats = {
     "Sold": {
@@ -146,6 +154,9 @@ map.on('load', () => {
         'bottom-left'
     );
 
+    const legendControl = new LegendControl(calcBreaks(statesMinMax[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.${selectedStat}`]), colors)
+    map.addControl(legendControl, 'bottom-right');
+
     // change variable displayed on selections
     statusSelect.addEventListener('change', (e) => {
         updateStatsOpts(statsSelect, statCats[e.target.value]);
@@ -231,13 +242,35 @@ map.on('load', () => {
 
     });
 
+    const popup = new mapboxgl.Popup({closeButton: false});
+
     map.on('mouseenter', ['states-totals', 'counties-totals', 'zip-totals-Zoom 5'], (e) => {
         map.getCanvas().style.cursor = 'pointer';
-    })
+    });
+
+    map.on('mousemove', ['states-totals', 'counties-totals', 'zip-totals-Zoom 5'], (e) => {
+
+        let props = e.features[0].properties;
+
+        let listEl = document.createElement('ul');
+
+        Object.entries(statCats[selectedStatus]).forEach(([l, v]) => {
+            let statEl = document.createElement('li');
+            let varName = `${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.${v}`
+            statEl.textContent = `${l}: ${props[varName].toLocaleString()}`
+            listEl.appendChild(statEl);
+        })
+
+        popup.setHTML(listEl.outerHTML)
+            .setLngLat(e.lngLat)
+            .addTo(map)
+
+    });
 
     map.on('mouseleave', ['states-totals', 'counties-totals', 'zip-totals-Zoom 5'], (e) => {
         map.getCanvas().style.cursor = '';
-    })
+        popup.remove();
+    });
 
 
     // // When a click event occurs on a feature in the states layer, zoom to bounds
@@ -359,6 +392,7 @@ map.on('load', () => {
 
         let newVar = `${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.${selectedStat}`;
 
+        let stateBreaks = calcBreaks(statesMinMax[newVar]);
         let varMinMaxState = statesMinMax[newVar];
         let varMinMaxCounty = countiesMinMax[newVar];
 
@@ -408,6 +442,8 @@ map.on('load', () => {
             countyColor = "#0f9b4a";
         }
 
+        legendControl.updateScale(stateBreaks);
+
         return {state: stateColor, county: countyColor}
     }
 
@@ -444,4 +480,13 @@ function createOptEl(data) {
     el.textContent = data["NAME"];
 
     return el;
+}
+
+function calcBreaks(data) {
+    return [
+        data.min,
+        (data.max - data.min)*(1/3) + data.min,
+        (data.max - data.min)*(2/3) + data.min,
+        data.max
+    ]
 }
