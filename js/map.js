@@ -2,10 +2,10 @@ import * as d3 from "https://cdn.jsdelivr.net/npm/d3-fetch@3/+esm";
 import LegendControl from "./LegendControl.js";
 
 let colors = [
-    "#f3663a",
-    "#f69938",
+    "#0f9b4a",
     "#fecc08",
-    "#0f9b4a"
+    "#f69938",
+    "#f3663a"
 ]
 
 let statCats = {
@@ -233,11 +233,15 @@ map.on('load', () => {
             map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
             map.setLayoutProperty('states-totals', 'visibility', 'none');
             map.setFilter('states-totals', null);
+
+            legendControl.updateScale(calcBreaks(countiesMinMax[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.${selectedStat}`]))
         } else {
             map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
             map.setLayoutProperty('counties-totals', 'visibility', 'none');
             map.setLayoutProperty('states-totals', 'visibility', 'visible');
             map.setFilter('states-totals', null);
+
+            legendControl.updateScale(calcBreaks(statesMinMax[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.${selectedStat}`]))
         }
 
     });
@@ -394,6 +398,8 @@ map.on('load', () => {
 
         let stateBreaks = calcBreaks(statesMinMax[newVar]);
         let varMinMaxState = statesMinMax[newVar];
+
+        let countyBreaks = calcBreaks(countiesMinMax[newVar]);
         let varMinMaxCounty = countiesMinMax[newVar];
 
         let stateColor;
@@ -442,7 +448,13 @@ map.on('load', () => {
             countyColor = "#0f9b4a";
         }
 
-        legendControl.updateScale(stateBreaks);
+        if (map.getLayoutProperty('states-totals', 'visibility') == 'visible') {
+            legendControl.updateScale(stateBreaks);
+        } else {
+            legendControl.updateScale(countyBreaks);
+        }
+
+
 
         return {state: stateColor, county: countyColor}
     }
