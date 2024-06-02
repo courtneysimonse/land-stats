@@ -101,8 +101,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoibGFuZHN0YXRzIiwiYSI6ImNsbHd1cDV5czBmNjQzb2xlb
 const map = new mapboxgl.Map({
 	container: 'map', // container ID
 	style: 'mapbox://styles/landstats/clvfmorch02dd01pecuq9e0hr', // style URL
-	center: [-99, 43], // starting position [lng, lat]
-	zoom: 3, // starting zoom
+	bounds: [[-128, 22], [-63, 55]],
     projection: 'mercator'
 });
 
