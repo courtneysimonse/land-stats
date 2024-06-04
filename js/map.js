@@ -223,25 +223,27 @@ map.on('load', () => {
     // })
 
     map.on('zoomend', () => {
-        if (map.getZoom() >= zipZoomThreshold || selectedCounty != null) {
-            map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'visible');
-            map.setLayoutProperty('counties-totals', 'visibility', 'none');
-            map.setLayoutProperty('states-totals', 'visibility', 'none');
-            map.setFilter('states-totals', null);
-        } else if (map.getZoom() >= countyZoomThreshold || selectedState != null) {
+        // if (map.getZoom() >= zipZoomThreshold || selectedCounty != null) {
+        //     map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'visible');
+        //     map.setLayoutProperty('counties-totals', 'visibility', 'none');
+        //     map.setLayoutProperty('states-totals', 'visibility', 'none');
+        //     map.setFilter('states-totals', null);
+        // } else 
+        if (map.getZoom() >= countyZoomThreshold || selectedState != null) {
             map.setLayoutProperty('counties-totals', 'visibility', 'visible');
-            map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
+            map.setLayoutProperty('counties-lines', 'visibility', 'visible');
+            // map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
             map.setLayoutProperty('states-totals', 'visibility', 'none');
             map.setFilter('states-totals', null);
 
-            legendControl.updateScale(calcBreaks(countiesMinMax[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.${selectedStat}`]))
+            legendControl.updateScale(calcBreaks(countiesMinMax[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.${selectedStat}`]), "")
         } else {
-            map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
+            // map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
             map.setLayoutProperty('counties-totals', 'visibility', 'none');
             map.setLayoutProperty('states-totals', 'visibility', 'visible');
             map.setFilter('states-totals', null);
 
-            legendControl.updateScale(calcBreaks(statesMinMax[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.${selectedStat}`]))
+            legendControl.updateScale(calcBreaks(statesMinMax[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.${selectedStat}`]), "")
         }
 
     });
@@ -256,7 +258,35 @@ map.on('load', () => {
 
         let props = e.features[0].properties;
 
+        let popupContent = document.createElement('div');
+
         let listEl = document.createElement('ul');
+
+        let layerLi = document.createElement('li');
+        if (e.features[0].layer.id == 'states-totals') {
+            layerLi.innerText = "LAYER: State";
+        } else {
+            layerLi.innerText = "LAYER: County"
+        }
+
+        listEl.appendChild(layerLi);
+
+        let geoLi = document.createElement('li');
+        geoLi.innerText = "SELECTED: " + props["GEOID"];
+        listEl.appendChild(layerLi);
+
+        let timeLi = document.createElement('li');
+        timeLi.innerText = "TIMEFRAME: " + selectedTime;
+        listEl.appendChild(timeLi);
+
+        let acreLi = document.createElement('li');
+        acreLi.innerText = "ACREAGE: " + selectedAcres;
+        listEl.appendChild(acreLi);
+
+        let statusLi = document.createElement('li');
+        statusLi.innerText = "STATUS: "+selectedStatus;
+        listEl.appendChild(statusLi);
+
 
         Object.entries(statCats[selectedStatus]).forEach(([l, v]) => {
             let statEl = document.createElement('li');
@@ -265,7 +295,9 @@ map.on('load', () => {
             listEl.appendChild(statEl);
         })
 
-        popup.setHTML(listEl.outerHTML)
+        popupContent.appendChild(listEl)
+
+        popup.setHTML(popupContent.outerHTML)
             .setLngLat(e.lngLat)
             .addTo(map)
 
