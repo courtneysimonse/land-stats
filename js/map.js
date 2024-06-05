@@ -463,9 +463,9 @@ map.on('load', () => {
                 ],
                 varMinMaxState.min,
                 "#0f9b4a",
-                (varMinMaxState.max - varMinMaxState.min)*(1/3) + varMinMaxState.min,
+                varMinMaxState.breaks[0],
                 "#fecc08",
-                (varMinMaxState.max - varMinMaxState.min)*(2/3) + varMinMaxState.min,
+                varMinMaxState.breaks[1],
                 "#f69938",
                 varMinMaxState.max,
                 "#f3663a"
@@ -486,9 +486,9 @@ map.on('load', () => {
                 ],
                 varMinMaxCounty.min,
                 "#0f9b4a",
-                (varMinMaxCounty.max - varMinMaxCounty.min)*(1/3) + varMinMaxCounty.min,
+                varMinMaxCounty.breaks[0],
                 "#fecc08",
-                (varMinMaxCounty.max - varMinMaxCounty.min)*(2/3) + varMinMaxCounty.min,
+                varMinMaxCounty.breaks[1],
                 "#f69938",
                 varMinMaxCounty.max,
                 "#f3663a"
@@ -548,8 +548,7 @@ function createOptEl(data) {
 function calcBreaks(data) {
     return [
         data.min,
-        (data.max - data.min)*(1/3) + data.min,
-        (data.max - data.min)*(2/3) + data.min,
+        ...data.breaks,
         data.max
     ]
 }
