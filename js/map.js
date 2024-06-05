@@ -124,6 +124,8 @@ let selectedCountyId;
 let hoverState;
 let hoverCounty;
 
+let selectedLayer = "State";
+
 let filters = {};
 
 // load CSVs
@@ -223,6 +225,8 @@ map.on('load', () => {
     // })
 
     map.on('zoomend', () => {
+        let statName = Object.keys(statCats[selectedStatus]).find(key => statCats[selectedStatus][key] === selectedStat);
+
         // if (map.getZoom() >= zipZoomThreshold || selectedCounty != null) {
         //     map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'visible');
         //     map.setLayoutProperty('counties-totals', 'visibility', 'none');
@@ -230,20 +234,28 @@ map.on('load', () => {
         //     map.setFilter('states-totals', null);
         // } else 
         if (map.getZoom() >= countyZoomThreshold || selectedState != null) {
+            selectedLayer = "County";
+
             map.setLayoutProperty('counties-totals', 'visibility', 'visible');
             map.setLayoutProperty('counties-lines', 'visibility', 'visible');
             // map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
             map.setLayoutProperty('states-totals', 'visibility', 'none');
             map.setFilter('states-totals', null);
 
-            legendControl.updateScale(calcBreaks(countiesMinMax[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.${selectedStat}`]), "")
+            legendControl.updateScale(calcBreaks(countiesMinMax[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.${selectedStat}`]), 
+                `${selectedLayer} Level - ${selectedStatus} - ${selectedTime} - ${statName}`)
         } else {
+            selectedLayer = "State";
+
             // map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
             map.setLayoutProperty('counties-totals', 'visibility', 'none');
+            map.setLayoutProperty('counties-lines', 'visibility', 'none');
             map.setLayoutProperty('states-totals', 'visibility', 'visible');
             map.setFilter('states-totals', null);
+        
 
-            legendControl.updateScale(calcBreaks(statesMinMax[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.${selectedStat}`]), "")
+            legendControl.updateScale(calcBreaks(statesMinMax[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.${selectedStat}`]),
+                 `${selectedLayer} Level - ${selectedStatus} - ${selectedTime} - ${statName}`)
         }
 
     });
@@ -263,17 +275,22 @@ map.on('load', () => {
         let listEl = document.createElement('ul');
 
         let layerLi = document.createElement('li');
+        let geoLi = document.createElement('li');
         if (e.features[0].layer.id == 'states-totals') {
             layerLi.innerText = "LAYER: State";
+
+            let stateName = states.find(x=> x["GEOID"] == props["GEOID"]).NAME
+            geoLi.innerText = "SELECTED: " + stateName;
+
         } else {
             layerLi.innerText = "LAYER: County"
+
+            let countyName = counties.find(x=> x['GEOID'] == e.features[0].id).NAME
+            geoLi.innerText = "SELECTED: " + countyName;
         }
 
         listEl.appendChild(layerLi);
-
-        let geoLi = document.createElement('li');
-        geoLi.innerText = "SELECTED: " + props["GEOID"];
-        listEl.appendChild(layerLi);
+        listEl.appendChild(geoLi);
 
         let timeLi = document.createElement('li');
         timeLi.innerText = "TIMEFRAME: " + selectedTime;
@@ -480,10 +497,12 @@ map.on('load', () => {
             countyColor = "#0f9b4a";
         }
 
+        let statName = Object.keys(statCats[selectedStatus]).find(key => statCats[selectedStatus][key] === selectedStat);
+
         if (map.getLayoutProperty('states-totals', 'visibility') == 'visible') {
-            legendControl.updateScale(stateBreaks);
+            legendControl.updateScale(stateBreaks, `${selectedLayer} Level - ${selectedStatus} - ${selectedTime} - ${statName}`);
         } else {
-            legendControl.updateScale(countyBreaks);
+            legendControl.updateScale(countyBreaks, `${selectedLayer} Level - ${selectedStatus} - ${selectedTime} - ${statName}`);
         }
 
 
