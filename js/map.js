@@ -1,5 +1,6 @@
 import * as d3 from "https://cdn.jsdelivr.net/npm/d3-fetch@3/+esm";
 import LegendControl from "./LegendControl.js";
+import ZoomDisplayControl from "./ZoomDisplayControl.js";
 
 let colors = [
     "#0f9b4a",
@@ -143,6 +144,7 @@ const countiesMinMax = await d3.json('./data/counties_properties.json');
 // const countySelect = document.getElementById('county-select');
 
 map.on('load', () => {
+    map.addControl(new ZoomDisplayControl(), 'bottom-right')
 
     const defaultStateColors = map.getPaintProperty('states-totals', 'fill-color');
     const defaultCountyColors = map.getPaintProperty('counties-totals', 'fill-color')
