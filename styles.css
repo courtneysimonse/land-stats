@@ -91,3 +91,9 @@ html, body, #map { height: 100%; }
     border-radius: 3px;
     padding: 10px;
 }
+
+.map-tooltip ul {
+    padding-left: 10px;
+    padding-right: 10px;
+    list-style: none;
+}
