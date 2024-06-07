@@ -343,9 +343,9 @@ map.on('load', () => {
 
         listEl.appendChild(createLi("STR: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.list_sale_ratio`].toFixed(1)+"%"))
 
-        listEl.appendChild(createLi("DOM Sold: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_median_days_on_market`].toLocaleString()))
+        listEl.appendChild(createLi("DOM Sold: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_median_days_on_market`].toLocaleString() + 'd'))
 
-        listEl.appendChild(createLi("DOM For Sale: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.for_sale_median_days_on_market`].toLocaleString()))
+        listEl.appendChild(createLi("DOM For Sale: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.for_sale_median_days_on_market`].toLocaleString() + 'd'))
 
         listEl.appendChild(createLi("Median Price: $"+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_median_price`].toLocaleString()))
 
