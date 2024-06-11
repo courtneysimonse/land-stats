@@ -123,7 +123,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoibGFuZHN0YXRzIiwiYSI6ImNsbHd1cDV5czBmNjQzb2xlb
 
 const map = new mapboxgl.Map({
 	container: 'map', // container ID
-	style: 'mapbox://styles/landstats/clvfmorch02dd01pecuq9e0hr', // style URL
+	style: 'mapbox://styles/landstats/clx53a8bu003x01mw5os6ahb9', // style URL
 	bounds: [[-128, 22], [-63, 55]],
     projection: 'mercator'
 });
@@ -158,12 +158,14 @@ const countiesMinMax = await d3.json('./data/counties_properties.json');
 // const countySelect = document.getElementById('county-select');
 
 const layerSelect = document.getElementById('layer-select');
+layerSelect.value = "state";
 
 map.on('load', () => {
     map.addControl(new ZoomDisplayControl(), 'bottom-right')
 
     const defaultStateColors = map.getPaintProperty('states-totals', 'fill-color');
-    const defaultCountyColors = map.getPaintProperty('counties-totals', 'fill-color')
+    const defaultCounty1Colors = map.getPaintProperty('counties-totals-part-1', 'fill-color');
+    const defaultCounty2Colors = map.getPaintProperty('counties-totals-part-2', 'fill-color');
     // Add the control to the map.
     map.addControl(
         new MapboxGeocoder({
@@ -199,7 +201,8 @@ map.on('load', () => {
     function updateColors() {
         let colorExps = setNewVariable();
         map.setPaintProperty('states-totals', 'fill-color', colorExps.state);
-        map.setPaintProperty('counties-totals', 'fill-color', colorExps.county);
+        map.setPaintProperty('counties-totals-part-1', 'fill-color', colorExps.county);
+        map.setPaintProperty('counties-totals-part-2', 'fill-color', colorExps.county);
     }
 
     // function forwardGeocoder(query) {
@@ -248,7 +251,8 @@ map.on('load', () => {
         if (e.target.value == 'county') {
             selectedLayer = "County";
 
-            map.setLayoutProperty('counties-totals', 'visibility', 'visible');
+            map.setLayoutProperty('counties-totals-part-1', 'visibility', 'visible');
+            map.setLayoutProperty('counties-totals-part-2', 'visibility', 'visible');
             map.setLayoutProperty('counties-lines', 'visibility', 'visible');
             // map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
             map.setLayoutProperty('states-totals', 'visibility', 'none');
@@ -267,7 +271,8 @@ map.on('load', () => {
             selectedLayer = "State";
 
             // map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
-            map.setLayoutProperty('counties-totals', 'visibility', 'none');
+            map.setLayoutProperty('counties-totals-part-1', 'visibility', 'none');
+            map.setLayoutProperty('counties-totals-part-2', 'visibility', 'none');
             map.setLayoutProperty('counties-lines', 'visibility', 'none');
             map.setLayoutProperty('states-totals', 'visibility', 'visible');
             map.setFilter('states-totals', null);
@@ -316,11 +321,11 @@ map.on('load', () => {
 
     const popup = new mapboxgl.Popup({closeButton: false, className: 'map-tooltip'});
 
-    map.on('mouseenter', ['states-totals', 'counties-totals', 'zip-totals-Zoom 5'], (e) => {
+    map.on('mouseenter', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], (e) => {
         map.getCanvas().style.cursor = 'pointer';
     });
 
-    map.on('mousemove', ['states-totals', 'counties-totals', 'zip-totals-Zoom 5'], (e) => {
+    map.on('mousemove', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], (e) => {
 
         let props = e.features[0].properties;
 
@@ -398,7 +403,7 @@ map.on('load', () => {
 
     });
 
-    map.on('mouseleave', ['states-totals', 'counties-totals', 'zip-totals-Zoom 5'], (e) => {
+    map.on('mouseleave', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], (e) => {
         map.getCanvas().style.cursor = '';
         popup.remove();
     });
@@ -505,7 +510,13 @@ map.on('load', () => {
 
     function filterState(geoid) {
     
-        map.setPaintProperty('counties-totals', 'fill-color', [
+        map.setPaintProperty('counties-totals-part-1', 'fill-color', [
+            'case',
+            ['==', ['get', 'ST_GEOID'], geoid], defaultCountyColors,
+            'grey'
+        ]);
+
+        map.setPaintProperty('counties-totals-part-2', 'fill-color', [
             'case',
             ['==', ['get', 'ST_GEOID'], geoid], defaultCountyColors,
             'grey'
