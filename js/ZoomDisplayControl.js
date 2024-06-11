@@ -4,7 +4,7 @@ export default class ZoomDisplayControl {
 
         this._map = map;
         this._container = document.createElement('div');
-        this._container.className = 'mapboxgl-ctrl zoom-ctrl';
+        this._container.className = 'mapboxgl-ctrl zoom-ctrl map-ctrl';
         this._container.id = 'zoom-ctrl'
 
         let zoom = this._map.getZoom().toFixed(1);

@@ -10,7 +10,7 @@ export default class LegendControl {
 
     this._map = map;
     this._container = document.createElement('div');
-    this._container.className = 'mapboxgl-ctrl legend-ctrl';
+    this._container.className = 'mapboxgl-ctrl legend-ctrl map-ctrl';
     this._container.id = 'legend-ctrl'
 
     var legendHTML = "<h3>Legend</h3>";

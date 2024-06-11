@@ -10,7 +10,6 @@ body {
 html, body, #map { height: 100%; }
 
 #map-filters {
-    background-color: #FFFFFF !important;
     color: #000;
     box-sizing: border-box;
     position: absolute;
@@ -20,7 +19,6 @@ html, body, #map { height: 100%; }
     margin: 20px;
     padding: 18px;
     z-index: 100;
-    border-radius: 5px;
 }
 
 #map-filters fieldset {
@@ -46,12 +44,17 @@ html, body, #map { height: 100%; }
     box-sizing: border-box;
 }
 
+.map-ctrl {
+    box-shadow: 0 0 10px 2px rgba(0,0,0,.1);
+    border-radius: 4px;
+    background: rgba(255, 255, 255);
+}
+
 .legend-ctrl {
     width: 140px;
     padding: 6px 8px;
     font-size: 1em;
     background: rgba(255, 255, 255);
-    border-radius: 5px;
 }
 
 .legend-ctrl h3 {
@@ -87,8 +90,6 @@ html, body, #map { height: 100%; }
 
 .zoom-ctrl {
     z-index: 10;
-    background: rgba(255, 255, 255);
-    border-radius: 3px;
     padding: 10px;
 }
 
