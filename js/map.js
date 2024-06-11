@@ -27,6 +27,15 @@ let statCats = {
         "List/Sale Ratio": "list_sale_ratio",
         "Absorption Rate": "absorption_rate",
         "Months of Supply": "months_of_supply"
+    },
+    "Pending": {
+        "Inventory Count": "for_sale_count",
+        "Median Price": "for_sale_median_price",
+        "Median Price/Acre": "for_sale_median_price_per_acre",
+        "Days on Market": "for_sale_median_days_on_market",
+        // "List/Sale Ratio": "list_sale_ratio",
+        // "Absorption Rate": "absorption_rate",
+        // "Months of Supply": "months_of_supply"
     }
 }
 
@@ -52,6 +61,23 @@ function addStatuses(selectEl, data) {
 
 }
 
+let timeFrames = {
+    "7 days": "7d",
+    "30 days": "30d",
+    "90 days": "90d",
+    "6 months": "6M",
+    "12 months": "12M",
+    "24 months": "24M",
+    "36 months": "36M"
+}
+
+let selectedTime = "12 months";
+
+const timeSelect = document.getElementById('time-select');
+
+addStatuses(timeSelect, timeFrames);
+timeSelect.value = selectedTime;
+
 updateStatsOpts(statsSelect, statCats[selectedStatus]);
 statsSelect.value = selectedStat;
 
@@ -66,25 +92,13 @@ function updateStatsOpts(selectEl, data) {
         selectEl.appendChild(el);
         
     });
+
+    if (statusSelect.value == "Pending") {
+        timeSelect.setAttribute('disabled', true)
+    } else {
+        timeSelect.removeAttribute('disabled')
+    }
 }
-
-let timeFrames = {
-    "7 days": "7d",
-    "30 days": "30d",
-    "90 days": "90d",
-    "6 months": "6M",
-    "12 months": "12M",
-    "24 months": "24M",
-    "36 months": "36M",
-    "Pending": "PENDING"
-}
-
-let selectedTime = "12 months";
-
-const timeSelect = document.getElementById('time-select');
-
-addStatuses(timeSelect, timeFrames);
-timeSelect.value = selectedTime;
 
 let acreageRanges = {
     "0-1 acres": "0-1",
@@ -244,8 +258,15 @@ map.on('load', () => {
             map.setLayoutProperty('states-totals', 'visibility', 'none');
             map.setFilter('states-totals', null);
 
-            legendControl.updateScale(calcBreaks(countiesMinMax[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.${selectedStat}`]), 
-                `${selectedLayer} Level - ${selectedStatus} - ${selectedTime} - ${statName}`)
+            let legendTitle;
+            if (selectedStatus == "Pending") {
+                legendTitle = `${selectedLayer} Level - ${selectedStatus} - ${statName}`;
+            } else {
+                legendTitle = `${selectedLayer} Level - ${selectedStatus} - ${selectedTime} - ${statName}`;  
+            } 
+
+            legendControl.updateScale(calcBreaks(countiesMinMax[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.${selectedStat}`]),
+                                            legendTitle)
         } else {
             selectedLayer = "State";
 
@@ -256,9 +277,15 @@ map.on('load', () => {
             map.setLayoutProperty('states-totals', 'visibility', 'visible');
             map.setFilter('states-totals', null);
         
+            let legendTitle;
+            if (selectedStatus == "Pending") {
+                legendTitle = `${selectedLayer} Level - ${selectedStatus} - ${statName}`;
+            } else {
+                legendTitle = `${selectedLayer} Level - ${selectedStatus} - ${selectedTime} - ${statName}`;  
+            } 
 
             legendControl.updateScale(calcBreaks(statesMinMax[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.${selectedStat}`]),
-                 `${selectedLayer} Level - ${selectedStatus} - ${selectedTime} - ${statName}`)
+                 legendTitle)
         }
     })
 
@@ -511,7 +538,13 @@ map.on('load', () => {
         selectedStat = statsSelect.value;
         selectedStatus = statusSelect.value;
 
-        let newVar = `${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.${selectedStat}`;
+        let newVar;
+
+        if (selectedStatus == "Pending") {
+            newVar = `${acreageRanges[selectedAcres]}.PENDING.${selectedStat}`;
+        } else {
+            newVar = `${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.${selectedStat}`;   
+        }
 
         let stateBreaks = calcBreaks(statesMinMax[newVar]);
         let varMinMaxState = statesMinMax[newVar];
@@ -567,10 +600,17 @@ map.on('load', () => {
 
         let statName = Object.keys(statCats[selectedStatus]).find(key => statCats[selectedStatus][key] === selectedStat);
 
-        if (map.getLayoutProperty('states-totals', 'visibility') == 'visible') {
-            legendControl.updateScale(stateBreaks, `${selectedLayer} Level - ${selectedStatus} - ${selectedTime} - ${statName}`);
+        let legendTitle;
+        if (selectedStatus == "Pending") {
+            legendTitle = `${selectedLayer} Level - ${selectedStatus} - ${statName}`;
         } else {
-            legendControl.updateScale(countyBreaks, `${selectedLayer} Level - ${selectedStatus} - ${selectedTime} - ${statName}`);
+            legendTitle = `${selectedLayer} Level - ${selectedStatus} - ${selectedTime} - ${statName}`;  
+        } 
+
+        if (map.getLayoutProperty('states-totals', 'visibility') == 'visible') {
+            legendControl.updateScale(stateBreaks, legendTitle);
+        } else {
+            legendControl.updateScale(countyBreaks, legendTitle);
         }
 
 
