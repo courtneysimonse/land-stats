@@ -33,9 +33,9 @@ let statCats = {
         "Median Price": "for_sale_median_price",
         "Median Price/Acre": "for_sale_median_price_per_acre",
         "Days on Market": "for_sale_median_days_on_market",
-        "List/Sale Ratio": "list_sale_ratio",
-        "Absorption Rate": "absorption_rate",
-        "Months of Supply": "months_of_supply"
+        // "List/Sale Ratio": "list_sale_ratio",
+        // "Absorption Rate": "absorption_rate",
+        // "Months of Supply": "months_of_supply"
     }
 }
 
@@ -277,9 +277,15 @@ map.on('load', () => {
             map.setLayoutProperty('states-totals', 'visibility', 'visible');
             map.setFilter('states-totals', null);
         
+            let legendTitle;
+            if (selectedStatus == "Pending") {
+                legendTitle = `${selectedLayer} Level - ${selectedStatus} - ${statName}`;
+            } else {
+                legendTitle = `${selectedLayer} Level - ${selectedStatus} - ${selectedTime} - ${statName}`;  
+            } 
 
             legendControl.updateScale(calcBreaks(statesMinMax[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.${selectedStat}`]),
-                 `${selectedLayer} Level - ${selectedStatus} - ${selectedTime} - ${statName}`)
+                 legendTitle)
         }
     })
 
@@ -594,10 +600,17 @@ map.on('load', () => {
 
         let statName = Object.keys(statCats[selectedStatus]).find(key => statCats[selectedStatus][key] === selectedStat);
 
-        if (map.getLayoutProperty('states-totals', 'visibility') == 'visible') {
-            legendControl.updateScale(stateBreaks, `${selectedLayer} Level - ${selectedStatus} - ${selectedTime} - ${statName}`);
+        let legendTitle;
+        if (selectedStatus == "Pending") {
+            legendTitle = `${selectedLayer} Level - ${selectedStatus} - ${statName}`;
         } else {
-            legendControl.updateScale(countyBreaks, `${selectedLayer} Level - ${selectedStatus} - ${selectedTime} - ${statName}`);
+            legendTitle = `${selectedLayer} Level - ${selectedStatus} - ${selectedTime} - ${statName}`;  
+        } 
+
+        if (map.getLayoutProperty('states-totals', 'visibility') == 'visible') {
+            legendControl.updateScale(stateBreaks, legendTitle);
+        } else {
+            legendControl.updateScale(countyBreaks, legendTitle);
         }
 
 
