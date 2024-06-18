@@ -119,7 +119,7 @@ const acresSelect = document.getElementById('acres-select');
 addStatuses(acresSelect, acreageRanges);
 acresSelect.value = selectedAcres;
 
-mapboxgl.accessToken = 'pk.eyJ1IjoibGFuZHN0YXRzIiwiYSI6ImNsbHd1cDV5czBmNjQzb2xlbnE4c2F6MDkifQ.8VJ8wEZCS_jJFbvtOXwSng';
+mapboxgl.accessToken = 'pk.eyJ1IjoibGFuZHN0YXRzIiwiYSI6ImNseGtxc29kcDA0MnIya3BuNHF2dGRnMjQifQ.8-ZuwhoBi64bS0L1eG9Maw';
 
 const map = new mapboxgl.Map({
 	container: 'map', // container ID
