@@ -1,0 +1,15 @@
+{
+  "name": {
+    "min": null,
+    "max": null,
+    "breaks": []
+  },
+  "ST_GEOID": {
+    "min": 1,
+    "max": 45,
+    "breaks": [
+      "18",
+      "29"
+    ]
+  }
+}
