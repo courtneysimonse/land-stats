@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "layers": {
+    "counties-totals-part-1": {
+      "source": "mapbox://tileset-source/landstats/counties1-totals-src",
+      "minzoom": 2,
+       "maxzoom": 5,
+      "features": {
+        "simplification":{ 
+          "distance": 10,
+          "outward_only": true
+      }
+      },
+      "tiles": {
+        "layer_size": 2500,
+        "order": "ST_GEOID"
+      }
+    }
+  }
+}
