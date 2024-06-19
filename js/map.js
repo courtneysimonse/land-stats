@@ -119,8 +119,6 @@ const acresSelect = document.getElementById('acres-select');
 addStatuses(acresSelect, acreageRanges);
 acresSelect.value = selectedAcres;
 
-mapboxgl.accessToken = 'pk.eyJ1IjoibGFuZHN0YXRzIiwiYSI6ImNseGtxc29kcDA0MnIya3BuNHF2dGRnMjQifQ.8-ZuwhoBi64bS0L1eG9Maw';
-
 const map = new mapboxgl.Map({
 	container: 'map', // container ID
 	style: 'mapbox://styles/landstats/clvfmorch02dd01pecuq9e0hr', // style URL
@@ -325,7 +323,7 @@ map.on('load', () => {
 
     // });
 
-    const popup = new mapboxgl.Popup({closeButton: false, className: 'map-tooltip'});
+    const tooltip = new mapboxgl.Popup({closeButton: false, className: 'map-tooltip'});
 
     map.on('mouseenter', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], (e) => {
         map.getCanvas().style.cursor = 'pointer';
@@ -335,7 +333,7 @@ map.on('load', () => {
 
         let popupContent = createPopup(e.features[0]);
 
-        popup.setHTML(popupContent.outerHTML)
+        tooltip.setHTML(popupContent.outerHTML)
             .setLngLat(e.lngLat)
             .addTo(map)
 
@@ -343,12 +341,24 @@ map.on('load', () => {
 
     map.on('mouseleave', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], (e) => {
         map.getCanvas().style.cursor = '';
-        popup.remove();
+        tooltip.remove();
     });
 
+    const popup = new mapboxgl.Popup({closeButton: true, className: 'map-tooltip'});
     // click event for popup
     map.on('click', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], (e) => {
+        tooltip.remove();
+        
+        let popupContent = createPopup(e.features[0]);
 
+        let popupBtn = document.createElement('button');
+        popupBtn.innerText = "Go to Table";
+        popupBtn.classList = 'btn btn-primary'
+        popupContent.appendChild(popupBtn);
+
+        popup.setHTML(popupContent.outerHTML)
+            .setLngLat(e.lngLat)
+            .addTo(map)
     })
 
 

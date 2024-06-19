@@ -98,3 +98,9 @@ html, body, #map { height: 100%; }
     padding-right: 10px;
     list-style: none;
 }
+
+.mapboxgl-popup-content button.btn {
+    background-color: #0e9a48;
+    border-color: #0e9a48;
+    border-radius: 10pt;
+}
