@@ -350,10 +350,20 @@ map.on('load', () => {
         tooltip.remove();
         
         let popupContent = createPopup(e.features[0]);
+        let props = e.features[0].properties;
 
-        let popupBtn = document.createElement('button');
+        let popupBtn = document.createElement('a');
+        popupBtn.classList = 'btn btn-primary';
         popupBtn.innerText = "Go to Table";
-        popupBtn.classList = 'btn btn-primary'
+
+        // add link to button
+        if (e.features[0].layer.id == 'states-totals') {
+            let stateAbbrev = states.find(x=> x["GEOID"] == props["GEOID"]).STUSPS
+            popupBtn.setAttribute('href', `https://webapp.land-stats.com/search-results?state=${stateAbbrev}`)
+        } else {
+            popupBtn.setAttribute('href', `https://webapp.land-stats.com/search-results?county=${e.features[0].id}`)
+        }
+
         popupContent.appendChild(popupBtn);
 
         popup.setHTML(popupContent.outerHTML)
