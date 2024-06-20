@@ -110,3 +110,7 @@ html, body, #map { height: 100%; }
     border-color: #0e9a48;
     border-radius: 10pt;
 }
+
+.mapboxgl-popup-content .selected {
+    background-color: #fecc08;
+}

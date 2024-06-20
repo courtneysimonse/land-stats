@@ -333,6 +333,10 @@ map.on('load', () => {
 
         let popupContent = createPopup(e.features[0]);
 
+        // add highlight
+        let selectedLi = popupContent.querySelector(`[data-stat="${selectedStat}"]`);
+        selectedLi.classList.add('selected');
+
         tooltip.setHTML(popupContent.outerHTML)
             .setLngLat(e.lngLat)
             .addTo(map)
@@ -350,6 +354,7 @@ map.on('load', () => {
         tooltip.remove();
         
         let popupContent = createPopup(e.features[0]);
+
         let props = e.features[0].properties;
 
         let popupBtn = document.createElement('a');
@@ -656,30 +661,23 @@ function createPopup(feature) {
     statusLi.innerHTML = "<strong>STATUS:</strong> "+selectedStatus;
     listEl.appendChild(statusLi);
 
-    listEl.appendChild(createLi("Sold Count: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_count`].toLocaleString()))
+    listEl.appendChild(createLi("Sold Count: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_count`].toLocaleString(), 'sold_count'))
 
-    listEl.appendChild(createLi("For Sale Count: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.for_sale_count`].toLocaleString()))
+    listEl.appendChild(createLi("For Sale Count: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.for_sale_count`].toLocaleString(), 'for_sale_count'))
 
-    listEl.appendChild(createLi("STR: "+ 100*props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.list_sale_ratio`].toFixed(1)+"%"))
+    listEl.appendChild(createLi("STR: "+ 100*props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.list_sale_ratio`].toFixed(1)+"%", 'list_sale_ratio'))
 
-    listEl.appendChild(createLi("DOM Sold: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_median_days_on_market`].toLocaleString() + 'd'))
+    listEl.appendChild(createLi("DOM Sold: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_median_days_on_market`].toLocaleString() + 'd', 'sold_median_days_on_market'))
 
-    listEl.appendChild(createLi("DOM For Sale: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.for_sale_median_days_on_market`].toLocaleString() + 'd'))
+    listEl.appendChild(createLi("DOM For Sale: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.for_sale_median_days_on_market`].toLocaleString() + 'd', 'for_sale_median_days_on_market'))
 
-    listEl.appendChild(createLi("Median Price: $"+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_median_price`].toLocaleString()))
+    listEl.appendChild(createLi("Median Price: $"+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_median_price`].toLocaleString(), 'sold_median_price'))
 
-    listEl.appendChild(createLi("Median PPA: $"+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_median_price_per_acre`].toLocaleString()))
+    listEl.appendChild(createLi("Median PPA: $"+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_median_price_per_acre`].toLocaleString(), 'sold_median_price_per_acre'))
 
-    listEl.appendChild(createLi("Months Supply: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.months_of_supply`].toLocaleString()))
+    listEl.appendChild(createLi("Months Supply: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.months_of_supply`].toLocaleString(), 'months_of_supply'))
 
-    listEl.appendChild(createLi("Absorption Rate: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.absorption_rate`].toLocaleString()))
-
-    function createLi(text) {
-        let li = document.createElement('li');
-        li.innerText = text;
-        return li;
-    }
-
+    listEl.appendChild(createLi("Absorption Rate: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.absorption_rate`].toLocaleString(), 'absorption_rate'))
 
     // Object.entries(statCats[selectedStatus]).forEach(([l, v]) => {
     //     let statEl = document.createElement('li');
@@ -691,4 +689,11 @@ function createPopup(feature) {
     popupContent.appendChild(listEl);
 
     return popupContent;
+}
+
+function createLi(text, attr) {
+    let li = document.createElement('li');
+    li.innerText = text;
+    li.dataset.stat = attr;
+    return li;
 }
