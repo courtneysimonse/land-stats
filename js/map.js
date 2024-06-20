@@ -15,7 +15,7 @@ let statCats = {
         "Median Price": "sold_median_price",
         "Median Price/Acre": "sold_median_price_per_acre",
         "Days on Market": "sold_median_days_on_market",
-        "List/Sale Ratio": "list_sale_ratio",
+        "Sell Through Rate (STR)": "list_sale_ratio",
         "Absorption Rate": "absorption_rate",
         "Months of Supply": "months_of_supply"
     },
@@ -24,7 +24,7 @@ let statCats = {
         "Median Price": "for_sale_median_price",
         "Median Price/Acre": "for_sale_median_price_per_acre",
         "Days on Market": "for_sale_median_days_on_market",
-        "List/Sale Ratio": "list_sale_ratio",
+        "Sell Through Rate (STR)": "list_sale_ratio",
         "Absorption Rate": "absorption_rate",
         "Months of Supply": "months_of_supply"
     },
@@ -33,7 +33,7 @@ let statCats = {
         "Median Price": "for_sale_median_price",
         "Median Price/Acre": "for_sale_median_price_per_acre",
         "Days on Market": "for_sale_median_days_on_market",
-        // "List/Sale Ratio": "list_sale_ratio",
+        // "Sell Through Rate (STR)": "list_sale_ratio",
         // "Absorption Rate": "absorption_rate",
         // "Months of Supply": "months_of_supply"
     }
@@ -660,7 +660,7 @@ function createPopup(feature) {
 
     listEl.appendChild(createLi("For Sale Count: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.for_sale_count`].toLocaleString()))
 
-    listEl.appendChild(createLi("STR: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.list_sale_ratio`].toFixed(1)+"%"))
+    listEl.appendChild(createLi("STR: "+ 100*props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.list_sale_ratio`].toFixed(1)+"%"))
 
     listEl.appendChild(createLi("DOM Sold: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_median_days_on_market`].toLocaleString() + 'd'))
 
