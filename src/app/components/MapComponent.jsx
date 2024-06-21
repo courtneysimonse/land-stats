@@ -80,11 +80,10 @@ const countiesMinMax = await d3.json('./data/counties_properties.json');
 const MapComponent = () => {
   const [status, setStatus] = useState("Sold");
   const [stat, setStat] = useState("sold_count");
-  const [statOps, setStatOpts] = useState("");
   const [time, setTime] = useState("12 months");
   const [isTimeSelectDisabled, setTimeSelectDisabled] = useState(false);
   const [acres, setAcres] = useState("All Acreages");
-  const [layer, setLayer] = useState("state");
+  const [layer, setLayer] = useState("State");
   const [map, setMap] = useState(null);
   const [legendControl, setLegendControl] = useState(null);
   const [statesMinMax, setStatesMinMax] = useState({});
@@ -157,7 +156,7 @@ const MapComponent = () => {
 
     listEl.appendChild(createLi("For Sale Count: "+props[`${acreageRanges[acres]}.${timeFrames[time]}.for_sale_count`].toLocaleString(), 'for_sale_count'))
 
-    // listEl.appendChild(createLi("Pending Count: "+props[`${acreageRanges[acres]}.PENDING.for_sale_count`].toLocaleString(), 'pending.for_sale_count'))
+    listEl.appendChild(createLi("Pending Count: "+props[`${acreageRanges[acres]}.PENDING.for_sale_count`].toLocaleString(), 'pending.for_sale_count'))
 
     let str = 100*props[`${acreageRanges[acres]}.${timeFrames[time]}.list_sale_ratio`];
     listEl.appendChild(createLi("STR: "+ str.toFixed(0)+"%", 'list_sale_ratio'))
@@ -166,7 +165,7 @@ const MapComponent = () => {
 
     listEl.appendChild(createLi("DOM For Sale: "+props[`${acreageRanges[acres]}.${timeFrames[time]}.for_sale_median_days_on_market`].toLocaleString() + ' d', 'for_sale_median_days_on_market'))
 
-    // listEl.appendChild(createLi("DOM Pending: "+props[`${acreageRanges[acres]}.PENDING.for_sale_median_days_on_market`].toLocaleString() + ' d', 'pending.for_sale_median_days_on_market'))
+    listEl.appendChild(createLi("DOM Pending: "+props[`${acreageRanges[acres]}.PENDING.for_sale_median_days_on_market`].toLocaleString() + ' d', 'pending.for_sale_median_days_on_market'))
 
     listEl.appendChild(createLi("Median Price: $"+props[`${acreageRanges[acres]}.${timeFrames[time]}.sold_median_price`].toLocaleString(), 'sold_median_price'))
 
@@ -210,8 +209,6 @@ const MapComponent = () => {
         projection: 'mercator'
       });
 
-      setMap(mapInstance);
-
       const states = await d3.csv('./data/states.csv');
       const counties = await d3.csv('./data/counties.csv');
       const statesMinMaxData = await d3.json('./data/state_properties.json');
@@ -220,11 +217,12 @@ const MapComponent = () => {
       setStatesMinMax(statesMinMaxData);
       setCountiesMinMax(countiesMinMaxData);
 
-      const defaultStateColors = mapInstance.getPaintProperty('states-totals', 'fill-color');
-      const defaultCountyColors = mapInstance.getPaintProperty('counties-totals', 'fill-color');
-
+      // const defaultStateColors = mapInstance.getPaintProperty('states-totals', 'fill-color');
+      // const defaultCounty1Colors = mapInstance.getPaintProperty('counties-totals-part-1', 'fill-color');
+      // const defaultCounty2Colors = mapInstance.getPaintProperty('counties-totals-part-2', 'fill-color');
 
       mapInstance.on('load', () => {
+        setMap(mapInstance);
 
         mapInstance.addControl(
           new MapboxGeocoder({
@@ -235,12 +233,12 @@ const MapComponent = () => {
         );
   
         mapInstance.addControl(new ZoomDisplayControl(), 'bottom-right')
-  
-        const legendControl = new LegendControl(calcBreaks(statesMinMaxData[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`]), colors);
-        mapInstance.addControl(legendControl, 'bottom-right');
-        setLegendControl(legendControl);
 
-        setMap(mapInstance);
+        let legend = new LegendControl(calcBreaks(statesMinMaxData[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`]), colors)
+        setLegendControl(legend);
+        mapInstance.addControl(legend, 'bottom-right');
+
+        // setMap(mapInstance);
 
       })
 
@@ -301,70 +299,29 @@ const MapComponent = () => {
     if (!map) initializeMap();
   }, [map]);
 
-  useEffect(() => {
-    if (map && legendControl) {
-      const updateColors = () => {
-        let colorExps = setNewVariable();
-        map.setPaintProperty('states-totals', 'fill-color', colorExps.state);
-        map.setPaintProperty('counties-totals-part-1', 'fill-color', colorExps.county);
-      };
+  // useEffect(() => {
+  //   if (map && legendControl) {
 
-      const setNewVariable = () => {
-        let newVar = `${acreageRanges[acres]}.${timeFrames[time]}.${stat}`;
+  //     updateColors();
 
-        let stateBreaks = calcBreaks(statesMinMax[newVar]);
-        let varMinMaxState = statesMinMax[newVar];
+  //     let statName = Object.keys(statCats[status]).find(key => statCats[status][key] === stat);
 
-        let countyBreaks = calcBreaks(countiesMinMax[newVar]);
-        let varMinMaxCounty = countiesMinMax[newVar];
+  //     let legendTitle;
+  //     let breaks;
+  //     if (status == "Pending") {
+  //         legendTitle = `${layer} Level - ${status} - ${statName}`;
+  //         breaks = calcBreaks(countiesMinMax[`${acreageRanges[acres]}.PENDING.${stat}`])
+  //     } else {
+  //         legendTitle = `${layer} Level - ${status} - ${time} - ${statName}`; 
+  //         breaks = calcBreaks(countiesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`])
+  //     } 
 
-        let stateColor;
-
-        if (varMinMaxState.max !== varMinMaxState.min) {
-          stateColor = [
-            "interpolate",
-            ["linear"],
-            ["get", newVar],
-            varMinMaxState.min,
-            "#0f9b4a",
-            (varMinMaxState.max - varMinMaxState.min) * (1 / 3) + varMinMaxState.min,
-            "#fecc08",
-            (varMinMaxState.max - varMinMaxState.min) * (2 / 3) + varMinMaxState.min,
-            "#f69938",
-            varMinMaxState.max,
-            "#f3663a"
-          ];
-        } else {
-          stateColor = "#0f9b4a";
-        }
-
-        let countyColor;
-
-        if (varMinMaxCounty.max !== varMinMaxCounty.min) {
-          countyColor = [
-            "interpolate",
-            ["linear"],
-            ["get", newVar],
-            varMinMaxCounty.min,
-            "#0f9b4a",
-            (varMinMaxCounty.max - varMinMaxCounty.min) * (1 / 3) + varMinMaxCounty.min,
-            "#fecc08",
-            (varMinMaxCounty.max - varMinMaxCounty.min) * (2 / 3) + varMinMaxCounty.min,
-            "#f69938",
-            varMinMaxCounty.max,
-            "#f3663a"
-          ];
-        } else {
-          countyColor = "#0f9b4a";
-        }
-
-        return { state: stateColor, county: countyColor };
-      };
-
-      updateColors();
-      // legendControl.updateScale(calcBreaks(statesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`]));
-    }
-  }, [status, stat, time, acres, map, legendControl]);
+  //     legendControl.updateScale(
+  //       breaks,
+  //       legendTitle
+  //     )
+  //   }
+  // }, [status, stat, time, acres, map, legendControl]);
 
   useEffect(() => {
     // const populateSelect = (selectId, options) => {
@@ -391,25 +348,88 @@ const MapComponent = () => {
     // };
   }, [status]);
 
+  const setNewVariable = () => {
+    let newVar = `${acreageRanges[acres]}.${timeFrames[time]}.${stat}`;
+
+    // let stateBreaks = calcBreaks(statesMinMax[newVar]);
+    let varMinMaxState = statesMinMax[newVar];
+
+    // let countyBreaks = calcBreaks(countiesMinMax[newVar]);
+    let varMinMaxCounty = countiesMinMax[newVar];
+
+    let stateColor;
+
+    if (varMinMaxState.max !== varMinMaxState.min) {
+      stateColor = [
+        "interpolate",
+        ["linear"],
+        ["get", newVar],
+        varMinMaxState.min,
+        "#0f9b4a",
+        (varMinMaxState.max - varMinMaxState.min) * (1 / 3) + varMinMaxState.min,
+        "#fecc08",
+        (varMinMaxState.max - varMinMaxState.min) * (2 / 3) + varMinMaxState.min,
+        "#f69938",
+        varMinMaxState.max,
+        "#f3663a"
+      ];
+    } else {
+      stateColor = "#0f9b4a";
+    }
+
+    let countyColor;
+
+    if (varMinMaxCounty.max !== varMinMaxCounty.min) {
+      countyColor = [
+        "interpolate",
+        ["linear"],
+        ["get", newVar],
+        varMinMaxCounty.min,
+        "#0f9b4a",
+        (varMinMaxCounty.max - varMinMaxCounty.min) * (1 / 3) + varMinMaxCounty.min,
+        "#fecc08",
+        (varMinMaxCounty.max - varMinMaxCounty.min) * (2 / 3) + varMinMaxCounty.min,
+        "#f69938",
+        varMinMaxCounty.max,
+        "#f3663a"
+      ];
+    } else {
+      countyColor = "#0f9b4a";
+    }
+
+    return { state: stateColor, county: countyColor };
+  };
+
+  const updateColors = () => {
+    let colorExps = setNewVariable();
+    map.setPaintProperty('states-totals', 'fill-color', colorExps.state);
+    map.setPaintProperty('counties-totals-part-1', 'fill-color', colorExps.county);
+    map.setPaintProperty('counties-totals-part-2', 'fill-color', colorExps.county);
+  };
+
+
+
   const handleStatusChange = (e) => {
     setStatus(e.target.value);
-
-    setStatOpts(updateStatsOpts());
+    setStat('for_sale_count');
 
     // Update time select disabled state
-    setTimeSelectDisabled(status === "Pending");
+    setTimeSelectDisabled(e.target.value === "Pending");
   }
 
   const handleTimeChange = (e) => {
     setTime(e.target.value);
+    updateColors();
   }
 
   const handleAcresChange = (e) => {
     setAcres(e.target.value);
+    updateColors();
   }
 
   const handleStatChange = (e) => {
-    setStat(e.target.value)
+    setStat(e.target.value);
+    updateColors();
   }
 
   const handleLayerChange = (e) => {
@@ -426,14 +446,19 @@ const MapComponent = () => {
         map.setFilter('states-totals', null);
 
         let legendTitle;
+        let breaks;
         if (status == "Pending") {
             legendTitle = `${layer} Level - ${status} - ${statName}`;
+            breaks = calcBreaks(countiesMinMax[`${acreageRanges[acres]}.PENDING.${stat}`])
         } else {
-            legendTitle = `${layer} Level - ${status} - ${time} - ${statName}`;  
+            legendTitle = `${layer} Level - ${status} - ${time} - ${statName}`; 
+            breaks = calcBreaks(countiesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`])
         } 
 
-        // legendControl.updateScale(calcBreaks(countiesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`]),
-        //                                 legendTitle)
+        legendControl.updateScale(
+          breaks,
+          legendTitle
+        )
     } else {
 
         // map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
@@ -444,14 +469,20 @@ const MapComponent = () => {
         map.setFilter('states-totals', null);
     
         let legendTitle;
+        let breaks;
+
         if (status == "Pending") {
             legendTitle = `${layer} Level - ${status} - ${statName}`;
+            breaks = calcBreaks(countiesMinMax[`${acreageRanges[acres]}.PENDING.${stat}`])
         } else {
-            legendTitle = `${layer} Level - ${status} - ${time} - ${statName}`;  
+            legendTitle = `${layer} Level - ${status} - ${time} - ${statName}`; 
+            breaks = calcBreaks(countiesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`])
         } 
 
-        // legendControl.updateScale(calcBreaks(statesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`]),
-        //      legendTitle)
+        legendControl.updateScale(
+          breaks,
+          legendTitle
+        )
     }
   }
 
@@ -507,13 +538,15 @@ const MapComponent = () => {
           </div>
           <div className="filter-group">
             <label htmlFor="stats-select">Statistics:</label>
-            <select name="statistics" id="stats-select" value={stat} onChange={handleStatChange}></select>
+            <select name="statistics" id="stats-select" value={stat} onChange={handleStatChange}>
+              {updateStatsOpts()}
+            </select>
           </div>
           <div className="filter-group">
               <label htmlfor="layer-select">Layers:</label>
               <select name="layers" id="layer-select" value={layer} onChange={handleLayerChange}>
-                  <option value="state" selected>States</option>
-                  <option value="county">Counties</option>
+                  <option value="State" selected>States</option>
+                  <option value="County">Counties</option>
               </select>
           </div>
         </fieldset>
