@@ -29,7 +29,7 @@ let statCats = {
         "Months of Supply": "months_of_supply"
     },
     "Pending": {
-        "Pending Count": "for_sale_count",
+        "Inventory Count": "for_sale_count",
         "Median Price": "for_sale_median_price",
         "Median Price/Acre": "for_sale_median_price_per_acre",
         "Days on Market": "for_sale_median_days_on_market",
