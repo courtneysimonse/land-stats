@@ -436,7 +436,7 @@ const MapComponent = () => {
     setLayer(e.target.value);
     let statName = Object.keys(statCats[status]).find(key => statCats[status][key] === stat);
       
-    if (e.target.value == 'county') {
+    if (e.target.value == 'County') {
 
         map.setLayoutProperty('counties-totals-part-1', 'visibility', 'visible');
         map.setLayoutProperty('counties-totals-part-2', 'visibility', 'visible');
@@ -448,10 +448,10 @@ const MapComponent = () => {
         let legendTitle;
         let breaks;
         if (status == "Pending") {
-            legendTitle = `${layer} Level - ${status} - ${statName}`;
+            legendTitle = `${e.target.value} Level - ${status} - ${statName}`;
             breaks = calcBreaks(countiesMinMax[`${acreageRanges[acres]}.PENDING.${stat}`])
         } else {
-            legendTitle = `${layer} Level - ${status} - ${time} - ${statName}`; 
+            legendTitle = `${e.target.value} Level - ${status} - ${time} - ${statName}`; 
             breaks = calcBreaks(countiesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`])
         } 
 
@@ -472,11 +472,11 @@ const MapComponent = () => {
         let breaks;
 
         if (status == "Pending") {
-            legendTitle = `${layer} Level - ${status} - ${statName}`;
-            breaks = calcBreaks(countiesMinMax[`${acreageRanges[acres]}.PENDING.${stat}`])
+            legendTitle = `${e.target.value} Level - ${status} - ${statName}`;
+            breaks = calcBreaks(statesMinMax[`${acreageRanges[acres]}.PENDING.${stat}`])
         } else {
-            legendTitle = `${layer} Level - ${status} - ${time} - ${statName}`; 
-            breaks = calcBreaks(countiesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`])
+            legendTitle = `${e.target.value} Level - ${status} - ${time} - ${statName}`; 
+            breaks = calcBreaks(statesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`])
         } 
 
         legendControl.updateScale(
