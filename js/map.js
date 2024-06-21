@@ -340,7 +340,9 @@ map.on('load', () => {
 
         // add highlight
         let selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
-        selectedLi.classList.add('selected');
+        if (selectedLi) {
+            selectedLi.classList.add('selected');   
+        }
 
         tooltip.setHTML(popupContent.outerHTML)
             .setLngLat(e.lngLat)
@@ -381,7 +383,9 @@ map.on('load', () => {
 
         // add highlight
         let selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
-        selectedLi.classList.add('selected');
+        if (selectedLi) {
+            selectedLi.classList.add('selected');   
+        }
 
         popupContent.appendChild(popupBtn);
 
@@ -675,11 +679,17 @@ function createPopup(feature) {
     statusLi.innerHTML = "<strong>STATUS:</strong> "+selectedStatus;
     listEl.appendChild(statusLi);
 
+    // if (selectedStatus == "Pending") {
+        
+    // } else {
+        
+    // }
+
     listEl.appendChild(createLi("Sold Count: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_count`].toLocaleString(), 'sold_count'))
 
     listEl.appendChild(createLi("For Sale Count: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.for_sale_count`].toLocaleString(), 'for_sale_count'))
 
-    listEl.appendChild(createLi("Pending Count: "+props[`${acreageRanges[selectedAcres]}.PENDING.for_sale_count`].toLocaleString(), 'pending.for_sale_count'))
+    // listEl.appendChild(createLi("Pending Count: "+props[`${acreageRanges[selectedAcres]}.PENDING.for_sale_count`].toLocaleString(), 'pending.for_sale_count'))
 
     let str = 100*props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.list_sale_ratio`];
     listEl.appendChild(createLi("STR: "+ str.toFixed(0)+"%", 'list_sale_ratio'))
@@ -688,9 +698,15 @@ function createPopup(feature) {
 
     listEl.appendChild(createLi("DOM For Sale: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.for_sale_median_days_on_market`].toLocaleString() + ' d', 'for_sale_median_days_on_market'))
 
+    // listEl.appendChild(createLi("DOM Pending: "+props[`${acreageRanges[selectedAcres]}.PENDING.for_sale_median_days_on_market`].toLocaleString() + ' d', 'pending.for_sale_median_days_on_market'))
+
     listEl.appendChild(createLi("Median Price: $"+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_median_price`].toLocaleString(), 'sold_median_price'))
 
+    // listEl.appendChild(createLi("Pending Median Price: $"+props[`${acreageRanges[selectedAcres]}.PENDING.for_sale_median_price`].toLocaleString(), 'pending.for_sale_median_price'))
+
     listEl.appendChild(createLi("Median PPA: $"+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_median_price_per_acre`].toLocaleString(), 'sold_median_price_per_acre'))
+
+    // listEl.appendChild(createLi("Pending Median PPA: $"+props[`${acreageRanges[selectedAcres]}.PENDING.for_sale_median_price_per_acre`].toLocaleString(), 'pending.for_sale_median_price_per_acre'))
 
     listEl.appendChild(createLi("Months Supply: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.months_of_supply`].toLocaleString(), 'months_of_supply'))
 
