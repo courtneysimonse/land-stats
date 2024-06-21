@@ -29,7 +29,7 @@ let statCats = {
         "Months of Supply": "months_of_supply"
     },
     "Pending": {
-        "Inventory Count": "for_sale_count",
+        "Pending Count": "for_sale_count",
         "Median Price": "for_sale_median_price",
         "Median Price/Acre": "for_sale_median_price_per_acre",
         "Days on Market": "for_sale_median_days_on_market",
@@ -333,8 +333,13 @@ map.on('load', () => {
 
         let popupContent = createPopup(e.features[0]);
 
+        let highlighted = selectedStat;
+        if (selectedStatus == "Pending") {
+            highlighted = "pending."+selectedStat
+        }
+
         // add highlight
-        let selectedLi = popupContent.querySelector(`[data-stat="${selectedStat}"]`);
+        let selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
         selectedLi.classList.add('selected');
 
         tooltip.setHTML(popupContent.outerHTML)
@@ -368,6 +373,15 @@ map.on('load', () => {
         } else {
             popupBtn.setAttribute('href', `https://webapp.land-stats.com/search-results?county=${e.features[0].id}`)
         }
+
+        let highlighted = selectedStat;
+        if (selectedStatus == "Pending") {
+            highlighted = "pending."+selectedStat
+        }
+
+        // add highlight
+        let selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
+        selectedLi.classList.add('selected');
 
         popupContent.appendChild(popupBtn);
 
@@ -665,11 +679,14 @@ function createPopup(feature) {
 
     listEl.appendChild(createLi("For Sale Count: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.for_sale_count`].toLocaleString(), 'for_sale_count'))
 
-    listEl.appendChild(createLi("STR: "+ 100*props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.list_sale_ratio`].toFixed(1)+"%", 'list_sale_ratio'))
+    listEl.appendChild(createLi("Pending Count: "+props[`${acreageRanges[selectedAcres]}.PENDING.for_sale_count`].toLocaleString(), 'pending.for_sale_count'))
 
-    listEl.appendChild(createLi("DOM Sold: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_median_days_on_market`].toLocaleString() + 'd', 'sold_median_days_on_market'))
+    let str = 100*props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.list_sale_ratio`];
+    listEl.appendChild(createLi("STR: "+ str.toFixed(0)+"%", 'list_sale_ratio'))
 
-    listEl.appendChild(createLi("DOM For Sale: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.for_sale_median_days_on_market`].toLocaleString() + 'd', 'for_sale_median_days_on_market'))
+    listEl.appendChild(createLi("DOM Sold: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_median_days_on_market`].toLocaleString() + ' d', 'sold_median_days_on_market'))
+
+    listEl.appendChild(createLi("DOM For Sale: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.for_sale_median_days_on_market`].toLocaleString() + ' d', 'for_sale_median_days_on_market'))
 
     listEl.appendChild(createLi("Median Price: $"+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_median_price`].toLocaleString(), 'sold_median_price'))
 
