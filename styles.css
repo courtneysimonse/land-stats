@@ -98,3 +98,19 @@ html, body, #map { height: 100%; }
     padding-right: 10px;
     list-style: none;
 }
+
+.mapboxgl-popup-content div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mapboxgl-popup-content a.btn {
+    background-color: #0e9a48;
+    border-color: #0e9a48;
+    border-radius: 10pt;
+}
+
+.mapboxgl-popup-content .selected {
+    background-color: #fecc08;
+}
