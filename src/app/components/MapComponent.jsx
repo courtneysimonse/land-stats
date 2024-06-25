@@ -299,6 +299,10 @@ const MapComponent = () => {
     //   }
     // });
 
+
+  });
+
+  useEffect(() => {
     const tooltip = new mapboxgl.Popup({closeButton: false, className: 'map-tooltip'});
 
     map.current.on('mouseenter', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], () => {
@@ -330,8 +334,43 @@ const MapComponent = () => {
       tooltip.remove();
     });
 
+    const popup = new mapboxgl.Popup({closeButton: true, className: 'map-tooltip'});
+    map.current.on('click', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], (e) => {
+      tooltip.remove();
+      
+      let popupContent = createPopup(e.features[0]);
 
-  });
+      let popupBtn = document.createElement('a');
+      popupBtn.classList = 'btn btn-primary';
+      popupBtn.innerText = "Go to Table";
+
+      // add link to button
+      if (e.features[0].layer.id == 'states-totals') {
+        let stateAbbrev = states.find(x=> x["GEOID"] == e.features[0].properties["GEOID"]).STUSPS
+        popupBtn.setAttribute('href', `https://webapp.land-stats.com/search-results?state=${stateAbbrev}`)
+      } else {
+          popupBtn.setAttribute('href', `https://webapp.land-stats.com/search-results?county=${e.features[0].id}`)
+      }
+
+      let highlighted = stat;
+      if (status == "Pending") {
+          highlighted = "pending."+stat
+      }
+
+      // add highlight
+      let selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
+      if (selectedLi) {
+          selectedLi.classList.add('selected');   
+      }
+
+      popupContent.appendChild(popupBtn);
+
+      popup.setHTML(popupContent.outerHTML)
+          .setLngLat(e.lngLat)
+          .addTo(map.current)
+
+    });
+  }, [stat])
 
   // useEffect(() => {
   //   if (map && legendControl) {

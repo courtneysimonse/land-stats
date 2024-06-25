@@ -48,3 +48,25 @@ html, body, #map { height: 100%; }
     margin-bottom: 10px;
     box-sizing: border-box;
 }
+
+.map-tooltip ul {
+    padding-left: 10px;
+    padding-right: 10px;
+    list-style: none;
+}
+
+.mapboxgl-popup-content div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mapboxgl-popup-content a.btn {
+    background-color: #0e9a48;
+    border-color: #0e9a48;
+    border-radius: 10pt;
+}
+
+.mapboxgl-popup-content .selected {
+    background-color: #fecc08;
+}
