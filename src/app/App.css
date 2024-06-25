@@ -67,6 +67,9 @@ body {
     background-color: #0e9a48;
     border-color: #0e9a48;
     border-radius: 10pt;
+    color: #fff;
+    padding: 10px;
+    text-decoration: none;
 }
 
 .mapboxgl-popup-content .selected {
