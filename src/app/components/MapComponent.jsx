@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import * as d3 from "d3-fetch";
 import LegendControl from "./LegendControl";
 import ZoomDisplayControl from "./ZoomDisplayControl";
@@ -74,20 +74,21 @@ const states = await d3.csv('./data/states.csv');
 const counties = await d3.csv('./data/counties.csv');
 
 // load propertyMinMaxs
-const statesMinMax = await d3.json('./data/state_properties.json');
-const countiesMinMax = await d3.json('./data/counties_properties.json');
+const statesMinMaxData = await d3.json('./data/state_properties.json');
+const countiesMinMaxData = await d3.json('./data/counties_properties.json');
 
 const MapComponent = () => {
+  const mapContainer = useRef(null);
+  const map = useRef(null);
   const [status, setStatus] = useState("Sold");
   const [stat, setStat] = useState("sold_count");
   const [time, setTime] = useState("12 months");
   const [isTimeSelectDisabled, setTimeSelectDisabled] = useState(false);
   const [acres, setAcres] = useState("All Acreages");
   const [layer, setLayer] = useState("State");
-  const [map, setMap] = useState(null);
   const [legendControl, setLegendControl] = useState(null);
-  const [statesMinMax, setStatesMinMax] = useState({});
-  const [countiesMinMax, setCountiesMinMax] = useState({});
+  const [statesMinMax, setStatesMinMax] = useState(statesMinMaxData);
+  const [countiesMinMax, setCountiesMinMax] = useState(countiesMinMaxData);
 
   const updateStatsOpts = () => {
       // Filter options based on selected status
@@ -100,11 +101,26 @@ const MapComponent = () => {
   }
 
   const calcBreaks = (data) => {
-    return [
+    let breaks = [
       data.min,
       ...data.breaks,
       data.max
     ];
+
+    let breaksSet = new Set(breaks);
+
+    let categories = [];
+
+    let i = 0;
+    breaksSet.forEach((b) => {
+      categories.push({
+        title: b,
+        color: colors[i]
+      })
+      i++;
+    })
+
+    return categories;
   };
 
 
@@ -198,106 +214,124 @@ const MapComponent = () => {
     return li;
   }
 
+  const updateColors = useCallback((geo) => {
+
+    const mapLayers = geo === "State" ? ['states-totals'] : ['counties-totals-part-1', 'counties-totals-part-2'];
+    const varName = status === "Pending" ? `${acreageRanges[acres]}.PENDING.${stat}` : `${acreageRanges[acres]}.${timeFrames[time]}.${stat}`
+    const data = geo === "State" ? statesMinMax[varName] : countiesMinMax[varName];
+    
+    const categories = calcBreaks(data);
+
+    const colorExp = [
+      'interpolate',
+      ['linear'],
+      ['get', `${acreageRanges[acres]}.${timeFrames[time]}.${stat}`],
+      ...categories.flatMap(category => [category.title, category.color])
+    ];
+
+    mapLayers.forEach(l => {
+      map.current.setPaintProperty(l, 'fill-color', colorExp);
+    })
+
+    if (legendControl && layer == geo) {
+      let statName = Object.keys(statCats[status]).find(key => statCats[status][key] === stat);
+      let legendTitle = status === "Pending" ? `${layer} Level - ${status} - ${statName}` : `${layer} Level - ${status} - ${time} - ${statName}`
+
+      legendControl.updateScale(categories, legendTitle);
+    }
+  }, [map, acres, time, stat, status, statesMinMax, countiesMinMax]);
+
   useEffect(() => {
-    const initializeMap = async () => {
-      mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+    if (map.current && map.current.loaded()) {
+      updateColors("State");
+      updateColors("County");
+    }
+  }, [updateColors]);
+
+  useEffect(() => {
+    if (map.current) return; // initialize map only once
+    mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
       
-      const mapInstance = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/landstats/clvfmorch02dd01pecuq9e0hr',
-        bounds: [[-128, 22], [-63, 55]],
-        projection: 'mercator'
-      });
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: 'mapbox://styles/landstats/clvfmorch02dd01pecuq9e0hr',
+      bounds: [[-128, 22], [-63, 55]],
+      projection: 'mercator'
+    });
+    
+    map.current.addControl(new ZoomDisplayControl(), 'bottom-right');
 
-      const states = await d3.csv('./data/states.csv');
-      const counties = await d3.csv('./data/counties.csv');
-      const statesMinMaxData = await d3.json('./data/state_properties.json');
-      const countiesMinMaxData = await d3.json('./data/counties_properties.json');
+    let legend = new LegendControl(calcBreaks(statesMinMaxData[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`]))
+    setLegendControl(legend);
+    map.current.addControl(legend, 'bottom-right');
 
-      setStatesMinMax(statesMinMaxData);
-      setCountiesMinMax(countiesMinMaxData);
+    map.current.addControl(
+      new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        mapboxgl: mapboxgl,
+      }),
+      'bottom-left'
+    );
 
-      // const defaultStateColors = mapInstance.getPaintProperty('states-totals', 'fill-color');
-      // const defaultCounty1Colors = mapInstance.getPaintProperty('counties-totals-part-1', 'fill-color');
-      // const defaultCounty2Colors = mapInstance.getPaintProperty('counties-totals-part-2', 'fill-color');
-
-      mapInstance.on('load', () => {
-        setMap(mapInstance);
-
-        mapInstance.addControl(
-          new MapboxGeocoder({
-            accessToken: mapboxgl.accessToken,
-            mapboxgl: mapboxgl,
-          }),
-          'bottom-left'
-        );
-  
-        mapInstance.addControl(new ZoomDisplayControl(), 'bottom-right')
-
-        let legend = new LegendControl(calcBreaks(statesMinMaxData[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`]), colors)
-        setLegendControl(legend);
-        mapInstance.addControl(legend, 'bottom-right');
-
-        // setMap(mapInstance);
-
-      })
+    // const defaultStateColors = map.current.getPaintProperty('states-totals', 'fill-color');
+    // const defaultCounty1Colors = map.current.getPaintProperty('counties-totals-part-1', 'fill-color');
+    // const defaultCounty2Colors = map.current.getPaintProperty('counties-totals-part-2', 'fill-color');
 
 
-      // mapInstance.on('zoomend', () => {
-      //   if (mapInstance.getZoom() >= 9) {
-      //     mapInstance.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'visible');
-      //     mapInstance.setLayoutProperty('counties-totals', 'visibility', 'none');
-      //     mapInstance.setLayoutProperty('states-totals', 'visibility', 'none');
-      //     mapInstance.setFilter('states-totals', null);
-      //   } else if (mapInstance.getZoom() >= 5) {
-      //     mapInstance.setLayoutProperty('counties-totals', 'visibility', 'visible');
-      //     mapInstance.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
-      //     mapInstance.setLayoutProperty('states-totals', 'visibility', 'none');
-      //     mapInstance.setFilter('states-totals', null);
-      //     legend.updateScale(calcBreaks(countiesMinMaxData[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`]));
-      //   } else {
-      //     mapInstance.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
-      //     mapInstance.setLayoutProperty('counties-totals', 'visibility', 'none');
-      //     mapInstance.setLayoutProperty('states-totals', 'visibility', 'visible');
-      //     mapInstance.setFilter('states-totals', null);
-      //     legend.updateScale(calcBreaks(statesMinMaxData[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`]));
-      //   }
-      // });
+    // map.current.on('zoomend', () => {
+    //   if (map.current.getZoom() >= 9) {
+    //     map.current.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'visible');
+    //     map.current.setLayoutProperty('counties-totals', 'visibility', 'none');
+    //     map.current.setLayoutProperty('states-totals', 'visibility', 'none');
+    //     map.current.setFilter('states-totals', null);
+    //   } else if (map.current.getZoom() >= 5) {
+    //     map.current.setLayoutProperty('counties-totals', 'visibility', 'visible');
+    //     map.current.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
+    //     map.current.setLayoutProperty('states-totals', 'visibility', 'none');
+    //     map.current.setFilter('states-totals', null);
+    //     legend.updateScale(calcBreaks(countiesMinMaxData[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`]));
+    //   } else {
+    //     map.current.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
+    //     map.current.setLayoutProperty('counties-totals', 'visibility', 'none');
+    //     map.current.setLayoutProperty('states-totals', 'visibility', 'visible');
+    //     map.current.setFilter('states-totals', null);
+    //     legend.updateScale(calcBreaks(statesMinMaxData[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`]));
+    //   }
+    // });
 
-      const tooltip = new mapboxgl.Popup({closeButton: false, className: 'map-tooltip'});
+    const tooltip = new mapboxgl.Popup({closeButton: false, className: 'map-tooltip'});
 
-      mapInstance.on('mouseenter', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], () => {
-        mapInstance.getCanvas().style.cursor = 'pointer';
-      });
+    map.current.on('mouseenter', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], () => {
+      map.current.getCanvas().style.cursor = 'pointer';
+    });
 
-      mapInstance.on('mousemove', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], (e) => {
-        let popupContent = createPopup(e.features[0]);
+    map.current.on('mousemove', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], (e) => {
+      let popupContent = createPopup(e.features[0]);
 
-        let highlighted = stat;
-        if (status == "Pending") {
-            highlighted = "pending."+stat
-        }
+      let highlighted = stat;
+      if (status == "Pending") {
+          highlighted = "pending."+stat
+      }
 
-        // add highlight
-        let selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
-        if (selectedLi) {
-            selectedLi.classList.add('selected');   
-        }
+      // add highlight
+      let selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
+      if (selectedLi) {
+          selectedLi.classList.add('selected');   
+      }
 
-        tooltip.setHTML(popupContent.outerHTML)
-            .setLngLat(e.lngLat)
-            .addTo(mapInstance)
+      tooltip.setHTML(popupContent.outerHTML)
+          .setLngLat(e.lngLat)
+          .addTo(map.current)
 
-      });
+    });
 
-      mapInstance.on('mouseleave', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], () => {
-        mapInstance.getCanvas().style.cursor = '';
-        tooltip.remove();
-      });
-    };
+    map.current.on('mouseleave', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], () => {
+      map.current.getCanvas().style.cursor = '';
+      tooltip.remove();
+    });
 
-    if (!map) initializeMap();
-  }, [map]);
+
+  });
 
   // useEffect(() => {
   //   if (map && legendControl) {
@@ -366,9 +400,9 @@ const MapComponent = () => {
         ["get", newVar],
         varMinMaxState.min,
         "#0f9b4a",
-        (varMinMaxState.max - varMinMaxState.min) * (1 / 3) + varMinMaxState.min,
+        varMinMaxState.breaks[0],
         "#fecc08",
-        (varMinMaxState.max - varMinMaxState.min) * (2 / 3) + varMinMaxState.min,
+        varMinMaxState.breaks[1],
         "#f69938",
         varMinMaxState.max,
         "#f3663a"
@@ -386,9 +420,9 @@ const MapComponent = () => {
         ["get", newVar],
         varMinMaxCounty.min,
         "#0f9b4a",
-        (varMinMaxCounty.max - varMinMaxCounty.min) * (1 / 3) + varMinMaxCounty.min,
+        varMinMaxCounty.breaks[0],
         "#fecc08",
-        (varMinMaxCounty.max - varMinMaxCounty.min) * (2 / 3) + varMinMaxCounty.min,
+        varMinMaxCounty.breaks[1],
         "#f69938",
         varMinMaxCounty.max,
         "#f3663a"
@@ -400,12 +434,12 @@ const MapComponent = () => {
     return { state: stateColor, county: countyColor };
   };
 
-  const updateColors = () => {
-    let colorExps = setNewVariable();
-    map.setPaintProperty('states-totals', 'fill-color', colorExps.state);
-    map.setPaintProperty('counties-totals-part-1', 'fill-color', colorExps.county);
-    map.setPaintProperty('counties-totals-part-2', 'fill-color', colorExps.county);
-  };
+  // const updateColors = () => {
+  //   let colorExps = setNewVariable();
+  //   map.setPaintProperty('states-totals', 'fill-color', colorExps.state);
+  //   map.setPaintProperty('counties-totals-part-1', 'fill-color', colorExps.county);
+  //   map.setPaintProperty('counties-totals-part-2', 'fill-color', colorExps.county);
+  // };
 
 
 
@@ -419,17 +453,17 @@ const MapComponent = () => {
 
   const handleTimeChange = (e) => {
     setTime(e.target.value);
-    updateColors();
+    // updateColors();
   }
 
   const handleAcresChange = (e) => {
     setAcres(e.target.value);
-    updateColors();
+    // updateColors();
   }
 
   const handleStatChange = (e) => {
     setStat(e.target.value);
-    updateColors();
+    // updateColors();
   }
 
   const handleLayerChange = (e) => {
@@ -438,12 +472,12 @@ const MapComponent = () => {
       
     if (e.target.value == 'County') {
 
-        map.setLayoutProperty('counties-totals-part-1', 'visibility', 'visible');
-        map.setLayoutProperty('counties-totals-part-2', 'visibility', 'visible');
-        map.setLayoutProperty('counties-lines', 'visibility', 'visible');
+        map.current.setLayoutProperty('counties-totals-part-1', 'visibility', 'visible');
+        map.current.setLayoutProperty('counties-totals-part-2', 'visibility', 'visible');
+        map.current.setLayoutProperty('counties-lines', 'visibility', 'visible');
         // map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
-        map.setLayoutProperty('states-totals', 'visibility', 'none');
-        map.setFilter('states-totals', null);
+        map.current.setLayoutProperty('states-totals', 'visibility', 'none');
+        map.current.setFilter('states-totals', null);
 
         let legendTitle;
         let breaks;
@@ -462,11 +496,11 @@ const MapComponent = () => {
     } else {
 
         // map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
-        map.setLayoutProperty('counties-totals-part-1', 'visibility', 'none');
-        map.setLayoutProperty('counties-totals-part-2', 'visibility', 'none');
-        map.setLayoutProperty('counties-lines', 'visibility', 'none');
-        map.setLayoutProperty('states-totals', 'visibility', 'visible');
-        map.setFilter('states-totals', null);
+        map.current.setLayoutProperty('counties-totals-part-1', 'visibility', 'none');
+        map.current.setLayoutProperty('counties-totals-part-2', 'visibility', 'none');
+        map.current.setLayoutProperty('counties-lines', 'visibility', 'none');
+        map.current.setLayoutProperty('states-totals', 'visibility', 'visible');
+        map.current.setFilter('states-totals', null);
     
         let legendTitle;
         let breaks;
@@ -556,7 +590,7 @@ const MapComponent = () => {
           </div>
         </fieldset>
       </div>
-      <div id="map"></div>
+      <div id="map" ref={mapContainer}></div>
     </div>
   );
 };
