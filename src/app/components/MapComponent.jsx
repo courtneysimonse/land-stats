@@ -9,6 +9,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 
 import "./MapComponent.css";
+import '../App.css';
 
 const colors = [
   "#0f9b4a",
