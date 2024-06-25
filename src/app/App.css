@@ -5,11 +5,13 @@ body {
     padding: 0;
     display: flex;
     flex-direction: row;
+    height: 100vh;
     width: 100vw;
     overflow: hidden;
     flex-wrap: wrap;
 }
-html, body, #map { height: 100%; }
+
+#map { height: 100%; }
 
 #map-filters {
     background-color: #FFFFFF !important;
