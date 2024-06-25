@@ -1,8 +1,10 @@
+/* src/App.css */
+
 body { 
     margin: 0;
     padding: 0;
-    /* display: flex;
-    flex-direction: row; */
+    display: flex;
+    flex-direction: row;
     width: 100vw;
     overflow: hidden;
     flex-wrap: wrap;
@@ -10,6 +12,7 @@ body {
 html, body, #map { height: 100%; }
 
 #map-filters {
+    background-color: #FFFFFF !important;
     color: #000;
     box-sizing: border-box;
     position: absolute;
@@ -19,6 +22,8 @@ html, body, #map { height: 100%; }
     margin: 20px;
     padding: 18px;
     z-index: 100;
+    border-radius: 4px;
+    box-shadow: 0 0 10px 2px rgba(0,0,0,.1);
 }
 
 #map-filters fieldset {
@@ -42,55 +47,6 @@ html, body, #map { height: 100%; }
     padding: 10px;
     margin-bottom: 10px;
     box-sizing: border-box;
-}
-
-.map-ctrl {
-    box-shadow: 0 0 10px 2px rgba(0,0,0,.1);
-    border-radius: 4px;
-    background: rgba(255, 255, 255);
-}
-
-.legend-ctrl {
-    width: 140px;
-    padding: 6px 8px;
-    font-size: 1em;
-    background: rgba(255, 255, 255);
-}
-
-.legend-ctrl h3 {
-    font-size: 1.1em;
-    font-weight: bold;
-    line-height: 1.1em;
-    margin: 0;
-}
-
-.legend-ctrl h4 {
-    font-size: 1em;
-    font-weight: bold;
-    line-height: 1em;
-    margin: 0;
-}
-
-.legend-ctrl ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 12px 4px 0;
-}
-
-.legend-ctrl li {
-    height: 22px;
-}
-
-.legend-ctrl span {
-    width: 30px;
-    height: 20px;
-    float: left;
-    margin-right: 10px;
-}
-
-.zoom-ctrl {
-    z-index: 10;
-    padding: 10px;
 }
 
 .map-tooltip ul {

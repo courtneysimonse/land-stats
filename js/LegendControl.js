@@ -1,36 +1,50 @@
+import './LegendControl.css';
+
+const createLi = (category, unit) => {
+  let li = document.createElement('li');
+  li.innerText = unit + Math.round(category.title).toLocaleString();
+
+  let symbol = document.createElement('span');
+  symbol.style.background = category.color;
+  symbol.style.borderColor = category.color;
+  li.appendChild(symbol);
+
+  return li
+}
+
 export default class LegendControl {
-  constructor(breaks, colors) {
-    this.breaks = breaks;
-    this.colors = colors;
+  constructor(categories) {
+    this.categories = categories;
   }
 
   onAdd(map) {
-    let breaks = this.breaks;
-    let colors = this.colors;
+    const categories = this.categories;
 
     this._map = map;
     this._container = document.createElement('div');
     this._container.className = 'mapboxgl-ctrl legend-ctrl map-ctrl';
-    this._container.id = 'legend-ctrl'
+    this._container.id = 'legend-ctrl';
 
-    var legendHTML = "<h3>Legend</h3>";
-    legendHTML += "<h4>State Level - Sold - 12 Months - All Acreages - Inventory Count</h4>";
+    let legendHeading = document.createElement("h3");
+    legendHeading.innerText = "Legend";
 
-    this._container.innerHTML = legendHTML;
+    this._legendSubHeading = document.createElement("h4");
+    this._legendSubHeading.id = "legend-title";
+    this._legendSubHeading.innerText = "State Level - Sold - 12 Months - All Acreages - Inventory Count";
 
-    var legendPart = document.createElement('div');
-    var legendList = '';
+    this._container.appendChild(legendHeading);
+    this._container.appendChild(this._legendSubHeading);
 
-    legendList += '<ul id="legend-list"><li><span style="background:' + colors[0] + '"></span>' + Math.round(breaks[0]).toLocaleString();
-    legendList += '<li><span style="background:' + colors[1] + '"></span>' + Math.round(breaks[1]).toLocaleString();
-    legendList += '<li><span style="background:' + colors[2] + '"></span>' + Math.round(breaks[2]).toLocaleString();
-    legendList += '<li><span style="background:' + colors[3] + '"></span>' + Math.round(breaks[3]).toLocaleString();
+    let legendPart = document.createElement('div');
+    this._legendList = document.createElement('ul');
+    this._legendList.id = "legend-list";
 
-    legendList += '</ul>';
-    legendPart.innerHTML = legendList;
+    categories.forEach(c => {
+      this._legendList.appendChild(createLi(c, ''));
+    });
 
+    legendPart.appendChild(this._legendList);
     this._container.appendChild(legendPart);
-
 
     return this._container;
   }
@@ -39,36 +53,23 @@ export default class LegendControl {
     this._map = undefined;
   }
 
-  updateScale(breaks, stat) {
-    let colors = this.colors;
-
-    let legendDiv = document.getElementById('legend-ctrl');
-
-    var legendHTML = "<h3>Legend</h3>";
-    legendHTML += "<h4>"+stat+"</h4>"
-
-    legendDiv.innerHTML = legendHTML;
-
-    var legendPart = document.createElement('div');
-    var legendList = '';
-
-    let unit;
-
-    if (stat.includes("Price")) {
-      unit = "$"
-    } else {
-      unit = "";
+  updateScale(categories, stat) {
+    // Ensure the container and its elements are properly referenced
+    if (!this._container || !this._legendSubHeading || !this._legendList) {
+      return;
     }
 
-    legendList += '<ul id="legend-list"><li><span style="background:' + colors[0] + '"></span>' + unit + Math.round(breaks[0]).toLocaleString();
-    legendList += '<li><span style="background:' + colors[1] + '"></span>' + unit + Math.round(breaks[1]).toLocaleString();
-    legendList += '<li><span style="background:' + colors[2] + '"></span>' + unit + Math.round(breaks[2]).toLocaleString();
-    legendList += '<li><span style="background:' + colors[3] + '"></span>' + unit + Math.round(breaks[3]).toLocaleString();
+    this._categories = categories;
 
-    legendList += '</ul>';
-    legendPart.innerHTML = legendList;
+    this._legendSubHeading.innerText = stat;
 
-    legendDiv.appendChild(legendPart);
+    // Clear the existing list items
+    this._legendList.innerHTML = '';
 
+    let unit = stat.includes("Price") ? "$" : "";
+
+    this._categories.forEach(c => {
+      this._legendList.appendChild(createLi(c, unit));
+    });
   }
 }
