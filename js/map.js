@@ -15,7 +15,7 @@ let statCats = {
         "Median Price": "sold_median_price",
         "Median Price/Acre": "sold_median_price_per_acre",
         "Days on Market": "sold_median_days_on_market",
-        "List/Sale Ratio": "list_sale_ratio",
+        "Sell Through Rate (STR)": "list_sale_ratio",
         "Absorption Rate": "absorption_rate",
         "Months of Supply": "months_of_supply"
     },
@@ -24,7 +24,7 @@ let statCats = {
         "Median Price": "for_sale_median_price",
         "Median Price/Acre": "for_sale_median_price_per_acre",
         "Days on Market": "for_sale_median_days_on_market",
-        "List/Sale Ratio": "list_sale_ratio",
+        "Sell Through Rate (STR)": "list_sale_ratio",
         "Absorption Rate": "absorption_rate",
         "Months of Supply": "months_of_supply"
     },
@@ -33,7 +33,7 @@ let statCats = {
         "Median Price": "for_sale_median_price",
         "Median Price/Acre": "for_sale_median_price_per_acre",
         "Days on Market": "for_sale_median_days_on_market",
-        // "List/Sale Ratio": "list_sale_ratio",
+        // "Sell Through Rate (STR)": "list_sale_ratio",
         // "Absorption Rate": "absorption_rate",
         // "Months of Supply": "months_of_supply"
     }
@@ -118,8 +118,6 @@ const acresSelect = document.getElementById('acres-select');
 
 addStatuses(acresSelect, acreageRanges);
 acresSelect.value = selectedAcres;
-
-mapboxgl.accessToken = 'pk.eyJ1IjoibGFuZHN0YXRzIiwiYSI6ImNsbHd1cDV5czBmNjQzb2xlbnE4c2F6MDkifQ.8VJ8wEZCS_jJFbvtOXwSng';
 
 const map = new mapboxgl.Map({
 	container: 'map', // container ID
@@ -325,7 +323,7 @@ map.on('load', () => {
 
     // });
 
-    const popup = new mapboxgl.Popup({closeButton: false, className: 'map-tooltip'});
+    const tooltip = new mapboxgl.Popup({closeButton: false, className: 'map-tooltip'});
 
     map.on('mouseenter', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], (e) => {
         map.getCanvas().style.cursor = 'pointer';
@@ -333,77 +331,20 @@ map.on('load', () => {
 
     map.on('mousemove', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], (e) => {
 
-        let props = e.features[0].properties;
+        let popupContent = createPopup(e.features[0]);
 
-        let popupContent = document.createElement('div');
-
-        let listEl = document.createElement('ul');
-
-        let layerLi = document.createElement('li');
-        let geoLi = document.createElement('li');
-        if (e.features[0].layer.id == 'states-totals') {
-            layerLi.innerHTML = "<strong>LAYER:</strong> State";
-
-            let stateName = states.find(x=> x["GEOID"] == props["GEOID"]).NAME
-            geoLi.innerHTML = "<strong>SELECTED:</strong> " + stateName;
-
-        } else {
-            layerLi.innerHTML = "<strong>LAYER:</strong> County"
-
-            let countyName = counties.find(x=> x['GEOID'] == e.features[0].id).NAME
-            geoLi.innerHTML = "<strong>SELECTED:</strong> " + countyName;
+        let highlighted = selectedStat;
+        if (selectedStatus == "Pending") {
+            highlighted = "pending."+selectedStat
         }
 
-        listEl.appendChild(layerLi);
-        listEl.appendChild(geoLi);
-
-        let timeLi = document.createElement('li');
-        timeLi.innerHTML = "<strong>TIMEFRAME:</strong> " + selectedTime;
-        listEl.appendChild(timeLi);
-
-        let acreLi = document.createElement('li');
-        acreLi.innerHTML = "<strong>ACREAGE:</strong> " + selectedAcres;
-        listEl.appendChild(acreLi);
-
-        let statusLi = document.createElement('li');
-        statusLi.innerHTML = "<strong>STATUS:</strong> "+selectedStatus;
-        listEl.appendChild(statusLi);
-
-        listEl.appendChild(createLi("Sold Count: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_count`].toLocaleString()))
-
-        listEl.appendChild(createLi("For Sale Count: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.for_sale_count`].toLocaleString()))
-
-        listEl.appendChild(createLi("STR: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.list_sale_ratio`].toFixed(1)+"%"))
-
-        listEl.appendChild(createLi("DOM Sold: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_median_days_on_market`].toLocaleString() + 'd'))
-
-        listEl.appendChild(createLi("DOM For Sale: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.for_sale_median_days_on_market`].toLocaleString() + 'd'))
-
-        listEl.appendChild(createLi("Median Price: $"+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_median_price`].toLocaleString()))
-
-        listEl.appendChild(createLi("Median PPA: $"+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_median_price_per_acre`].toLocaleString()))
-
-        listEl.appendChild(createLi("Months Supply: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.months_of_supply`].toLocaleString()))
-
-        listEl.appendChild(createLi("Absorption Rate: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.absorption_rate`].toLocaleString()))
-
-        function createLi(text) {
-            let li = document.createElement('li');
-            li.innerText = text;
-            return li;
+        // add highlight
+        let selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
+        if (selectedLi) {
+            selectedLi.classList.add('selected');   
         }
 
-
-        // Object.entries(statCats[selectedStatus]).forEach(([l, v]) => {
-        //     let statEl = document.createElement('li');
-        //     let varName = `${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.${v}`
-        //     statEl.textContent = `${l}: ${props[varName].toLocaleString()}`
-        //     listEl.appendChild(statEl);
-        // })
-
-        popupContent.appendChild(listEl)
-
-        popup.setHTML(popupContent.outerHTML)
+        tooltip.setHTML(popupContent.outerHTML)
             .setLngLat(e.lngLat)
             .addTo(map)
 
@@ -411,8 +352,47 @@ map.on('load', () => {
 
     map.on('mouseleave', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], (e) => {
         map.getCanvas().style.cursor = '';
-        popup.remove();
+        tooltip.remove();
     });
+
+    const popup = new mapboxgl.Popup({closeButton: true, className: 'map-tooltip'});
+    // click event for popup
+    map.on('click', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], (e) => {
+        tooltip.remove();
+        
+        let popupContent = createPopup(e.features[0]);
+
+        let props = e.features[0].properties;
+
+        let popupBtn = document.createElement('a');
+        popupBtn.classList = 'btn btn-primary';
+        popupBtn.innerText = "Go to Table";
+
+        // add link to button
+        if (e.features[0].layer.id == 'states-totals') {
+            let stateAbbrev = states.find(x=> x["GEOID"] == props["GEOID"]).STUSPS
+            popupBtn.setAttribute('href', `https://webapp.land-stats.com/search-results?state=${stateAbbrev}`)
+        } else {
+            popupBtn.setAttribute('href', `https://webapp.land-stats.com/search-results?county=${e.features[0].id}`)
+        }
+
+        let highlighted = selectedStat;
+        if (selectedStatus == "Pending") {
+            highlighted = "pending."+selectedStat
+        }
+
+        // add highlight
+        let selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
+        if (selectedLi) {
+            selectedLi.classList.add('selected');   
+        }
+
+        popupContent.appendChild(popupBtn);
+
+        popup.setHTML(popupContent.outerHTML)
+            .setLngLat(e.lngLat)
+            .addTo(map)
+    })
 
 
     // // When a click event occurs on a feature in the states layer, zoom to bounds
@@ -659,4 +639,94 @@ function calcBreaks(data) {
         ...data.breaks,
         data.max
     ]
+}
+
+function createPopup(feature) {
+
+    let props = feature.properties;
+    
+    let popupContent = document.createElement('div');
+
+    let listEl = document.createElement('ul');
+
+    let layerLi = document.createElement('li');
+    let geoLi = document.createElement('li');
+    if (feature.layer.id == 'states-totals') {
+        layerLi.innerHTML = "<strong>LAYER:</strong> State";
+
+        let stateName = states.find(x=> x["GEOID"] == props["GEOID"]).NAME
+        geoLi.innerHTML = "<strong>SELECTED:</strong> " + stateName;
+
+    } else {
+        layerLi.innerHTML = "<strong>LAYER:</strong> County"
+
+        let countyName = counties.find(x=> x['GEOID'] == feature.id).NAME
+        geoLi.innerHTML = "<strong>SELECTED:</strong> " + countyName;
+    }
+
+    listEl.appendChild(layerLi);
+    listEl.appendChild(geoLi);
+
+    let timeLi = document.createElement('li');
+    timeLi.innerHTML = "<strong>TIMEFRAME:</strong> " + selectedTime;
+    listEl.appendChild(timeLi);
+
+    let acreLi = document.createElement('li');
+    acreLi.innerHTML = "<strong>ACREAGE:</strong> " + selectedAcres;
+    listEl.appendChild(acreLi);
+
+    let statusLi = document.createElement('li');
+    statusLi.innerHTML = "<strong>STATUS:</strong> "+selectedStatus;
+    listEl.appendChild(statusLi);
+
+    // if (selectedStatus == "Pending") {
+        
+    // } else {
+        
+    // }
+
+    listEl.appendChild(createLi("Sold Count: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_count`].toLocaleString(), 'sold_count'))
+
+    listEl.appendChild(createLi("For Sale Count: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.for_sale_count`].toLocaleString(), 'for_sale_count'))
+
+    listEl.appendChild(createLi("Pending Count: "+props[`${acreageRanges[selectedAcres]}.PENDING.for_sale_count`].toLocaleString(), 'pending.for_sale_count'))
+
+    let str = 100*props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.list_sale_ratio`];
+    listEl.appendChild(createLi("STR: "+ str.toFixed(0)+"%", 'list_sale_ratio'))
+
+    listEl.appendChild(createLi("DOM Sold: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_median_days_on_market`].toLocaleString() + ' d', 'sold_median_days_on_market'))
+
+    listEl.appendChild(createLi("DOM For Sale: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.for_sale_median_days_on_market`].toLocaleString() + ' d', 'for_sale_median_days_on_market'))
+
+    listEl.appendChild(createLi("DOM Pending: "+props[`${acreageRanges[selectedAcres]}.PENDING.for_sale_median_days_on_market`].toLocaleString() + ' d', 'pending.for_sale_median_days_on_market'))
+
+    listEl.appendChild(createLi("Median Price: $"+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_median_price`].toLocaleString(), 'sold_median_price'))
+
+    // listEl.appendChild(createLi("Pending Median Price: $"+props[`${acreageRanges[selectedAcres]}.PENDING.for_sale_median_price`].toLocaleString(), 'pending.for_sale_median_price'))
+
+    listEl.appendChild(createLi("Median PPA: $"+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.sold_median_price_per_acre`].toLocaleString(), 'sold_median_price_per_acre'))
+
+    // listEl.appendChild(createLi("Pending Median PPA: $"+props[`${acreageRanges[selectedAcres]}.PENDING.for_sale_median_price_per_acre`].toLocaleString(), 'pending.for_sale_median_price_per_acre'))
+
+    listEl.appendChild(createLi("Months Supply: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.months_of_supply`].toLocaleString(), 'months_of_supply'))
+
+    listEl.appendChild(createLi("Absorption Rate: "+props[`${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.absorption_rate`].toLocaleString(), 'absorption_rate'))
+
+    // Object.entries(statCats[selectedStatus]).forEach(([l, v]) => {
+    //     let statEl = document.createElement('li');
+    //     let varName = `${acreageRanges[selectedAcres]}.${timeFrames[selectedTime]}.${v}`
+    //     statEl.textContent = `${l}: ${props[varName].toLocaleString()}`
+    //     listEl.appendChild(statEl);
+    // })
+
+    popupContent.appendChild(listEl);
+
+    return popupContent;
+}
+
+function createLi(text, attr) {
+    let li = document.createElement('li');
+    li.innerText = text;
+    li.dataset.stat = attr;
+    return li;
 }

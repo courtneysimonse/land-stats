@@ -1,0 +1,7 @@
+{
+  "username": "landstats",
+  "tilesetSourceId": "counties2-totals-src",
+  "tilesetSourcePath": "counties2_w_data.geojsonl",
+  "tilesetId": "counties2-totals",
+  "tilesetName": "Counties with Totals Part 2"
+}
