@@ -543,10 +543,15 @@ const MapComponent = () => {
             </select>
           </div>
           <div className="filter-group">
-              <label htmlfor="layer-select">Layers:</label>
-              <select name="layers" id="layer-select" value={layer} onChange={handleLayerChange}>
-                  <option value="State" selected>States</option>
-                  <option value="County">Counties</option>
+              <label htmlFor="layer-select">Layers:</label>
+              <select 
+                name="layers" 
+                id="layer-select" 
+                value={layer}
+                onChange={handleLayerChange}
+              >
+                <option value="State">States</option>
+                <option value="County">Counties</option>
               </select>
           </div>
         </fieldset>

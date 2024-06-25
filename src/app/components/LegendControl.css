@@ -4,7 +4,8 @@
     padding: 6px 8px;
     font-size: 1em;
     background: rgba(255, 255, 255);
-    border-radius: 5px;
+    border-radius: 4px;
+    box-shadow: 0 0 10px 2px rgba(0,0,0,.1);
 }
 
 .legend-ctrl h3 {
