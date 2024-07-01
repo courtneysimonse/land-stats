@@ -193,10 +193,10 @@ countiesJson.features.forEach((f,i) => {
     }
 })
 
-writeFile('./counties/counties1_w_data.geojson', JSON.stringify(counties1), () => {
+writeFile('./counties1/counties1_w_data.geojson', JSON.stringify(counties1), () => {
     console.log('done writing file');
 });
-writeFile('./counties/counties2_w_data.geojson', JSON.stringify(counties2), () => {
+writeFile('./counties2/counties2_w_data.geojson', JSON.stringify(counties2), () => {
     console.log('done writing file');
 });
 
@@ -210,6 +210,9 @@ function updatePropertiesWithData(properties, data) {
     Object.entries(data).forEach(([acres, stats]) => {
         Object.entries(stats).forEach(([time, statList]) => {
             Object.entries(statList).forEach(([stat, value]) => {
+                if (!value || value == 0) {
+                    return;
+                }
                 let key = `${acres}.${time}.${stat}`;
                 
                 if (stat.includes('price')) {

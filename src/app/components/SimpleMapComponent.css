@@ -1,0 +1,7 @@
+.simple-tooltip .mapboxgl-popup-content {
+    border-radius: 4px;
+}
+
+.simple-tooltip h3 {
+    margin: 0;
+}
