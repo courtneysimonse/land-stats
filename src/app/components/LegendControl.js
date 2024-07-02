@@ -35,7 +35,6 @@ export default class LegendControl {
     this._container.appendChild(legendHeading);
     this._container.appendChild(this._legendSubHeading);
 
-    let legendPart = document.createElement('div');
     this._legendList = document.createElement('ul');
     this._legendList.id = "legend-list";
 
@@ -43,8 +42,7 @@ export default class LegendControl {
       this._legendList.appendChild(createLi(c, ''));
     });
 
-    legendPart.appendChild(this._legendList);
-    this._container.appendChild(legendPart);
+    this._container.appendChild(this._legendList);
 
     return this._container;
   }
