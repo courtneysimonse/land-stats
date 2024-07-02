@@ -6,7 +6,7 @@ const SimpleMapComponent = dynamic(() => import('../../app/components/SimpleMapC
 
 export default function Home() {
   return (
-    <div style={{ height: "100%", width: "100vw" }}>
+    <div style={{ height: "100vh", width: "100%", padding: "0px", margin: "0px" }}>
       <SimpleMapComponent />
     </div>
   );

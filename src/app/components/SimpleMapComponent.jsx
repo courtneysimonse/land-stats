@@ -8,7 +8,6 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 
 import "./SimpleMapComponent.css";
-import '../App.css';
 
 const colors = [
   "#0f9b4a",
@@ -64,38 +63,6 @@ const SimpleMapComponent = () => {
 
 
     map.current.on('load', () => {
-
-      map.current.setPaintProperty('counties', 'fill-color', 
-        [
-          "case",
-          [
-            "boolean",
-            [
-              "feature-state",
-              "hover"
-            ],
-            false
-          ],
-          "#ffe168",
-          "#48ba2d"
-        ]
-      )
-
-      map.current.setPaintProperty('counties', 'fill-opacity',
-        [
-          "case",
-          [
-            "boolean",
-            [
-              "feature-state",
-              "selected"
-            ],
-            true
-          ],
-          1,
-          0.4
-        ]
-      )
   
       map.current.on('mouseenter', ['states-fill', 'counties'], () => {
         map.current.getCanvas().style.cursor = 'pointer';
@@ -104,20 +71,6 @@ const SimpleMapComponent = () => {
   
       map.current.on('mousemove', ['states-fill', 'counties'], (e) => {
         if (e.features.length === 0) return;
-
-        // Clear the previously hovered polygon states
-        if (hoveredPolygonId.current.length > 0) {
-          hoveredPolygonId.current.forEach(id => {
-            map.current.setFeatureState(
-              {
-                source: 'composite',
-                sourceLayer: 'counties',
-                id: id
-              },
-              { hover: false }
-            );
-          });
-        }
         
         let popupContent = createPopup(e.features[0]);
   
@@ -125,39 +78,38 @@ const SimpleMapComponent = () => {
           .setLngLat(e.lngLat)
           .addTo(map.current);
   
-        if (e.features.length > 0) {
-          const counties = map.current.queryRenderedFeatures(
-            {
-              filter: ["==", ["to-number", ["get", "ST_GEOID"]], e.features[0].id],
-              layers: ["counties"]
-            }
-          );
-  
-          const newHoveredPolygonId = [];
-
-          counties.forEach(county => {
-            map.current.setFeatureState(
-              {
-                source: 'composite',
-                sourceLayer: 'counties',
-                id: county.id
-              },
-              { hover: true }
-            );
-            newHoveredPolygonId.push(county.id); // Collect the new IDs for the hover state
-          });
-        
-          hoveredPolygonId.current = newHoveredPolygonId; // Update the state with the new IDs
-  
+        if (e.features.length > 0 && e.features[0].layer.id == "states-fill") {
+          map.current.setPaintProperty("counties", "fill-color", 
+            [
+              "case",
+              ["==", ["to-number", ["get", "ST_GEOID"]], e.features[0].id], "#ffe168",
+              "#48ba2d"
+            ]
+          )
+        } else if (e.features.length > 0) {
+          map.current.setPaintProperty("counties", "fill-color", 
+            [
+              "case",
+              ["==", ["to-number", ["id"]], e.features[0].id], "#ffe168",
+              "#48ba2d"
+            ]
+          )
         }
-  
-        // console.log(e);
+
   
       });
   
       map.current.on('mouseleave', ['states-fill', 'counties'], () => {
         map.current.getCanvas().style.cursor = '';
         tooltip.remove();
+
+        map.current.setPaintProperty("states-fill", "fill-color", 
+          "#48ba2d"
+      )
+
+        map.current.setPaintProperty("counties", "fill-color", 
+            "#48ba2d"
+        )
       });
   
       // const popup = new mapboxgl.Popup({ closeButton: true, className: 'simple-tooltip' });
@@ -173,60 +125,20 @@ const SimpleMapComponent = () => {
         map.current.fitBounds(e.features[0].properties.bbox.split(","), 
         {padding: 200});  
 
-        // Clear the previously hovered polygon states
-        if (hoveredPolygonId.current.length > 0) {
-        hoveredPolygonId.current.forEach(id => {
-          map.current.setFeatureState(
-            {
-              source: 'composite',
-              sourceLayer: 'counties',
-              id: id
-            },
-            { 
-              hover: false,
-              selected: false
-            }
-          );
-        });
-      }
 
       if (e.features.length > 0) {
-        const counties = map.current.queryRenderedFeatures(
-          {
-            filter: ["==", ["to-number", ["get", "ST_GEOID"]], e.features[0].id],
-            layers: ["counties"]
-          }
-        );
+        map.current.setPaintProperty("counties", "fill-opacity", 
+          [
+            "case",
+            ["==", ["to-number", ["get", "ST_GEOID"]], e.features[0].id], 1,
+            0.4
+          ]
+        )
 
-        const newHoveredPolygonId = [];
-
-        counties.forEach(county => {
-          map.current.setFeatureState(
-            {
-              source: 'composite',
-              sourceLayer: 'counties',
-              id: county.id
-            },
-            { hover: true }
-          );
-          newHoveredPolygonId.push(county.id); // Collect the new IDs for the hover state
-        });
-      
-        hoveredPolygonId.current = newHoveredPolygonId; // Update the state with the new IDs
+        map.current.setFilter('states-fill', ["!=", ["id"], e.features[0].id])
 
       }
   
-        map.current.setFeatureState({
-          source: 'composite',
-          sourceLayer: 'counties',
-          id: e.features[0].id,
-        }, {
-            selected: true,
-            hover: false
-        });
-  
-        map.current.setFilter('states-fill', ["!=", ["id"], e.features[0].id])
-        // map.current.setLayoutProperty('states-fill', 'visibility', 'none');
   
       });
     })
@@ -244,10 +156,13 @@ const SimpleMapComponent = () => {
   }, [states, counties]);
 
   return (
-    <div style={{ height: "100%", width: "100%" }}>
-
-      <div id="map" ref={mapContainer}></div>
-    </div>
+      <div id="map" ref={mapContainer} 
+        style={{
+          height: "100%", 
+          width: "100%",
+          margin: 0,
+          padding: 0, }}
+      />
   );
 };
 
