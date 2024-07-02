@@ -323,7 +323,7 @@ const MapComponent = () => {
     //     map.current.setLayoutProperty('counties-totals', 'visibility', 'none');
     //     map.current.setLayoutProperty('states-totals', 'visibility', 'visible');
     //     map.current.setFilter('states-totals', null);
-    //     legend.updateScale(calcBreaks(statesMinMaxData[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`]));
+    //     legend.updateScale(calcBreaks(statesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`]));
     //   }
     // });
 
@@ -409,120 +409,6 @@ const MapComponent = () => {
     };
 
   }, [states, counties, statesMinMax, countiesMinMax]);
-
-  // useEffect(() => {
-  
-  // }, [stat])
-
-  // useEffect(() => {
-  //   if (map && legendControl) {
-
-  //     updateColors();
-
-  //     let statName = Object.keys(statCats[status]).find(key => statCats[status][key] === stat);
-
-  //     let legendTitle;
-  //     let breaks;
-  //     if (status == "Pending") {
-  //         legendTitle = `${layer} Level - ${status} - ${statName}`;
-  //         breaks = calcBreaks(countiesMinMax[`${acreageRanges[acres]}.PENDING.${stat}`])
-  //     } else {
-  //         legendTitle = `${layer} Level - ${status} - ${time} - ${statName}`; 
-  //         breaks = calcBreaks(countiesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`])
-  //     } 
-
-  //     legendControl.updateScale(
-  //       breaks,
-  //       legendTitle
-  //     )
-  //   }
-  // }, [status, stat, time, acres, map, legendControl]);
-
-  useEffect(() => {
-    // const populateSelect = (selectId, options) => {
-    //   return (
-    //     <select id={selectId}>
-    //         {Object.entries(options).map(([label, value]) => (
-    //             <option key={value} value={value}>
-    //                 {label}
-    //             </option>
-    //         ))}
-    //     </select>
-    // );
-    // };
-
-    // // populateSelect("status-select", { "Sold": "Sold", "For Sale": "For Sale" });
-    // populateSelect("time-select", timeFrames);
-    // populateSelect("acres-select", acreageRanges);
-
-    // updateStatsOpts();
-
-
-    // return () => {
-      
-    // };
-  }, [status]);
-
-  const setNewVariable = () => {
-    let newVar = `${acreageRanges[acres]}.${timeFrames[time]}.${stat}`;
-
-    // let stateBreaks = calcBreaks(statesMinMax[newVar]);
-    let varMinMaxState = statesMinMax[newVar];
-
-    // let countyBreaks = calcBreaks(countiesMinMax[newVar]);
-    let varMinMaxCounty = countiesMinMax[newVar];
-
-    let stateColor;
-
-    if (varMinMaxState.max !== varMinMaxState.min) {
-      stateColor = [
-        "interpolate",
-        ["linear"],
-        ["get", newVar],
-        varMinMaxState.min,
-        "#0f9b4a",
-        varMinMaxState.breaks[0],
-        "#fecc08",
-        varMinMaxState.breaks[1],
-        "#f69938",
-        varMinMaxState.max,
-        "#f3663a"
-      ];
-    } else {
-      stateColor = "#0f9b4a";
-    }
-
-    let countyColor;
-
-    if (varMinMaxCounty.max !== varMinMaxCounty.min) {
-      countyColor = [
-        "interpolate",
-        ["linear"],
-        ["get", newVar],
-        varMinMaxCounty.min,
-        "#0f9b4a",
-        varMinMaxCounty.breaks[0],
-        "#fecc08",
-        varMinMaxCounty.breaks[1],
-        "#f69938",
-        varMinMaxCounty.max,
-        "#f3663a"
-      ];
-    } else {
-      countyColor = "#0f9b4a";
-    }
-
-    return { state: stateColor, county: countyColor };
-  };
-
-  // const updateColors = () => {
-  //   let colorExps = setNewVariable();
-  //   map.setPaintProperty('states-totals', 'fill-color', colorExps.state);
-  //   map.setPaintProperty('counties-totals-part-1', 'fill-color', colorExps.county);
-  //   map.setPaintProperty('counties-totals-part-2', 'fill-color', colorExps.county);
-  // };
-
-
 
   const handleStatusChange = (e) => {
     setStatus(e.target.value);
