@@ -610,9 +610,9 @@ const MapComponent = () => {
         margin: 0,
         padding: 0,
         display: "flex",
-        flexDirection: "row",
+        flexDirection: "column",
         overflow: "hidden",
-        flexWrap: "wrap",
+        // flexWrap: "wrap",
         justifyContent: "center"
       }}>
       <div id="map-filters">
@@ -687,7 +687,7 @@ const MapComponent = () => {
         ref={mapContainer}
         style={{
           width: "100%",
-          height: "100%",
+          flexGrow: 2,
           position: "relative",
         }} />
     </div>
