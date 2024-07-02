@@ -6,7 +6,7 @@ const MapComponent = dynamic(() => import('../app/components/MapComponent'), { s
 
 export default function Home() {
   return (
-    <div style={{ height: "100vh", width: "100%" }}>
+    <div style={{ height: "100vh", width: "100%", padding: "0px", margin: "0px"}}>
       <MapComponent />
     </div>
   );
