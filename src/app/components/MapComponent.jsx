@@ -11,72 +11,6 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import "./MapComponent.css";
 import '../App.css';
 
-const colors = [
-  "#0f9b4a",
-  "#fecc08",
-  "#f69938",
-  "#f3663a"
-];
-
-const statCats = {
-  "Sold": {
-      "Inventory Count": "sold_count",
-      "Median Price": "sold_median_price",
-      "Median Price/Acre": "sold_median_price_per_acre",
-      "Days on Market": "sold_median_days_on_market",
-      "Sell Through Rate (STR)": "list_sale_ratio",
-      "Absorption Rate": "absorption_rate",
-      "Months of Supply": "months_of_supply"
-  },
-  "For Sale": {
-      "Inventory Count": "for_sale_count",
-      "Median Price": "for_sale_median_price",
-      "Median Price/Acre": "for_sale_median_price_per_acre",
-      "Days on Market": "for_sale_median_days_on_market",
-      "Sell Through Rate (STR)": "list_sale_ratio",
-      "Absorption Rate": "absorption_rate",
-      "Months of Supply": "months_of_supply"
-  },
-  "Pending": {
-      "Inventory Count": "for_sale_count",
-      "Median Price": "for_sale_median_price",
-      "Median Price/Acre": "for_sale_median_price_per_acre",
-      "Days on Market": "for_sale_median_days_on_market",
-      // "Sell Through Rate (STR)": "list_sale_ratio",
-      // "Absorption Rate": "absorption_rate",
-      // "Months of Supply": "months_of_supply"
-  },
-};
-
-const timeFrames = {
-  "7 days": "7d",
-  "30 days": "30d",
-  "90 days": "90d",
-  "6 months": "6M",
-  "12 months": "12M",
-  "24 months": "24M",
-  "36 months": "36M",
-};
-
-const acreageRanges = {
-  "0-1 acres": "0-1",
-  "1-2 acres": "1-2",
-  "2-5 acres": "2-5",
-  "5-10 acres": "5-10",
-  "10-20 acres": "10-20",
-  "20-50 acres": "20-50",
-  "50-100 acres": "50-100",
-  "100+ acres": "100+",
-  "All Acreages": "TOTAL"
-};
-
-// load CSVs
-const states = await d3.csv('./data/states.csv');
-const counties = await d3.csv('./data/counties.csv');
-
-// load propertyMinMaxs
-const statesMinMaxData = await d3.json('./data/state_properties.json');
-const countiesMinMaxData = await d3.json('./data/counties_properties.json');
 
 const MapComponent = () => {
   const mapContainer = useRef(null);
@@ -88,15 +22,93 @@ const MapComponent = () => {
   const [acres, setAcres] = useState("All Acreages");
   const [layer, setLayer] = useState("State");
   const [legendControl, setLegendControl] = useState(null);
-  const [statesMinMax, setStatesMinMax] = useState(statesMinMaxData);
-  const [countiesMinMax, setCountiesMinMax] = useState(countiesMinMaxData);
+  const [statesMinMax, setStatesMinMax] = useState(null);
+  const [countiesMinMax, setCountiesMinMax] = useState(null);
+  const [states, setStates] = useState(null);
+  const [counties, setCounties] = useState(null);
+
+  const colors = [
+    "#0f9b4a",
+    "#fecc08",
+    "#f69938",
+    "#f3663a"
+  ];
+
+  const statCats = {
+    "Sold": {
+        "Inventory Count": "sold_count",
+        "Median Price": "sold_median_price",
+        "Median Price/Acre": "sold_median_price_per_acre",
+        "Days on Market": "sold_median_days_on_market",
+        "Sell Through Rate (STR)": "list_sale_ratio",
+        "Absorption Rate": "absorption_rate",
+        "Months of Supply": "months_of_supply"
+    },
+    "For Sale": {
+        "Inventory Count": "for_sale_count",
+        "Median Price": "for_sale_median_price",
+        "Median Price/Acre": "for_sale_median_price_per_acre",
+        "Days on Market": "for_sale_median_days_on_market",
+        "Sell Through Rate (STR)": "list_sale_ratio",
+        "Absorption Rate": "absorption_rate",
+        "Months of Supply": "months_of_supply"
+    },
+    "Pending": {
+        "Inventory Count": "for_sale_count",
+        "Median Price": "for_sale_median_price",
+        "Median Price/Acre": "for_sale_median_price_per_acre",
+        "Days on Market": "for_sale_median_days_on_market",
+        // "Sell Through Rate (STR)": "list_sale_ratio",
+        // "Absorption Rate": "absorption_rate",
+        // "Months of Supply": "months_of_supply"
+    },
+  };
+
+  const timeFrames = {
+    "7 days": "7d",
+    "30 days": "30d",
+    "90 days": "90d",
+    "6 months": "6M",
+    "12 months": "12M",
+    "24 months": "24M",
+    "36 months": "36M",
+  };
+
+  const acreageRanges = {
+    "0-1 acres": "0-1",
+    "1-2 acres": "1-2",
+    "2-5 acres": "2-5",
+    "5-10 acres": "5-10",
+    "10-20 acres": "10-20",
+    "20-50 acres": "20-50",
+    "50-100 acres": "50-100",
+    "100+ acres": "100+",
+    "All Acreages": "TOTAL"
+  };
+
+  useEffect(() => {
+    const loadData = async () => {
+      // load CSVs
+      const statesData = await d3.csv('./data/states.csv');
+      const countiesData = await d3.csv('./data/counties.csv');
+      setStates(statesData);
+      setCounties(countiesData);
+
+      // load propertyMinMaxs
+      const statesMinMaxData = await d3.json('./data/state_properties.json');
+      const countiesMinMaxData = await d3.json('./data/counties_properties.json');
+      setStatesMinMax(statesMinMaxData);
+      setCountiesMinMax(countiesMinMaxData);
+    }
+    loadData()
+  }, []);
 
   const updateStatsOpts = () => {
-      // Filter options based on selected status
-      const options = Object.entries(statCats[status]).map(([statLbl, statVar]) => (
-        <option key={statVar} value={statVar}>
-            {statLbl}
-        </option>
+    // Filter options based on selected status
+    const options = Object.entries(statCats[status]).map(([statLbl, statVar]) => (
+      <option key={statVar} value={statVar}>
+          {statLbl}
+      </option>
     ));
     return options;
   }
@@ -125,96 +137,6 @@ const MapComponent = () => {
   };
 
 
-  function createPopup(feature) {
-
-    let props = feature.properties;
-    
-    let popupContent = document.createElement('div');
-
-    let listEl = document.createElement('ul');
-
-    let layerLi = document.createElement('li');
-    let geoLi = document.createElement('li');
-    if (feature.layer.id == 'states-totals') {
-        layerLi.innerHTML = "<strong>LAYER:</strong> State";
-
-        let stateName = states.find(x=> x["GEOID"] == props["GEOID"]).NAME
-        geoLi.innerHTML = "<strong>SELECTED:</strong> " + stateName;
-
-    } else {
-        layerLi.innerHTML = "<strong>LAYER:</strong> County"
-
-        let countyName = counties.find(x=> x['GEOID'] == feature.id).NAME
-        geoLi.innerHTML = "<strong>SELECTED:</strong> " + countyName;
-    }
-
-    listEl.appendChild(layerLi);
-    listEl.appendChild(geoLi);
-
-    let timeLi = document.createElement('li');
-    timeLi.innerHTML = "<strong>TIMEFRAME:</strong> " + time;
-    listEl.appendChild(timeLi);
-
-    let acreLi = document.createElement('li');
-    acreLi.innerHTML = "<strong>ACREAGE:</strong> " + acres;
-    listEl.appendChild(acreLi);
-
-    let statusLi = document.createElement('li');
-    statusLi.innerHTML = "<strong>STATUS:</strong> "+ status;
-    listEl.appendChild(statusLi);
-
-    // if (selectedStatus == "Pending") {
-        
-    // } else {
-        
-    // }
-
-    listEl.appendChild(createLi("Sold Count: "+props[`${acreageRanges[acres]}.${timeFrames[time]}.sold_count`].toLocaleString(), 'sold_count'))
-
-    listEl.appendChild(createLi("For Sale Count: "+props[`${acreageRanges[acres]}.${timeFrames[time]}.for_sale_count`].toLocaleString(), 'for_sale_count'))
-
-    listEl.appendChild(createLi("Pending Count: "+props[`${acreageRanges[acres]}.PENDING.for_sale_count`].toLocaleString(), 'pending.for_sale_count'))
-
-    let str = 100*props[`${acreageRanges[acres]}.${timeFrames[time]}.list_sale_ratio`];
-    listEl.appendChild(createLi("STR: "+ str.toFixed(0)+"%", 'list_sale_ratio'))
-
-    listEl.appendChild(createLi("DOM Sold: "+props[`${acreageRanges[acres]}.${timeFrames[time]}.sold_median_days_on_market`].toLocaleString() + ' d', 'sold_median_days_on_market'))
-
-    listEl.appendChild(createLi("DOM For Sale: "+props[`${acreageRanges[acres]}.${timeFrames[time]}.for_sale_median_days_on_market`].toLocaleString() + ' d', 'for_sale_median_days_on_market'))
-
-    listEl.appendChild(createLi("DOM Pending: "+props[`${acreageRanges[acres]}.PENDING.for_sale_median_days_on_market`].toLocaleString() + ' d', 'pending.for_sale_median_days_on_market'))
-
-    listEl.appendChild(createLi("Median Price: $"+props[`${acreageRanges[acres]}.${timeFrames[time]}.sold_median_price`].toLocaleString(), 'sold_median_price'))
-
-    // listEl.appendChild(createLi("Pending Median Price: $"+props[`${acreageRanges[acres]}.PENDING.for_sale_median_price`].toLocaleString(), 'pending.for_sale_median_price'))
-
-    listEl.appendChild(createLi("Median PPA: $"+props[`${acreageRanges[acres]}.${timeFrames[time]}.sold_median_price_per_acre`].toLocaleString(), 'sold_median_price_per_acre'))
-
-    // listEl.appendChild(createLi("Pending Median PPA: $"+props[`${acreageRanges[acres]}.PENDING.for_sale_median_price_per_acre`].toLocaleString(), 'pending.for_sale_median_price_per_acre'))
-
-    listEl.appendChild(createLi("Months Supply: "+props[`${acreageRanges[acres]}.${timeFrames[time]}.months_of_supply`].toLocaleString(), 'months_of_supply'))
-
-    listEl.appendChild(createLi("Absorption Rate: "+props[`${acreageRanges[acres]}.${timeFrames[time]}.absorption_rate`].toLocaleString(), 'absorption_rate'))
-
-    // Object.entries(statCats[selectedStatus]).forEach(([l, v]) => {
-    //     let statEl = document.createElement('li');
-    //     let varName = `${acreageRanges[acres]}.${timeFrames[time]}.${v}`
-    //     statEl.textContent = `${l}: ${props[varName].toLocaleString()}`
-    //     listEl.appendChild(statEl);
-    // })
-
-    popupContent.appendChild(listEl);
-
-    return popupContent;
-  }
-
-  function createLi(text, attr) {
-    let li = document.createElement('li');
-    li.innerText = text;
-    li.dataset.stat = attr;
-    return li;
-  }
-
   const updateColors = useCallback((geo) => {
 
     const mapLayers = geo === "State" ? ['states-totals'] : ['counties-totals-part-1', 'counties-totals-part-2'];
@@ -224,10 +146,15 @@ const MapComponent = () => {
     const categories = calcBreaks(data);
 
     const colorExp = [
+      'case', 
+      ['has', `${acreageRanges[acres]}.${timeFrames[time]}.${stat}`],
+      [
       'interpolate',
       ['linear'],
       ['get', `${acreageRanges[acres]}.${timeFrames[time]}.${stat}`],
       ...categories.flatMap(category => [category.title, category.color])
+      ],
+      '#fff'
     ];
 
     mapLayers.forEach(l => {
@@ -250,6 +177,8 @@ const MapComponent = () => {
   }, [updateColors]);
 
   useEffect(() => {
+    if (!states || !counties || !statesMinMax || !countiesMinMax) return; // Wait for the data to load
+    
     if (map.current) return; // initialize map only once
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
       
@@ -262,7 +191,7 @@ const MapComponent = () => {
     
     map.current.addControl(new ZoomDisplayControl(), 'bottom-right');
 
-    let legend = new LegendControl(calcBreaks(statesMinMaxData[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`]))
+    let legend = new LegendControl(calcBreaks(statesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`]))
     setLegendControl(legend);
     map.current.addControl(legend, 'bottom-right');
 
@@ -273,6 +202,105 @@ const MapComponent = () => {
       }),
       'bottom-left'
     );
+
+    function createPopup(feature) {
+
+      let props = feature.properties;
+      
+      let popupContent = document.createElement('div');
+
+      let listEl = document.createElement('ul');
+
+      let layerLi = document.createElement('li');
+      let geoLi = document.createElement('li');
+      if (feature.layer.id == 'states-totals') {
+          layerLi.innerHTML = "<strong>LAYER:</strong> State";
+
+          let stateName = states.find(x=> x["GEOID"] == props["GEOID"]).NAME
+          geoLi.innerHTML = "<strong>SELECTED:</strong> " + stateName;
+
+      } else {
+          layerLi.innerHTML = "<strong>LAYER:</strong> County"
+
+          let countyName = counties.find(x=> x['GEOID'] == feature.id).NAME
+          geoLi.innerHTML = "<strong>SELECTED:</strong> " + countyName;
+      }
+
+      listEl.appendChild(layerLi);
+      listEl.appendChild(geoLi);
+
+      let timeLi = document.createElement('li');
+      timeLi.innerHTML = "<strong>TIMEFRAME:</strong> " + time;
+      listEl.appendChild(timeLi);
+
+      let acreLi = document.createElement('li');
+      acreLi.innerHTML = "<strong>ACREAGE:</strong> " + acres;
+      listEl.appendChild(acreLi);
+
+      let statusLi = document.createElement('li');
+      statusLi.innerHTML = "<strong>STATUS:</strong> "+ status;
+      listEl.appendChild(statusLi);
+
+      // if (selectedStatus == "Pending") {
+          
+      // } else {
+          
+      // }
+      let soldCount = props[`${acreageRanges[acres]}.${timeFrames[time]}.sold_count`] ?? 0;
+      listEl.appendChild(createLi(`Sold Count: ${soldCount.toLocaleString()}`, 'sold_count'));
+      
+      let forSaleCount = props[`${acreageRanges[acres]}.${timeFrames[time]}.for_sale_count`] ?? 0;
+      listEl.appendChild(createLi("For Sale Count: "+forSaleCount.toLocaleString(), 'for_sale_count'))
+
+      let pendingCount = props[`${acreageRanges[acres]}.PENDING.for_sale_count`] ?? 0;
+      listEl.appendChild(createLi("Pending Count: "+pendingCount.toLocaleString(), 'pending.for_sale_count'))
+
+      let str = 100*props[`${acreageRanges[acres]}.${timeFrames[time]}.list_sale_ratio`] ?? 0;
+      listEl.appendChild(createLi("STR: "+ str.toFixed(0)+"%", 'list_sale_ratio'))
+
+      let domSold = props[`${acreageRanges[acres]}.${timeFrames[time]}.sold_median_days_on_market`] ?? 0;
+      listEl.appendChild(createLi("DOM Sold: "+domSold.toLocaleString() + ' d', 'sold_median_days_on_market'))
+
+      let domForSale = props[`${acreageRanges[acres]}.${timeFrames[time]}.for_sale_median_days_on_market`] ?? 0;
+      listEl.appendChild(createLi("DOM For Sale: "+domForSale.toLocaleString() + ' d', 'for_sale_median_days_on_market'))
+
+      let domPending = props[`${acreageRanges[acres]}.PENDING.for_sale_median_days_on_market`] ?? 0;
+      listEl.appendChild(createLi("DOM Pending: "+domPending.toLocaleString() + ' d', 'pending.for_sale_median_days_on_market'))
+
+      let medianPrice = props[`${acreageRanges[acres]}.${timeFrames[time]}.sold_median_price`] ?? 0; 
+      listEl.appendChild(createLi("Median Price: $"+medianPrice.toLocaleString(), 'sold_median_price'))
+
+      // listEl.appendChild(createLi("Pending Median Price: $"+props[`${acreageRanges[acres]}.PENDING.for_sale_median_price`].toLocaleString(), 'pending.for_sale_median_price'))
+
+      let medianPpa = props[`${acreageRanges[acres]}.${timeFrames[time]}.sold_median_price_per_acre`] ?? 0;
+      listEl.appendChild(createLi("Median PPA: $"+medianPpa.toLocaleString(), 'sold_median_price_per_acre'))
+
+      // listEl.appendChild(createLi("Pending Median PPA: $"+props[`${acreageRanges[acres]}.PENDING.for_sale_median_price_per_acre`].toLocaleString(), 'pending.for_sale_median_price_per_acre'))
+
+      let monthsSupply = props[`${acreageRanges[acres]}.${timeFrames[time]}.months_of_supply`] ?? 0;
+      listEl.appendChild(createLi("Months Supply: "+ monthsSupply.toLocaleString(), 'months_of_supply'))
+
+      let absorptionRate = props[`${acreageRanges[acres]}.${timeFrames[time]}.absorption_rate`] ?? 0;
+      listEl.appendChild(createLi("Absorption Rate: "+absorptionRate.toLocaleString(), 'absorption_rate'))
+
+      // Object.entries(statCats[selectedStatus]).forEach(([l, v]) => {
+      //     let statEl = document.createElement('li');
+      //     let varName = `${acreageRanges[acres]}.${timeFrames[time]}.${v}`
+      //     statEl.textContent = `${l}: ${props[varName].toLocaleString()}`
+      //     listEl.appendChild(statEl);
+      // })
+
+      popupContent.appendChild(listEl);
+
+      return popupContent;
+    }
+
+    function createLi(text, attr) {
+      let li = document.createElement('li');
+      li.innerText = text;
+      li.dataset.stat = attr;
+      return li;
+    }
 
     // const defaultStateColors = map.current.getPaintProperty('states-totals', 'fill-color');
     // const defaultCounty1Colors = map.current.getPaintProperty('counties-totals-part-1', 'fill-color');
@@ -290,7 +318,7 @@ const MapComponent = () => {
     //     map.current.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
     //     map.current.setLayoutProperty('states-totals', 'visibility', 'none');
     //     map.current.setFilter('states-totals', null);
-    //     legend.updateScale(calcBreaks(countiesMinMaxData[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`]));
+    //     legend.updateScale(calcBreaks(countiesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`]));
     //   } else {
     //     map.current.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
     //     map.current.setLayoutProperty('counties-totals', 'visibility', 'none');
@@ -300,78 +328,92 @@ const MapComponent = () => {
     //   }
     // });
 
-
-  });
-
-  useEffect(() => {
     const tooltip = new mapboxgl.Popup({closeButton: false, className: 'map-tooltip'});
 
-    map.current.on('mouseenter', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], () => {
-      map.current.getCanvas().style.cursor = 'pointer';
-    });
+    map.current.on('load', () => {
 
-    map.current.on('mousemove', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], (e) => {
-      let popupContent = createPopup(e.features[0]);
+      map.current.on('mouseenter', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], () => {
+        map.current.getCanvas().style.cursor = 'pointer';
+      });
+  
+      map.current.on('mousemove', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], (e) => {
+        let popupContent = createPopup(e.features[0]);
+  
+        let highlighted = stat;
+        if (status == "Pending") {
+            highlighted = "pending."+stat
+        }
+  
+        // add highlight
+        let selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
+        if (selectedLi) {
+            selectedLi.classList.add('selected');   
+        }
+  
+        tooltip.setHTML(popupContent.outerHTML)
+            .setLngLat(e.lngLat)
+            .addTo(map.current)
+  
+      });
+  
+      map.current.on('mouseleave', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], () => {
+        map.current.getCanvas().style.cursor = '';
+        tooltip.remove();
+      });
+  
+      const popup = new mapboxgl.Popup({closeButton: true, className: 'map-tooltip'});
+      map.current.on('click', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], (e) => {
+        tooltip.remove();
+        
+        let popupContent = createPopup(e.features[0]);
+  
+        let popupBtn = document.createElement('a');
+        popupBtn.classList = 'btn btn-primary';
+        popupBtn.innerText = "Go to Table";
+  
+        // add link to button
+        if (e.features[0].layer.id == 'states-totals') {
+          let stateAbbrev = states.find(x=> x["GEOID"] == e.features[0].properties["GEOID"]).STUSPS
+          popupBtn.setAttribute('href', `https://webapp.land-stats.com/search-results?state=${stateAbbrev}`)
+        } else {
+            popupBtn.setAttribute('href', `https://webapp.land-stats.com/search-results?county=${e.features[0].id}`)
+        }
+  
+        let highlighted = stat;
+        if (status == "Pending") {
+            highlighted = "pending."+stat
+        }
+  
+        // add highlight
+        let selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
+        if (selectedLi) {
+            selectedLi.classList.add('selected');   
+        }
+  
+        popupContent.appendChild(popupBtn);
+  
+        popup.setHTML(popupContent.outerHTML)
+            .setLngLat(e.lngLat)
+            .addTo(map.current)
+  
+      });
+    })
+    
 
-      let highlighted = stat;
-      if (status == "Pending") {
-          highlighted = "pending."+stat
+    return () => {
+      if (map.current) {
+        map.current.off('mouseenter');
+        map.current.off('mousemove');
+        map.current.off('mouseleave');
+        map.current.off('click');
       }
+    };
 
-      // add highlight
-      let selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
-      if (selectedLi) {
-          selectedLi.classList.add('selected');   
-      }
+  }, [states, counties, statesMinMax, countiesMinMax]);
 
-      tooltip.setHTML(popupContent.outerHTML)
-          .setLngLat(e.lngLat)
-          .addTo(map.current)
-
-    });
-
-    map.current.on('mouseleave', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], () => {
-      map.current.getCanvas().style.cursor = '';
-      tooltip.remove();
-    });
-
-    const popup = new mapboxgl.Popup({closeButton: true, className: 'map-tooltip'});
-    map.current.on('click', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], (e) => {
-      tooltip.remove();
-      
-      let popupContent = createPopup(e.features[0]);
-
-      let popupBtn = document.createElement('a');
-      popupBtn.classList = 'btn btn-primary';
-      popupBtn.innerText = "Go to Table";
-
-      // add link to button
-      if (e.features[0].layer.id == 'states-totals') {
-        let stateAbbrev = states.find(x=> x["GEOID"] == e.features[0].properties["GEOID"]).STUSPS
-        popupBtn.setAttribute('href', `https://webapp.land-stats.com/search-results?state=${stateAbbrev}`)
-      } else {
-          popupBtn.setAttribute('href', `https://webapp.land-stats.com/search-results?county=${e.features[0].id}`)
-      }
-
-      let highlighted = stat;
-      if (status == "Pending") {
-          highlighted = "pending."+stat
-      }
-
-      // add highlight
-      let selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
-      if (selectedLi) {
-          selectedLi.classList.add('selected');   
-      }
-
-      popupContent.appendChild(popupBtn);
-
-      popup.setHTML(popupContent.outerHTML)
-          .setLngLat(e.lngLat)
-          .addTo(map.current)
-
-    });
-  }, [stat])
+  // useEffect(() => {
+  
+  // }, [stat])
 
   // useEffect(() => {
   //   if (map && legendControl) {
