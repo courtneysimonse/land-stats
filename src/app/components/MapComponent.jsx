@@ -603,7 +603,17 @@ const MapComponent = () => {
   }
 
   return (
-    <div style={{ height: "100%", width: "100%" }}>
+    <div 
+      style={{ 
+        height: "100%", 
+        width: "100%",
+        margin: 0,
+        padding: 0,
+        display: "flex",
+        flexDirection: "row",
+        overflow: "hidden",
+        flexWrap: "wrap" 
+      }}>
       <div id="map-filters">
         <fieldset>
           <div className="filter-group">
@@ -672,7 +682,13 @@ const MapComponent = () => {
           </div>
         </fieldset>
       </div>
-      <div id="map" ref={mapContainer}></div>
+      <div id="map"
+        ref={mapContainer}
+        style={{
+          width: "100%",
+          height: "100%",
+          position: "relative",
+        }} />
     </div>
   );
 };
