@@ -609,11 +609,11 @@ const MapComponent = () => {
         width: "100%",
         margin: 0,
         padding: 0,
-        display: "flex",
-        flexDirection: "row",
-        overflow: "hidden",
-        flexWrap: "wrap",
-        justifyContent: "center"
+        // display: "flex",
+        // flexDirection: "row",
+        // overflow: "hidden",
+        // flexWrap: "wrap",
+        // justifyContent: "center"
       }}>
       <div id="map-filters">
         <fieldset>
