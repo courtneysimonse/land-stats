@@ -42,6 +42,10 @@
     list-style: none;
 }
 
+.mapboxgl-popup {
+    z-index: 5;
+}
+
 .mapboxgl-popup-content div {
     display: flex;
     flex-direction: column;
