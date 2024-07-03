@@ -226,6 +226,8 @@ const MapComponent = () => {
     function createPopup(feature) {
 
       let props = feature.properties;
+
+      let layer = feature.layer.id;
       
       let popupContent = document.createElement('div');
 
@@ -239,7 +241,7 @@ const MapComponent = () => {
           let stateName = states.find(x=> x["GEOID"] == props["GEOID"]).NAME
           geoLi.innerHTML = "<strong>SELECTED:</strong> " + stateName;
 
-      } else {
+      } else if (countiesLayers.includes(feature.layer.id)) {
           layerLi.innerHTML = "<strong>LAYER:</strong> County"
 
           let countyName = counties.find(x=> x['GEOID'] == feature.id).NAME
@@ -353,11 +355,11 @@ const MapComponent = () => {
 
     map.current.on('load', () => {
 
-      map.current.on('mouseenter', ['states-totals', ...countiesLayers, 'zip-totals-Zoom 5'], () => {
+      map.current.on('mouseenter', ['states-totals', ...countiesLayers], () => {
         map.current.getCanvas().style.cursor = 'pointer';
       });
   
-      map.current.on('mousemove', ['states-totals', ...countiesLayers, 'zip-totals-Zoom 5'], (e) => {
+      map.current.on('mousemove', ['states-totals', ...countiesLayers], (e) => {
         popupContainer.current = createPopup(e.features[0]);
   
         let highlighted = stat;
@@ -385,6 +387,7 @@ const MapComponent = () => {
       const popup = new mapboxgl.Popup({closeButton: true, className: 'map-tooltip'});
       map.current.on('click', ['states-totals', ...countiesLayers, 'zip-totals-Zoom 5'], (e) => {
         tooltip.remove();
+        popup.remove();
         
         popupContainer.current = createPopup(e.features[0]);
   
@@ -421,7 +424,7 @@ const MapComponent = () => {
           root.render(<ZipButton onClick={() => handleButtonClick(features)} />);
         }
   
-        const popup = new mapboxgl.Popup({ closeOnClick: false })
+        popup
           .setDOMContent(popupContainer.current)
           .setLngLat(e.lngLat)
           .addTo(map.current);
@@ -470,10 +473,10 @@ const MapComponent = () => {
       
     if (e.target.value == 'County') {
 
-      countiesLayers.forEach(layer => map.current.setLayoutProperty(layer, 'visibility', 'visible'))
+      countiesLayers.forEach(layer => map.current.setLayoutProperty(layer, 'visibility', 'visible'));
 
       map.current.setLayoutProperty('counties-lines', 'visibility', 'visible');
-      // map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
+      map.current.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
       map.current.setLayoutProperty('states-totals', 'visibility', 'none');
       map.current.setFilter('states-totals', null);
 
@@ -493,9 +496,8 @@ const MapComponent = () => {
       )
     } else {
 
-        // map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
-        map.current.setLayoutProperty('counties-totals-part-1', 'visibility', 'none');
-        map.current.setLayoutProperty('counties-totals-part-2', 'visibility', 'none');
+        map.current.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
+        countiesLayers.forEach(layer => map.current.setLayoutProperty(layer, 'visibility', 'visible'))
         map.current.setLayoutProperty('counties-lines', 'visibility', 'none');
         map.current.setLayoutProperty('states-totals', 'visibility', 'visible');
         map.current.setFilter('states-totals', null);
