@@ -7,7 +7,7 @@
        "maxzoom": 5,
       "features": {
         "simplification":{ 
-          "distance": 10,
+          "distance": 5,
           "outward_only": true
       }
       },
