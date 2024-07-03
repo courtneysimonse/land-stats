@@ -223,7 +223,9 @@ const MapComponent = () => {
       } else {
           layerLi.innerHTML = "<strong>LAYER:</strong> County"
 
-          let countyName = counties.find(x=> x['GEOID'] == feature.id).NAME
+          let countyFeature = counties.find(x=> x['GEOID'] == feature.id);
+          
+          let countyName = counties.find(x=> x['GEOID'] == feature.id).NAME ?? "";
           geoLi.innerHTML = "<strong>SELECTED:</strong> " + countyName;
       }
 
@@ -333,6 +335,56 @@ const MapComponent = () => {
     const tooltip = new mapboxgl.Popup({closeButton: false, className: 'map-tooltip'});
 
     map.current.on('load', () => {
+
+      countiesLayers.forEach(layer => map.current.setPaintProperty(layer, 'fill-color', [
+        "case",
+        [
+          "has",
+          "TOTAL.12M.sold_count"
+        ],
+        [
+          "interpolate",
+          ["linear"],
+          [
+            "get",
+            "TOTAL.12M.sold_count"
+          ],
+          0,
+          "#0f9b4a",
+          15,
+          "#fecc08",
+          73,
+          "#f69938",
+          291,
+          "#f3663a"
+        ],
+        ["rgba", 0, 0, 0, 0]
+      ]))
+
+      map.current.setPaintProperty('states-totals', 'fill-color', [
+        "case",
+        [
+          "has",
+          "TOTAL.12M.sold_count"
+        ],
+        [
+          "interpolate",
+          ["linear"],
+          [
+            "get",
+            "TOTAL.12M.sold_count"
+          ],
+          353,
+          "#0f9b4a",
+          2562,
+          "#fecc08",
+          6395,
+          "#f69938",
+          17085,
+          "#f3663a"
+        ],
+        ["rgba", 0, 0, 0, 0]
+      ])
 
       map.current.on('mouseenter', ['states-totals', ...countiesLayers], () => {
         map.current.getCanvas().style.cursor = 'pointer';
