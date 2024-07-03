@@ -200,6 +200,7 @@ const MapComponent = () => {
       new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
         mapboxgl: mapboxgl,
+        countries: 'US'
       }),
       'bottom-left'
     );
