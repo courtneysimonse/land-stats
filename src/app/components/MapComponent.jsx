@@ -26,6 +26,8 @@ const MapComponent = () => {
   const [states, setStates] = useState(null);
   const [counties, setCounties] = useState(null);
 
+  const countiesLayers = ["counties-totals-part-1", "counties-totals-part-2"];
+
   const colors = [
     "#0f9b4a",
     "#fecc08",
@@ -254,7 +256,8 @@ const MapComponent = () => {
       let pendingCount = props[`${acreageRanges[acres]}.PENDING.for_sale_count`] ?? 0;
       listEl.appendChild(createLi("Pending Count: "+pendingCount.toLocaleString(), 'pending.for_sale_count'))
 
-      let str = 100*props[`${acreageRanges[acres]}.${timeFrames[time]}.list_sale_ratio`] ?? 0;
+      let strRaw = props[`${acreageRanges[acres]}.${timeFrames[time]}.list_sale_ratio`] ?? 0;
+      let str = 100*strRaw;
       listEl.appendChild(createLi("STR: "+ str.toFixed(0)+"%", 'list_sale_ratio'))
 
       let domSold = props[`${acreageRanges[acres]}.${timeFrames[time]}.sold_median_days_on_market`] ?? 0;
@@ -331,11 +334,11 @@ const MapComponent = () => {
 
     map.current.on('load', () => {
 
-      map.current.on('mouseenter', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], () => {
+      map.current.on('mouseenter', ['states-totals', ...countiesLayers, 'zip-totals-Zoom 5'], () => {
         map.current.getCanvas().style.cursor = 'pointer';
       });
   
-      map.current.on('mousemove', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], (e) => {
+      map.current.on('mousemove', ['states-totals', ...countiesLayers, 'zip-totals-Zoom 5'], (e) => {
         let popupContent = createPopup(e.features[0]);
   
         let highlighted = stat;
@@ -355,13 +358,13 @@ const MapComponent = () => {
   
       });
   
-      map.current.on('mouseleave', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], () => {
+      map.current.on('mouseleave', ['states-totals', ...countiesLayers, 'zip-totals-Zoom 5'], () => {
         map.current.getCanvas().style.cursor = '';
         tooltip.remove();
       });
   
       const popup = new mapboxgl.Popup({closeButton: true, className: 'map-tooltip'});
-      map.current.on('click', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], (e) => {
+      map.current.on('click', ['states-totals', ...countiesLayers, 'zip-totals-Zoom 5'], (e) => {
         tooltip.remove();
         
         let popupContent = createPopup(e.features[0]);
@@ -394,6 +397,10 @@ const MapComponent = () => {
         popup.setHTML(popupContent.outerHTML)
             .setLngLat(e.lngLat)
             .addTo(map.current)
+
+        if (countiesLayers.includes(e.features[0].layer.id)) {
+          
+        }
   
       });
     })
@@ -439,27 +446,27 @@ const MapComponent = () => {
       
     if (e.target.value == 'County') {
 
-        map.current.setLayoutProperty('counties-totals-part-1', 'visibility', 'visible');
-        map.current.setLayoutProperty('counties-totals-part-2', 'visibility', 'visible');
-        map.current.setLayoutProperty('counties-lines', 'visibility', 'visible');
-        // map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
-        map.current.setLayoutProperty('states-totals', 'visibility', 'none');
-        map.current.setFilter('states-totals', null);
+      countiesLayers.forEach(layer => map.current.setLayoutProperty(layer, 'visibility', 'visible'))
 
-        let legendTitle;
-        let breaks;
-        if (status == "Pending") {
-            legendTitle = `${e.target.value} Level - ${status} - ${statName}`;
-            breaks = calcBreaks(countiesMinMax[`${acreageRanges[acres]}.PENDING.${stat}`])
-        } else {
-            legendTitle = `${e.target.value} Level - ${status} - ${time} - ${statName}`; 
-            breaks = calcBreaks(countiesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`])
-        } 
+      map.current.setLayoutProperty('counties-lines', 'visibility', 'visible');
+      // map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
+      map.current.setLayoutProperty('states-totals', 'visibility', 'none');
+      map.current.setFilter('states-totals', null);
 
-        legendControl.updateScale(
-          breaks,
-          legendTitle
-        )
+      let legendTitle;
+      let breaks;
+      if (status == "Pending") {
+          legendTitle = `${e.target.value} Level - ${status} - ${statName}`;
+          breaks = calcBreaks(countiesMinMax[`${acreageRanges[acres]}.PENDING.${stat}`])
+      } else {
+          legendTitle = `${e.target.value} Level - ${status} - ${time} - ${statName}`; 
+          breaks = calcBreaks(countiesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`])
+      } 
+
+      legendControl.updateScale(
+        breaks,
+        legendTitle
+      )
     } else {
 
         // map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
