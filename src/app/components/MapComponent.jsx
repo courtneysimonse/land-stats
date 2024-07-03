@@ -334,11 +334,11 @@ const MapComponent = () => {
 
     map.current.on('load', () => {
 
-      map.current.on('mouseenter', ['states-totals', ...countiesLayers, 'zip-totals-Zoom 5'], () => {
+      map.current.on('mouseenter', ['states-totals', ...countiesLayers], () => {
         map.current.getCanvas().style.cursor = 'pointer';
       });
   
-      map.current.on('mousemove', ['states-totals', ...countiesLayers, 'zip-totals-Zoom 5'], (e) => {
+      map.current.on('mousemove', ['states-totals', ...countiesLayers], (e) => {
         let popupContent = createPopup(e.features[0]);
   
         let highlighted = stat;
@@ -358,13 +358,13 @@ const MapComponent = () => {
   
       });
   
-      map.current.on('mouseleave', ['states-totals', ...countiesLayers, 'zip-totals-Zoom 5'], () => {
+      map.current.on('mouseleave', ['states-totals', ...countiesLayers], () => {
         map.current.getCanvas().style.cursor = '';
         tooltip.remove();
       });
   
       const popup = new mapboxgl.Popup({closeButton: true, className: 'map-tooltip'});
-      map.current.on('click', ['states-totals', ...countiesLayers, 'zip-totals-Zoom 5'], (e) => {
+      map.current.on('click', ['states-totals', ...countiesLayers], (e) => {
         tooltip.remove();
         
         let popupContent = createPopup(e.features[0]);
