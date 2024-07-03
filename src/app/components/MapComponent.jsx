@@ -153,7 +153,7 @@ const MapComponent = () => {
       ['get', `${acreageRanges[acres]}.${timeFrames[time]}.${stat}`],
       ...categories.flatMap(category => [category.title, category.color])
       ],
-      '#0f9b4a'
+      ["rgba", 255, 255, 255, 0]
     ];
 
     mapLayers.forEach(l => {
@@ -330,6 +330,82 @@ const MapComponent = () => {
     const tooltip = new mapboxgl.Popup({closeButton: false, className: 'map-tooltip'});
 
     map.current.on('load', () => {
+
+      // set new color scheme
+      map.current.setPaintProperty('counties-totals-part-1', 'fill-color', [
+        "case",
+        [
+          "has",
+          "TOTAL.12M.sold_count"
+        ],
+        [
+          "interpolate",
+          ["linear"],
+          [
+            "get",
+            "TOTAL.12M.sold_count"
+          ],
+          0,
+          "#0f9b4a",
+          15,
+          "#fecc08",
+          73,
+          "#f69938",
+          291,
+          "#f3663a"
+        ],
+        ["rgba", 255, 255, 255, 0]
+      ])
+
+      map.current.setPaintProperty('counties-totals-part-2', 'fill-color', [
+        "case",
+        [
+          "has",
+          "TOTAL.12M.sold_count"
+        ],
+        [
+          "interpolate",
+          ["linear"],
+          [
+            "get",
+            "TOTAL.12M.sold_count"
+          ],
+          0,
+          "#0f9b4a",
+          15,
+          "#fecc08",
+          73,
+          "#f69938",
+          291,
+          "#f3663a"
+        ],
+        ["rgba", 255, 255, 255, 0]
+      ])
+
+      map.current.setPaintProperty('states-totals', 'fill-color', [
+        "case",
+        [
+          "has",
+          "TOTAL.12M.sold_count"
+        ],
+        [
+          "interpolate",
+          ["linear"],
+          [
+            "get",
+            "TOTAL.12M.sold_count"
+          ],
+          0,
+          "#0f9b4a",
+          15,
+          "#fecc08",
+          73,
+          "#f69938",
+          291,
+          "#f3663a"
+        ],
+        ["rgba", 255, 255, 255, 0]
+      ])
 
       map.current.on('mouseenter', ['states-totals', 'counties-totals-part-1', 'counties-totals-part-2', 'zip-totals-Zoom 5'], () => {
         map.current.getCanvas().style.cursor = 'pointer';
