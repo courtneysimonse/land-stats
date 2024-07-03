@@ -1,15 +1,24 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
+import { createRoot } from 'react-dom/client';
 import * as d3 from "d3-fetch";
 import LegendControl from "./LegendControl";
 import ZoomDisplayControl from "./ZoomDisplayControl";
 import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import { bbox } from "@turf/turf";
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 
 import "./MapComponent.css";
 
+const ZipButton = ({ onClick }) => {
+  return (
+    <button type="button" className="btn btn-primary" onClick={onClick}>
+      Zoom to ZIP Codes
+    </button>
+  );
+};
 
 const MapComponent = () => {
   const mapContainer = useRef(null);
@@ -25,6 +34,7 @@ const MapComponent = () => {
   const [countiesMinMax, setCountiesMinMax] = useState(null);
   const [states, setStates] = useState(null);
   const [counties, setCounties] = useState(null);
+  const popupContainer = useRef(null);
 
   const countiesLayers = ["counties-totals-part-1", "counties-totals-part-2"];
 
@@ -135,6 +145,14 @@ const MapComponent = () => {
     })
 
     return categories;
+  };
+
+  const handleButtonClick = (features) => {
+    const featureBbox = bbox(features[0])
+    map.current.fitBounds(featureBbox, {padding: 50});
+
+    map.current.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'visible');
+    map.current.setLayoutProperty('zip-labels', 'visibility', 'visible');
   };
 
 
@@ -340,7 +358,7 @@ const MapComponent = () => {
       });
   
       map.current.on('mousemove', ['states-totals', ...countiesLayers, 'zip-totals-Zoom 5'], (e) => {
-        let popupContent = createPopup(e.features[0]);
+        popupContainer.current = createPopup(e.features[0]);
   
         let highlighted = stat;
         if (status == "Pending") {
@@ -348,12 +366,12 @@ const MapComponent = () => {
         }
   
         // add highlight
-        let selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
+        const selectedLi = popupContainer.current.querySelector(`[data-stat="${highlighted}"]`);
         if (selectedLi) {
             selectedLi.classList.add('selected');   
         }
   
-        tooltip.setHTML(popupContent.outerHTML)
+        tooltip.setDOMContent(popupContainer.current)
             .setLngLat(e.lngLat)
             .addTo(map.current)
   
@@ -368,9 +386,9 @@ const MapComponent = () => {
       map.current.on('click', ['states-totals', ...countiesLayers, 'zip-totals-Zoom 5'], (e) => {
         tooltip.remove();
         
-        let popupContent = createPopup(e.features[0]);
+        popupContainer.current = createPopup(e.features[0]);
   
-        let popupBtn = document.createElement('a');
+        const popupBtn = document.createElement('a');
         popupBtn.classList = 'btn btn-primary';
         popupBtn.innerText = "Go to Table";
   
@@ -388,20 +406,25 @@ const MapComponent = () => {
         }
   
         // add highlight
-        let selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
+        let selectedLi = popupContainer.current.querySelector(`[data-stat="${highlighted}"]`);
         if (selectedLi) {
             selectedLi.classList.add('selected');   
         }
   
-        popupContent.appendChild(popupBtn);
-  
-        popup.setHTML(popupContent.outerHTML)
-            .setLngLat(e.lngLat)
-            .addTo(map.current)
+        popupContainer.current.appendChild(popupBtn);
 
         if (countiesLayers.includes(e.features[0].layer.id)) {
-          
+          const features = e.features;
+          const buttonContainer = document.createElement('div');
+          popupContainer.current.appendChild(buttonContainer);
+          const root = createRoot(buttonContainer);
+          root.render(<ZipButton onClick={() => handleButtonClick(features)} />);
         }
+  
+        const popup = new mapboxgl.Popup({ closeOnClick: false })
+          .setDOMContent(popupContainer.current)
+          .setLngLat(e.lngLat)
+          .addTo(map.current);
   
       });
     })

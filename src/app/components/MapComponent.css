@@ -52,13 +52,14 @@
     align-items: center;
 }
 
-.mapboxgl-popup-content a.btn {
+.mapboxgl-popup-content a.btn, .mapboxgl-popup-content button.btn {
     background-color: #0e9a48;
     border-color: #0e9a48;
     border-radius: 10pt;
     color: #fff;
     padding: 10px;
     text-decoration: none;
+    margin: 2px;
 }
 
 .mapboxgl-popup-content .selected {
