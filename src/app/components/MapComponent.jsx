@@ -151,14 +151,14 @@ const MapComponent = () => {
     const featureBbox = bbox(features[0])
     map.current.fitBounds(featureBbox, {padding: 50});
 
-    map.current.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'visible');
+    map.current.setLayoutProperty('zip-lines', 'visibility', 'visible');
     map.current.setLayoutProperty('zip-labels', 'visibility', 'visible');
   };
 
 
   const updateColors = useCallback((geo) => {
 
-    const mapLayers = geo === "State" ? ['states-totals'] : ['counties-totals-part-1', 'counties-totals-part-2'];
+    const mapLayers = geo === "State" ? ['states-totals'] : countiesLayers;
     const varName = status === "Pending" ? `${acreageRanges[acres]}.PENDING.${stat}` : `${acreageRanges[acres]}.${timeFrames[time]}.${stat}`
     const data = geo === "State" ? statesMinMax[varName] : countiesMinMax[varName];
     
@@ -332,18 +332,18 @@ const MapComponent = () => {
 
     // map.current.on('zoomend', () => {
     //   if (map.current.getZoom() >= 9) {
-    //     map.current.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'visible');
+    //     map.current.setLayoutProperty('zip-totals', 'visibility', 'visible');
     //     map.current.setLayoutProperty('counties-totals', 'visibility', 'none');
     //     map.current.setLayoutProperty('states-totals', 'visibility', 'none');
     //     map.current.setFilter('states-totals', null);
     //   } else if (map.current.getZoom() >= 5) {
     //     map.current.setLayoutProperty('counties-totals', 'visibility', 'visible');
-    //     map.current.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
+    //     map.current.setLayoutProperty('zip-totals', 'visibility', 'none');
     //     map.current.setLayoutProperty('states-totals', 'visibility', 'none');
     //     map.current.setFilter('states-totals', null);
     //     legend.updateScale(calcBreaks(countiesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`]));
     //   } else {
-    //     map.current.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
+    //     map.current.setLayoutProperty('zip-totals', 'visibility', 'none');
     //     map.current.setLayoutProperty('counties-totals', 'visibility', 'none');
     //     map.current.setLayoutProperty('states-totals', 'visibility', 'visible');
     //     map.current.setFilter('states-totals', null);
@@ -379,13 +379,13 @@ const MapComponent = () => {
   
       });
   
-      map.current.on('mouseleave', ['states-totals', ...countiesLayers, 'zip-totals-Zoom 5'], () => {
+      map.current.on('mouseleave', ['states-totals', ...countiesLayers, 'zip-totals'], () => {
         map.current.getCanvas().style.cursor = '';
         tooltip.remove();
       });
   
       const popup = new mapboxgl.Popup({closeButton: true, className: 'map-tooltip'});
-      map.current.on('click', ['states-totals', ...countiesLayers, 'zip-totals-Zoom 5'], (e) => {
+      map.current.on('click', ['states-totals', ...countiesLayers, 'zip-totals'], (e) => {
         tooltip.remove();
         popup.remove();
         
@@ -476,7 +476,8 @@ const MapComponent = () => {
       countiesLayers.forEach(layer => map.current.setLayoutProperty(layer, 'visibility', 'visible'));
 
       map.current.setLayoutProperty('counties-lines', 'visibility', 'visible');
-      map.current.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
+      map.current.setLayoutProperty('zip-lines', 'visibility', 'none');
+      map.current.setLayoutProperty('zip-totals', 'visibility', 'none');
       map.current.setLayoutProperty('states-totals', 'visibility', 'none');
       map.current.setFilter('states-totals', null);
 
@@ -496,7 +497,8 @@ const MapComponent = () => {
       )
     } else {
 
-        map.current.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
+      map.current.setLayoutProperty('zip-lines', 'visibility', 'none');
+        map.current.setLayoutProperty('zip-totals', 'visibility', 'none');
         countiesLayers.forEach(layer => map.current.setLayoutProperty(layer, 'visibility', 'visible'))
         map.current.setLayoutProperty('counties-lines', 'visibility', 'none');
         map.current.setLayoutProperty('states-totals', 'visibility', 'visible');
