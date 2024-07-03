@@ -373,9 +373,9 @@ const MapComponent = () => {
         // add link to button
         if (e.features[0].layer.id == 'states-totals') {
           let stateAbbrev = states.find(x=> x["GEOID"] == e.features[0].properties["GEOID"]).STUSPS
-          popupBtn.setAttribute('href', `/search-results?state=${stateAbbrev}`)
+          popupBtn.setAttribute('href', `https://webapp.land-stats.com/search-results?state=${stateAbbrev}`)
         } else {
-            popupBtn.setAttribute('href', `/search-results?county=${e.features[0].id}`)
+            popupBtn.setAttribute('href', `https://webapp.land-stats.com/search-results?county=${e.features[0].id}`)
         }
   
         let highlighted = stat;
