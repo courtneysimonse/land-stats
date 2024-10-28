@@ -44,7 +44,7 @@ const SimpleMapComponent = () => {
 
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/landstats/clxw5vmdi04l001qjeko78ms6',
+      style: 'mapbox://styles/landstats/cm2tbmzu500ld01phd9d915es',
       // bounds: [[-128, 22], [-63, 55]],
       projection: 'mercator'
     });
@@ -64,12 +64,12 @@ const SimpleMapComponent = () => {
 
     map.current.on('load', () => {
   
-      map.current.on('mouseenter', ['states-fill', 'counties'], () => {
+      map.current.on('mouseenter', ['states-fill', 'counties-fill'], () => {
         map.current.getCanvas().style.cursor = 'pointer';
         
       });
   
-      map.current.on('mousemove', ['states-fill', 'counties'], (e) => {
+      map.current.on('mousemove', ['states-fill', 'counties-fill'], (e) => {
         if (e.features.length === 0) return;
         
         let popupContent = createPopup(e.features[0]);
@@ -79,7 +79,7 @@ const SimpleMapComponent = () => {
           .addTo(map.current);
   
         if (e.features.length > 0 && e.features[0].layer.id == "states-fill") {
-          map.current.setPaintProperty("counties", "fill-color", 
+          map.current.setPaintProperty("counties-fill", "fill-color", 
             [
               "case",
               ["==", ["to-number", ["get", "ST_GEOID"]], e.features[0].id], "#ffe168",
@@ -87,7 +87,7 @@ const SimpleMapComponent = () => {
             ]
           )
         } else if (e.features.length > 0) {
-          map.current.setPaintProperty("counties", "fill-color", 
+          map.current.setPaintProperty("counties-fill", "fill-color", 
             [
               "case",
               ["==", ["to-number", ["id"]], e.features[0].id], "#ffe168",
@@ -99,7 +99,7 @@ const SimpleMapComponent = () => {
   
       });
   
-      map.current.on('mouseleave', ['states-fill', 'counties'], () => {
+      map.current.on('mouseleave', ['states-fill', 'counties-fill'], () => {
         map.current.getCanvas().style.cursor = '';
         tooltip.remove();
 
@@ -107,7 +107,7 @@ const SimpleMapComponent = () => {
           "#48ba2d"
       )
 
-        map.current.setPaintProperty("counties", "fill-color", 
+        map.current.setPaintProperty("counties-fill", "fill-color", 
             "#48ba2d"
         )
       });
@@ -127,7 +127,7 @@ const SimpleMapComponent = () => {
 
 
       if (e.features.length > 0) {
-        map.current.setPaintProperty("counties", "fill-opacity", 
+        map.current.setPaintProperty("counties-fill", "fill-opacity", 
           [
             "case",
             ["==", ["to-number", ["get", "ST_GEOID"]], e.features[0].id], 1,
