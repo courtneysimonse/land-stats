@@ -378,7 +378,7 @@ const MapComponent = () => {
           let stateAbbrev = states.find(x=> x["GEOID"] == e.features[0].properties["GEOID"]).STUSPS
           popupBtn.setAttribute('href', `/search-results?state=${stateAbbrev}`)
         } else {
-            popupBtn.setAttribute('href', `/search-results?county=${e.features[0].id}`)
+          popupBtn.setAttribute('href', `https://webapp.land-stats.com/search-results?county=${e.features[0].id.toString().padStart(5, '0')}`)
         }
   
         let highlighted = stat;
