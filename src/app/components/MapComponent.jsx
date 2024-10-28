@@ -256,7 +256,7 @@ const MapComponent = () => {
       let pendingCount = props[`${acreageRanges[acres]}.PENDING.for_sale_count`] ?? 0;
       listEl.appendChild(createLi("Pending Count: "+pendingCount.toLocaleString(), 'pending.for_sale_count'))
 
-      let strRaw = props[`${acreageRanges[acres]}.${timeFrames[time]}.list_sale_ratio`] ?? 0;
+      let strRaw = soldCount / forSaleCount;
       let str = 100*strRaw;
       listEl.appendChild(createLi("STR: "+ str.toFixed(0)+"%", 'list_sale_ratio'))
 
