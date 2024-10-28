@@ -186,7 +186,7 @@ const MapComponent = () => {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/landstats/clvfmorch02dd01pecuq9e0hr',
-      bounds: [[-128, 22], [-63, 45]],
+      bounds: [[-128, 22], [-63, 50]],
       projection: 'mercator'
     });
     
