@@ -435,9 +435,9 @@ const MapComponent = () => {
         // add link to button
         if (e.features[0].layer.id == 'states-totals') {
           let stateAbbrev = states.find(x=> x["GEOID"] == e.features[0].properties["GEOID"]).STUSPS
-          popupBtn.setAttribute('href', `${process.env.NEXT_PUBLIC_BASE_URL}/search-results?state=${stateAbbrev}`)
+          popupBtn.setAttribute('href', `${process.env.NEXT_PUBLIC_BASE_URL}search-results?state=${stateAbbrev}`)
         } else {
-          popupBtn.setAttribute('href', `${process.env.NEXT_PUBLIC_BASE_URL}/search-results?county=${e.features[0].id.toString().padStart(5, '0')}`)
+          popupBtn.setAttribute('href', `${process.env.NEXT_PUBLIC_BASE_URL}search-results?county=${e.features[0].id.toString().padStart(5, '0')}`)
         }
   
         let highlighted = stat;
