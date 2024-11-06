@@ -14,79 +14,79 @@
   },
   "1-2.12M.sold_count": {
     "min": 0,
-    "max": 40,
+    "max": 51,
     "breaks": [
       1,
-      8
+      9
     ]
   },
   "1-2.12M.for_sale_count": {
     "min": 0,
-    "max": 41,
+    "max": 49,
     "breaks": [
       1,
-      8
+      9
     ]
   },
   "1-2.12M.sold_median_price": {
     "min": 0,
-    "max": 179500,
+    "max": 217500,
     "breaks": [
-      14000,
-      45000
+      15500,
+      48000
     ]
   },
   "1-2.12M.for_sale_median_price": {
     "min": 0,
-    "max": 259500,
+    "max": 292450,
     "breaks": [
-      28500,
-      74900
+      28900,
+      75000
     ]
   },
   "1-2.12M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 131405,
+    "max": 158100,
     "breaks": [
-      10441,
-      33920
+      11758,
+      35030
     ]
   },
   "1-2.12M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 189076,
+    "max": 217662,
     "breaks": [
-      20000,
-      53862
+      20127,
+      54878
     ]
   },
   "1-2.12M.sold_median_days_on_market": {
     "min": 0,
-    "max": 325,
+    "max": 386,
     "breaks": [
-      31,
+      33,
       103
     ]
   },
   "1-2.12M.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 369,
+    "max": 454,
     "breaks": [
-      40,
-      126
+      33,
+      124
     ]
   },
   "1-2.12M.list_sale_ratio": {
     "min": 0,
-    "max": 2.82,
+    "max": 3.3,
     "breaks": [
       0,
-      0.79
+      0.8
     ]
   },
   "1-2.12M.absorption_rate": {
     "min": 0,
-    "max": 3.5294,
+    "max": 4.5,
     "breaks": [
       0,
       1
@@ -94,103 +94,103 @@
   },
   "1-2.12M.months_of_supply": {
     "min": 0,
-    "max": 33.8182,
+    "max": 40.8,
     "breaks": [
       0,
-      9.4737
+      9.6
     ]
   },
   "1-2.24M.sold_count": {
     "min": 0,
-    "max": 81,
+    "max": 100,
     "breaks": [
       2,
-      16
+      17
     ]
   },
   "1-2.24M.for_sale_count": {
     "min": 0,
-    "max": 46,
+    "max": 55,
     "breaks": [
       2,
-      10
+      11
     ]
   },
   "1-2.24M.sold_median_price": {
     "min": 0,
-    "max": 165000,
+    "max": 191250,
     "breaks": [
       20000,
-      47500
+      49000
     ]
   },
   "1-2.24M.for_sale_median_price": {
     "min": 0,
-    "max": 262500,
+    "max": 297450,
     "breaks": [
-      29900,
-      74900
+      29500,
+      75000
     ]
   },
   "1-2.24M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 118408,
+    "max": 140000,
     "breaks": [
-      14654,
-      34678
+      14919,
+      35307
     ]
   },
   "1-2.24M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 189076,
+    "max": 218094,
     "breaks": [
-      21163,
-      54500
+      21127,
+      55093
     ]
   },
   "1-2.24M.sold_median_days_on_market": {
     "min": 0,
-    "max": 281,
+    "max": 330,
     "breaks": [
-      56,
-      107
+      57,
+      110
     ]
   },
   "1-2.24M.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 476,
+    "max": 583,
     "breaks": [
-      47,
-      150
+      44,
+      155
     ]
   },
   "1-2.24M.list_sale_ratio": {
     "min": 0,
-    "max": 1.9,
+    "max": 2.4,
     "breaks": [
-      0.12,
+      0.1,
       0.5
     ]
   },
   "1-2.24M.absorption_rate": {
     "min": 0,
-    "max": 6.0476,
+    "max": 7.5,
     "breaks": [
       0.3,
-      1.8333
+      1.9
     ]
   },
   "1-2.24M.months_of_supply": {
     "min": 0,
-    "max": 45.6,
+    "max": 54.9,
     "breaks": [
-      3,
+      3.4,
       12
     ]
   },
   "1-2.30d.sold_count": {
     "min": 0,
-    "max": 2,
+    "max": 3,
     "breaks": [
       0,
       0
@@ -198,7 +198,7 @@
   },
   "1-2.30d.for_sale_count": {
     "min": 0,
-    "max": 7,
+    "max": 9,
     "breaks": [
       0,
       1
@@ -206,7 +206,7 @@
   },
   "1-2.30d.sold_median_price": {
     "min": 0,
-    "max": 96000,
+    "max": 119154,
     "breaks": [
       0,
       0
@@ -214,15 +214,15 @@
   },
   "1-2.30d.for_sale_median_price": {
     "min": 0,
-    "max": 222500,
+    "max": 252900,
     "breaks": [
       0,
-      43000
+      48500
     ]
   },
   "1-2.30d.sold_median_price_per_acre": {
     "min": 0,
-    "max": 70128,
+    "max": 85443,
     "breaks": [
       0,
       0
@@ -230,23 +230,23 @@
   },
   "1-2.30d.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 164234,
+    "max": 189394,
     "breaks": [
       0,
-      32439
+      34696
     ]
   },
   "1-2.30d.sold_median_days_on_market": {
-    "min": 0,
-    "max": 142,
+    "min": -13,
+    "max": 174,
     "breaks": [
       0,
       0
     ]
   },
   "1-2.30d.for_sale_median_days_on_market": {
-    "min": 0,
-    "max": 50,
+    "min": -10,
+    "max": 57,
     "breaks": [
       0,
       12
@@ -254,7 +254,7 @@
   },
   "1-2.30d.list_sale_ratio": {
     "min": 0,
-    "max": 2,
+    "max": 2.7,
     "breaks": [
       0,
       0
@@ -262,7 +262,7 @@
   },
   "1-2.30d.absorption_rate": {
     "min": 0,
-    "max": 0.625,
+    "max": 0.8,
     "breaks": [
       0,
       0
@@ -270,7 +270,7 @@
   },
   "1-2.30d.months_of_supply": {
     "min": 0,
-    "max": 2,
+    "max": 3,
     "breaks": [
       0,
       0
@@ -278,15 +278,15 @@
   },
   "1-2.36M.sold_count": {
     "min": 0,
-    "max": 134,
+    "max": 167,
     "breaks": [
       4,
-      26
+      28
     ]
   },
   "1-2.36M.for_sale_count": {
     "min": 0,
-    "max": 51,
+    "max": 58,
     "breaks": [
       2,
       11
@@ -294,79 +294,79 @@
   },
   "1-2.36M.sold_median_price": {
     "min": 0,
-    "max": 155000,
+    "max": 181250,
     "breaks": [
-      22000,
-      47500
+      22250,
+      49500
     ]
   },
   "1-2.36M.for_sale_median_price": {
     "min": 0,
-    "max": 264500,
+    "max": 297450,
     "breaks": [
       29900,
-      74950
+      75000
     ]
   },
   "1-2.36M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 115000,
+    "max": 136286,
     "breaks": [
-      15730,
-      34658
+      16000,
+      35714
     ]
   },
   "1-2.36M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 189076,
+    "max": 214444,
     "breaks": [
-      21484,
-      54545
+      21321,
+      55000
     ]
   },
   "1-2.36M.sold_median_days_on_market": {
     "min": 0,
-    "max": 285,
+    "max": 331,
     "breaks": [
-      67,
-      116
+      69,
+      118
     ]
   },
   "1-2.36M.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 512,
+    "max": 628,
     "breaks": [
-      48,
-      162
+      47,
+      164
     ]
   },
   "1-2.36M.list_sale_ratio": {
     "min": 0,
-    "max": 1.26,
+    "max": 1.7,
     "breaks": [
-      0.11,
-      0.34
+      0.1,
+      0.3
     ]
   },
   "1-2.36M.absorption_rate": {
     "min": 0,
-    "max": 9.8889,
+    "max": 12,
     "breaks": [
-      0.5714,
-      2.875
+      0.5,
+      3
     ]
   },
   "1-2.36M.months_of_supply": {
     "min": 0,
-    "max": 45.3333,
+    "max": 54,
     "breaks": [
       4,
-      12.0896
+      12.3
     ]
   },
   "1-2.6M.sold_count": {
     "min": 0,
-    "max": 20,
+    "max": 24,
     "breaks": [
       0,
       4
@@ -374,7 +374,7 @@
   },
   "1-2.6M.for_sale_count": {
     "min": 0,
-    "max": 30,
+    "max": 36,
     "breaks": [
       1,
       6
@@ -382,55 +382,55 @@
   },
   "1-2.6M.sold_median_price": {
     "min": 0,
-    "max": 170000,
+    "max": 197762,
     "breaks": [
       0,
-      40000
+      41000
     ]
   },
   "1-2.6M.for_sale_median_price": {
     "min": 0,
-    "max": 275000,
+    "max": 319900,
     "breaks": [
-      22500,
-      71450
+      23500,
+      74900
     ]
   },
   "1-2.6M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 122899,
+    "max": 145192,
     "breaks": [
       0,
-      29448
+      30000
     ]
   },
   "1-2.6M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 200000,
+    "max": 234112,
     "breaks": [
-      16000,
-      51724
+      16390,
+      52419
     ]
   },
   "1-2.6M.sold_median_days_on_market": {
     "min": 0,
-    "max": 322,
+    "max": 392,
     "breaks": [
       0,
-      90
+      92
     ]
   },
   "1-2.6M.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 240,
+    "max": 274,
     "breaks": [
-      17,
-      81
+      11,
+      76
     ]
   },
   "1-2.6M.list_sale_ratio": {
     "min": 0,
-    "max": 4,
+    "max": 4.8,
     "breaks": [
       0,
       1
@@ -438,15 +438,15 @@
   },
   "1-2.6M.absorption_rate": {
     "min": 0,
-    "max": 2.2857,
+    "max": 3,
     "breaks": [
       0,
-      0.5556
+      0.6
     ]
   },
   "1-2.6M.months_of_supply": {
     "min": 0,
-    "max": 24,
+    "max": 28,
     "breaks": [
       0,
       6
@@ -462,7 +462,7 @@
   },
   "1-2.7d.for_sale_count": {
     "min": 0,
-    "max": 0,
+    "max": 3,
     "breaks": [
       0,
       0
@@ -478,7 +478,7 @@
   },
   "1-2.7d.for_sale_median_price": {
     "min": 0,
-    "max": 0,
+    "max": 94250,
     "breaks": [
       0,
       0
@@ -494,7 +494,7 @@
   },
   "1-2.7d.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 0,
+    "max": 67647,
     "breaks": [
       0,
       0
@@ -510,7 +510,7 @@
   },
   "1-2.7d.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 0,
+    "max": 9,
     "breaks": [
       0,
       0
@@ -542,7 +542,7 @@
   },
   "1-2.90d.sold_count": {
     "min": 0,
-    "max": 10,
+    "max": 12,
     "breaks": [
       0,
       2
@@ -550,7 +550,7 @@
   },
   "1-2.90d.for_sale_count": {
     "min": 0,
-    "max": 20,
+    "max": 24,
     "breaks": [
       0,
       4
@@ -558,7 +558,7 @@
   },
   "1-2.90d.sold_median_price": {
     "min": 0,
-    "max": 150000,
+    "max": 177500,
     "breaks": [
       0,
       35000
@@ -566,39 +566,39 @@
   },
   "1-2.90d.for_sale_median_price": {
     "min": 0,
-    "max": 262000,
+    "max": 312000,
     "breaks": [
       0,
-      65000
+      69000
     ]
   },
   "1-2.90d.sold_median_price_per_acre": {
     "min": 0,
-    "max": 108837,
+    "max": 132353,
     "breaks": [
       0,
-      24653
+      25157
     ]
   },
   "1-2.90d.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 191588,
+    "max": 226352,
     "breaks": [
       0,
-      47262
+      49403
     ]
   },
   "1-2.90d.sold_median_days_on_market": {
     "min": 0,
-    "max": 287,
+    "max": 336,
     "breaks": [
       0,
-      64
+      68
     ]
   },
   "1-2.90d.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 141,
+    "max": 167,
     "breaks": [
       0,
       46
@@ -606,39 +606,39 @@
   },
   "1-2.90d.list_sale_ratio": {
     "min": 0,
-    "max": 3.75,
+    "max": 4.5,
     "breaks": [
       0,
-      0.81
+      0.9
     ]
   },
   "1-2.90d.absorption_rate": {
     "min": 0,
-    "max": 1.6667,
+    "max": 2,
     "breaks": [
       0,
-      0.3333
+      0.4
     ]
   },
   "1-2.90d.months_of_supply": {
     "min": 0,
-    "max": 11.25,
+    "max": 13.5,
     "breaks": [
       0,
-      2.4375
+      3
     ]
   },
   "1-2.PENDING.sold_count": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "1-2.PENDING.for_sale_count": {
     "min": 0,
-    "max": 5,
+    "max": 6,
     "breaks": [
       0,
       1
@@ -648,45 +648,45 @@
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "1-2.PENDING.for_sale_median_price": {
     "min": 0,
-    "max": 122500,
+    "max": 147500,
     "breaks": [
       0,
-      0
+      9000
     ]
   },
   "1-2.PENDING.sold_median_price_per_acre": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "1-2.PENDING.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 91429,
+    "max": 108428,
     "breaks": [
       0,
-      0
+      6494
     ]
   },
   "1-2.PENDING.sold_median_days_on_market": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "1-2.PENDING.for_sale_median_days_on_market": {
-    "min": 0,
-    "max": 229,
+    "min": -8,
+    "max": 231,
     "breaks": [
       0,
       0
@@ -696,37 +696,37 @@
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "1-2.PENDING.absorption_rate": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "1-2.PENDING.months_of_supply": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "2-5.12M.sold_count": {
     "min": 0,
-    "max": 46,
+    "max": 58,
     "breaks": [
-      1,
-      10
+      2,
+      11
     ]
   },
   "2-5.12M.for_sale_count": {
     "min": 0,
-    "max": 41,
+    "max": 49,
     "breaks": [
       2,
       10
@@ -734,175 +734,175 @@
   },
   "2-5.12M.sold_median_price": {
     "min": 0,
-    "max": 210000,
+    "max": 245000,
     "breaks": [
-      26450,
-      60500
+      27500,
+      62500
     ]
   },
   "2-5.12M.for_sale_median_price": {
     "min": 0,
-    "max": 336110,
+    "max": 380000,
     "breaks": [
-      43250,
-      99900
+      44450,
+      106900
     ]
   },
   "2-5.12M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 65574,
+    "max": 78000,
     "breaks": [
-      7995,
-      19194
+      8240,
+      19970
     ]
   },
   "2-5.12M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 108835,
+    "max": 128571,
     "breaks": [
-      13725,
-      32500
+      14000,
+      34199
     ]
   },
   "2-5.12M.sold_median_days_on_market": {
     "min": 0,
-    "max": 275,
+    "max": 332,
     "breaks": [
       46,
-      97
+      98
     ]
   },
   "2-5.12M.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 329,
+    "max": 420,
     "breaks": [
       48,
-      119
+      124
     ]
   },
   "2-5.12M.list_sale_ratio": {
     "min": 0,
-    "max": 2.62,
+    "max": 3,
     "breaks": [
       0.2,
-      0.79
+      0.8
     ]
   },
   "2-5.12M.absorption_rate": {
     "min": 0,
-    "max": 4,
+    "max": 5.1,
     "breaks": [
-      0.2143,
-      1.2
+      0.2,
+      1.3
     ]
   },
   "2-5.12M.months_of_supply": {
     "min": 0,
-    "max": 31.5,
+    "max": 37.3,
     "breaks": [
       2.4,
-      9.4286
+      9.3
     ]
   },
   "2-5.24M.sold_count": {
     "min": 0,
-    "max": 94,
+    "max": 116,
     "breaks": [
-      3,
-      21
+      4,
+      23
     ]
   },
   "2-5.24M.for_sale_count": {
     "min": 0,
-    "max": 48,
+    "max": 58,
     "breaks": [
       2,
-      11
+      12
     ]
   },
   "2-5.24M.sold_median_price": {
     "min": 0,
-    "max": 198000,
+    "max": 233500,
     "breaks": [
-      30000,
-      61500
+      31000,
+      63500
     ]
   },
   "2-5.24M.for_sale_median_price": {
     "min": 0,
-    "max": 325000,
+    "max": 380000,
     "breaks": [
       45000,
-      100000
+      107500
     ]
   },
   "2-5.24M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 62672,
+    "max": 73815,
     "breaks": [
-      9425,
-      19231
+      9504,
+      19850
     ]
   },
   "2-5.24M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 108173,
+    "max": 127600,
     "breaks": [
-      14186,
-      33203
+      14354,
+      34608
     ]
   },
   "2-5.24M.sold_median_days_on_market": {
     "min": 0,
-    "max": 228,
+    "max": 268,
     "breaks": [
       58,
-      98
+      100
     ]
   },
   "2-5.24M.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 424,
+    "max": 523,
     "breaks": [
       57,
-      145
+      153
     ]
   },
   "2-5.24M.list_sale_ratio": {
     "min": 0,
-    "max": 1.61,
+    "max": 1.9,
     "breaks": [
-      0.17,
-      0.48
+      0.2,
+      0.5
     ]
   },
   "2-5.24M.absorption_rate": {
     "min": 0,
-    "max": 7.1,
+    "max": 8.5,
     "breaks": [
-      0.5556,
-      2.1429
+      0.5,
+      2.2
     ]
   },
   "2-5.24M.months_of_supply": {
     "min": 0,
-    "max": 38.6087,
+    "max": 45.3,
     "breaks": [
       4,
-      11.4783
+      11.3
     ]
   },
   "2-5.30d.sold_count": {
     "min": 0,
-    "max": 2,
+    "max": 3,
     "breaks": [
       0,
-      0
+      1
     ]
   },
   "2-5.30d.for_sale_count": {
     "min": 0,
-    "max": 7,
+    "max": 9,
     "breaks": [
       0,
       2
@@ -910,39 +910,39 @@
   },
   "2-5.30d.sold_median_price": {
     "min": 0,
-    "max": 150000,
+    "max": 170000,
     "breaks": [
       0,
-      13750
+      18000
     ]
   },
   "2-5.30d.for_sale_median_price": {
     "min": 0,
-    "max": 320000,
+    "max": 380000,
     "breaks": [
       0,
-      69000
+      72900
     ]
   },
   "2-5.30d.sold_median_price_per_acre": {
     "min": 0,
-    "max": 46842,
+    "max": 52511,
     "breaks": [
       0,
-      3669
+      5000
     ]
   },
   "2-5.30d.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 98362,
+    "max": 116482,
     "breaks": [
       0,
-      20707
+      22516
     ]
   },
   "2-5.30d.sold_median_days_on_market": {
-    "min": 0,
-    "max": 164,
+    "min": -13,
+    "max": 194,
     "breaks": [
       0,
       0
@@ -950,15 +950,15 @@
   },
   "2-5.30d.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 50,
+    "max": 63,
     "breaks": [
       0,
-      13
+      14
     ]
   },
   "2-5.30d.list_sale_ratio": {
     "min": 0,
-    "max": 2.5,
+    "max": 3,
     "breaks": [
       0,
       0
@@ -974,7 +974,7 @@
   },
   "2-5.30d.months_of_supply": {
     "min": 0,
-    "max": 2.5,
+    "max": 3,
     "breaks": [
       0,
       0
@@ -982,15 +982,15 @@
   },
   "2-5.36M.sold_count": {
     "min": 0,
-    "max": 153,
+    "max": 186,
     "breaks": [
-      5,
-      35
+      6,
+      37
     ]
   },
   "2-5.36M.for_sale_count": {
     "min": 0,
-    "max": 48,
+    "max": 61,
     "breaks": [
       2,
       12
@@ -998,79 +998,79 @@
   },
   "2-5.36M.sold_median_price": {
     "min": 0,
-    "max": 187900,
+    "max": 215000,
     "breaks": [
       32000,
-      60000
+      62000
     ]
   },
   "2-5.36M.for_sale_median_price": {
     "min": 0,
-    "max": 330000,
+    "max": 387500,
     "breaks": [
-      45000,
-      100000
+      46000,
+      106950
     ]
   },
   "2-5.36M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 61562,
+    "max": 71429,
     "breaks": [
       9980,
-      19374
+      19860
     ]
   },
   "2-5.36M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 108173,
+    "max": 126714,
     "breaks": [
-      14483,
-      33333
+      14780,
+      34700
     ]
   },
   "2-5.36M.sold_median_days_on_market": {
     "min": 0,
-    "max": 240,
+    "max": 272,
     "breaks": [
-      66,
+      68,
       106
     ]
   },
   "2-5.36M.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 455,
+    "max": 562,
     "breaks": [
-      61,
-      154
+      60,
+      163
     ]
   },
   "2-5.36M.list_sale_ratio": {
     "min": 0,
-    "max": 1.1,
+    "max": 1.3,
     "breaks": [
-      0.13,
-      0.31
+      0.1,
+      0.3
     ]
   },
   "2-5.36M.absorption_rate": {
     "min": 0,
-    "max": 10.75,
+    "max": 13.2,
     "breaks": [
-      0.9907,
-      3.3929
+      0.8,
+      3.5
     ]
   },
   "2-5.36M.months_of_supply": {
     "min": 0,
-    "max": 39.375,
+    "max": 45,
     "breaks": [
-      4.5818,
-      11.25
+      4.4,
+      11.1
     ]
   },
   "2-5.6M.sold_count": {
     "min": 0,
-    "max": 22,
+    "max": 27,
     "breaks": [
       1,
       5
@@ -1078,7 +1078,7 @@
   },
   "2-5.6M.for_sale_count": {
     "min": 0,
-    "max": 31,
+    "max": 37,
     "breaks": [
       1,
       7
@@ -1086,55 +1086,55 @@
   },
   "2-5.6M.sold_median_price": {
     "min": 0,
-    "max": 225000,
+    "max": 263000,
     "breaks": [
-      0,
-      57500
+      9350,
+      59000
     ]
   },
   "2-5.6M.for_sale_median_price": {
     "min": 0,
-    "max": 337500,
+    "max": 400000,
     "breaks": [
-      38900,
-      97500
+      38500,
+      99950
     ]
   },
   "2-5.6M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 71066,
+    "max": 82787,
     "breaks": [
-      0,
-      17840
+      2165,
+      18116
     ]
   },
   "2-5.6M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 109504,
+    "max": 129357,
     "breaks": [
-      11824,
-      31380
+      12000,
+      32658
     ]
   },
   "2-5.6M.sold_median_days_on_market": {
     "min": 0,
-    "max": 314,
+    "max": 375,
     "breaks": [
       0,
-      95
+      97
     ]
   },
   "2-5.6M.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 235,
+    "max": 276,
     "breaks": [
-      28,
-      81
+      24,
+      78
     ]
   },
   "2-5.6M.list_sale_ratio": {
     "min": 0,
-    "max": 4,
+    "max": 4.5,
     "breaks": [
       0,
       1
@@ -1142,15 +1142,15 @@
   },
   "2-5.6M.absorption_rate": {
     "min": 0,
-    "max": 2.5,
+    "max": 3,
     "breaks": [
       0,
-      0.7
+      0.8
     ]
   },
   "2-5.6M.months_of_supply": {
     "min": 0,
-    "max": 24,
+    "max": 27,
     "breaks": [
       0,
       6
@@ -1166,7 +1166,7 @@
   },
   "2-5.7d.for_sale_count": {
     "min": 0,
-    "max": 2,
+    "max": 3,
     "breaks": [
       0,
       0
@@ -1182,7 +1182,7 @@
   },
   "2-5.7d.for_sale_median_price": {
     "min": 0,
-    "max": 118200,
+    "max": 146255,
     "breaks": [
       0,
       0
@@ -1198,7 +1198,7 @@
   },
   "2-5.7d.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 34783,
+    "max": 45000,
     "breaks": [
       0,
       0
@@ -1214,7 +1214,7 @@
   },
   "2-5.7d.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 5,
+    "max": 9,
     "breaks": [
       0,
       0
@@ -1246,15 +1246,15 @@
   },
   "2-5.90d.sold_count": {
     "min": 0,
-    "max": 12,
+    "max": 15,
     "breaks": [
       0,
-      2
+      3
     ]
   },
   "2-5.90d.for_sale_count": {
     "min": 0,
-    "max": 20,
+    "max": 24,
     "breaks": [
       1,
       5
@@ -1262,55 +1262,55 @@
   },
   "2-5.90d.sold_median_price": {
     "min": 0,
-    "max": 211500,
+    "max": 247300,
     "breaks": [
       0,
-      50500
+      52500
     ]
   },
   "2-5.90d.for_sale_median_price": {
     "min": 0,
-    "max": 369900,
+    "max": 434500,
     "breaks": [
-      27500,
-      95000
+      29500,
+      99000
     ]
   },
   "2-5.90d.sold_median_price_per_acre": {
     "min": 0,
-    "max": 66303,
+    "max": 79955,
     "breaks": [
       0,
-      16175
+      16352
     ]
   },
   "2-5.90d.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 118538,
+    "max": 140264,
     "breaks": [
-      8270,
-      30272
+      8696,
+      32059
     ]
   },
   "2-5.90d.sold_median_days_on_market": {
-    "min": 0,
-    "max": 285,
+    "min": -13,
+    "max": 354,
     "breaks": [
       0,
-      73
+      79
     ]
   },
   "2-5.90d.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 145,
+    "max": 168,
     "breaks": [
-      4,
-      47
+      2,
+      46
     ]
   },
   "2-5.90d.list_sale_ratio": {
     "min": 0,
-    "max": 4.17,
+    "max": 5,
     "breaks": [
       0,
       1
@@ -1318,15 +1318,15 @@
   },
   "2-5.90d.absorption_rate": {
     "min": 0,
-    "max": 1.875,
+    "max": 2.4,
     "breaks": [
       0,
-      0.4571
+      0.5
     ]
   },
   "2-5.90d.months_of_supply": {
     "min": 0,
-    "max": 12.5,
+    "max": 15,
     "breaks": [
       0,
       3
@@ -1336,101 +1336,101 @@
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "2-5.PENDING.for_sale_count": {
     "min": 0,
-    "max": 7,
+    "max": 9,
     "breaks": [
       0,
-      1
+      2
     ]
   },
   "2-5.PENDING.sold_median_price": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "2-5.PENDING.for_sale_median_price": {
     "min": 0,
-    "max": 187500,
+    "max": 225000,
     "breaks": [
       0,
-      27400
+      35000
     ]
   },
   "2-5.PENDING.sold_median_price_per_acre": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "2-5.PENDING.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 59480,
+    "max": 70423,
     "breaks": [
       0,
-      8333
+      10000
     ]
   },
   "2-5.PENDING.sold_median_days_on_market": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "2-5.PENDING.for_sale_median_days_on_market": {
-    "min": 0,
-    "max": 282,
+    "min": -1,
+    "max": 306,
     "breaks": [
       0,
-      24
+      0
     ]
   },
   "2-5.PENDING.list_sale_ratio": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "2-5.PENDING.absorption_rate": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "2-5.PENDING.months_of_supply": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "5-10.12M.sold_count": {
     "min": 0,
-    "max": 36,
+    "max": 43,
     "breaks": [
       1,
-      8
+      9
     ]
   },
   "5-10.12M.for_sale_count": {
     "min": 0,
-    "max": 28,
+    "max": 34,
     "breaks": [
       1,
       7
@@ -1438,87 +1438,87 @@
   },
   "5-10.12M.sold_median_price": {
     "min": 0,
-    "max": 312500,
+    "max": 374500,
     "breaks": [
-      35000,
-      85000
+      37500,
+      89950
     ]
   },
   "5-10.12M.for_sale_median_price": {
     "min": 0,
-    "max": 434500,
+    "max": 527450,
     "breaks": [
-      54500,
-      134000
+      55000,
+      137500
     ]
   },
   "5-10.12M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 45465,
+    "max": 53842,
     "breaks": [
-      5045,
-      12588
+      5242,
+      13115
     ]
   },
   "5-10.12M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 66274,
+    "max": 80402,
     "breaks": [
-      7860,
-      19700
+      7950,
+      19860
     ]
   },
   "5-10.12M.sold_median_days_on_market": {
     "min": 0,
-    "max": 282,
+    "max": 340,
     "breaks": [
-      38,
-      90
+      39,
+      92
     ]
   },
   "5-10.12M.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 352,
+    "max": 429,
     "breaks": [
-      37,
-      116
+      34,
+      115
     ]
   },
   "5-10.12M.list_sale_ratio": {
     "min": 0,
-    "max": 2.5,
+    "max": 3,
     "breaks": [
       0,
-      0.69
+      0.7
     ]
   },
   "5-10.12M.absorption_rate": {
     "min": 0,
-    "max": 4.1429,
+    "max": 5,
     "breaks": [
-      0.0217,
-      1.1975
+      0,
+      1.3
     ]
   },
   "5-10.12M.months_of_supply": {
     "min": 0,
-    "max": 30,
+    "max": 36,
     "breaks": [
       0,
-      8.3077
+      8.6
     ]
   },
   "5-10.24M.sold_count": {
     "min": 0,
-    "max": 71,
+    "max": 86,
     "breaks": [
       3,
-      16
+      17
     ]
   },
   "5-10.24M.for_sale_count": {
     "min": 0,
-    "max": 33,
+    "max": 40,
     "breaks": [
       1,
       8
@@ -1526,87 +1526,87 @@
   },
   "5-10.24M.sold_median_price": {
     "min": 0,
-    "max": 262000,
+    "max": 306334,
     "breaks": [
-      42500,
-      86250
+      44390,
+      89900
     ]
   },
   "5-10.24M.for_sale_median_price": {
     "min": 0,
-    "max": 437500,
+    "max": 520000,
     "breaks": [
-      57500,
-      135000
+      59000,
+      140800
     ]
   },
   "5-10.24M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 38645,
+    "max": 45114,
     "breaks": [
-      6179,
-      12500
+      6278,
+      12883
     ]
   },
   "5-10.24M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 66412,
+    "max": 80044,
     "breaks": [
-      8400,
-      19808
+      8500,
+      20030
     ]
   },
   "5-10.24M.sold_median_days_on_market": {
     "min": 0,
-    "max": 225,
+    "max": 260,
     "breaks": [
-      52,
-      94
+      54,
+      95
     ]
   },
   "5-10.24M.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 422,
+    "max": 520,
     "breaks": [
       42,
-      135
+      137
     ]
   },
   "5-10.24M.list_sale_ratio": {
     "min": 0,
-    "max": 1.62,
+    "max": 2,
     "breaks": [
-      0.13,
-      0.43
+      0.1,
+      0.5
     ]
   },
   "5-10.24M.absorption_rate": {
     "min": 0,
-    "max": 7.5,
+    "max": 9,
     "breaks": [
-      0.4286,
-      2.2
+      0.5,
+      2.3
     ]
   },
   "5-10.24M.months_of_supply": {
     "min": 0,
-    "max": 39,
+    "max": 45,
     "breaks": [
-      3.0545,
-      10.2857
+      3,
+      10.3
     ]
   },
   "5-10.30d.sold_count": {
     "min": 0,
-    "max": 2,
+    "max": 3,
     "breaks": [
       0,
-      0
+      1
     ]
   },
   "5-10.30d.for_sale_count": {
     "min": 0,
-    "max": 5,
+    "max": 9,
     "breaks": [
       0,
       1
@@ -1614,23 +1614,23 @@
   },
   "5-10.30d.sold_median_price": {
     "min": 0,
-    "max": 171500,
+    "max": 217250,
     "breaks": [
       0,
-      0
+      5000
     ]
   },
   "5-10.30d.for_sale_median_price": {
     "min": 0,
-    "max": 367000,
+    "max": 440000,
     "breaks": [
       0,
-      79000
+      80000
     ]
   },
   "5-10.30d.sold_median_price_per_acre": {
     "min": 0,
-    "max": 24630,
+    "max": 30584,
     "breaks": [
       0,
       0
@@ -1638,15 +1638,15 @@
   },
   "5-10.30d.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 53455,
+    "max": 64438,
     "breaks": [
       0,
-      11000
+      11810
     ]
   },
   "5-10.30d.sold_median_days_on_market": {
     "min": 0,
-    "max": 130,
+    "max": 156,
     "breaks": [
       0,
       0
@@ -1654,15 +1654,15 @@
   },
   "5-10.30d.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 46,
+    "max": 55,
     "breaks": [
       0,
-      11
+      12
     ]
   },
   "5-10.30d.list_sale_ratio": {
     "min": 0,
-    "max": 1.25,
+    "max": 2,
     "breaks": [
       0,
       0
@@ -1670,7 +1670,7 @@
   },
   "5-10.30d.absorption_rate": {
     "min": 0,
-    "max": 0.7059,
+    "max": 0.8,
     "breaks": [
       0,
       0
@@ -1678,7 +1678,7 @@
   },
   "5-10.30d.months_of_supply": {
     "min": 0,
-    "max": 1.25,
+    "max": 2,
     "breaks": [
       0,
       0
@@ -1686,15 +1686,15 @@
   },
   "5-10.36M.sold_count": {
     "min": 0,
-    "max": 114,
+    "max": 138,
     "breaks": [
-      4,
-      26
+      5,
+      28
     ]
   },
   "5-10.36M.for_sale_count": {
     "min": 0,
-    "max": 33,
+    "max": 40,
     "breaks": [
       1,
       8
@@ -1702,79 +1702,79 @@
   },
   "5-10.36M.sold_median_price": {
     "min": 0,
-    "max": 249500,
+    "max": 290000,
     "breaks": [
       45000,
-      83675
+      86750
     ]
   },
   "5-10.36M.for_sale_median_price": {
     "min": 0,
-    "max": 437000,
+    "max": 520000,
     "breaks": [
-      58750,
-      136950
+      59900,
+      144500
     ]
   },
   "5-10.36M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 36350,
+    "max": 42273,
     "breaks": [
-      6429,
-      12270
+      6500,
+      12500
     ]
   },
   "5-10.36M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 65934,
+    "max": 80502,
     "breaks": [
-      8500,
-      19987
+      8710,
+      20500
     ]
   },
   "5-10.36M.sold_median_days_on_market": {
     "min": 0,
-    "max": 220,
+    "max": 257,
     "breaks": [
-      60,
-      98
+      62,
+      100
     ]
   },
   "5-10.36M.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 445,
+    "max": 546,
     "breaks": [
-      44,
-      140
+      43,
+      143
     ]
   },
   "5-10.36M.list_sale_ratio": {
     "min": 0,
-    "max": 1,
+    "max": 1.2,
     "breaks": [
       0.1,
-      0.29
+      0.3
     ]
   },
   "5-10.36M.absorption_rate": {
     "min": 0,
-    "max": 11.9,
+    "max": 14.3,
     "breaks": [
-      0.8333,
-      3.5556
+      0.7,
+      3.6
     ]
   },
   "5-10.36M.months_of_supply": {
     "min": 0,
-    "max": 36,
+    "max": 42,
     "breaks": [
       3.6,
-      10.2857
+      10.3
     ]
   },
   "5-10.6M.sold_count": {
     "min": 0,
-    "max": 17,
+    "max": 21,
     "breaks": [
       0,
       4
@@ -1782,7 +1782,7 @@
   },
   "5-10.6M.for_sale_count": {
     "min": 0,
-    "max": 22,
+    "max": 27,
     "breaks": [
       1,
       5
@@ -1790,55 +1790,55 @@
   },
   "5-10.6M.sold_median_price": {
     "min": 0,
-    "max": 287500,
+    "max": 345000,
     "breaks": [
       0,
-      77500
+      80000
     ]
   },
   "5-10.6M.for_sale_median_price": {
     "min": 0,
-    "max": 467450,
+    "max": 550000,
     "breaks": [
-      47000,
-      129590
+      45000,
+      132350
     ]
   },
   "5-10.6M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 41905,
+    "max": 50236,
     "breaks": [
       0,
-      11150
+      11443
     ]
   },
   "5-10.6M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 71119,
+    "max": 85000,
     "breaks": [
-      6490,
-      18854
+      6540,
+      19500
     ]
   },
   "5-10.6M.sold_median_days_on_market": {
     "min": 0,
-    "max": 284,
+    "max": 342,
     "breaks": [
       0,
-      85
+      86
     ]
   },
   "5-10.6M.for_sale_median_days_on_market": {
-    "min": 0,
-    "max": 230,
+    "min": -16,
+    "max": 259,
     "breaks": [
-      15,
-      76
+      12,
+      73
     ]
   },
   "5-10.6M.list_sale_ratio": {
     "min": 0,
-    "max": 3.44,
+    "max": 3.9,
     "breaks": [
       0,
       1
@@ -1846,15 +1846,15 @@
   },
   "5-10.6M.absorption_rate": {
     "min": 0,
-    "max": 2.5,
+    "max": 3,
     "breaks": [
       0,
-      0.6786
+      0.7
     ]
   },
   "5-10.6M.months_of_supply": {
     "min": 0,
-    "max": 20.6667,
+    "max": 24,
     "breaks": [
       0,
       6
@@ -1870,7 +1870,7 @@
   },
   "5-10.7d.for_sale_count": {
     "min": 0,
-    "max": 0,
+    "max": 3,
     "breaks": [
       0,
       0
@@ -1886,7 +1886,7 @@
   },
   "5-10.7d.for_sale_median_price": {
     "min": 0,
-    "max": 0,
+    "max": 107900,
     "breaks": [
       0,
       0
@@ -1902,7 +1902,7 @@
   },
   "5-10.7d.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 0,
+    "max": 14298,
     "breaks": [
       0,
       0
@@ -1950,7 +1950,7 @@
   },
   "5-10.90d.sold_count": {
     "min": 0,
-    "max": 10,
+    "max": 12,
     "breaks": [
       0,
       2
@@ -1958,7 +1958,7 @@
   },
   "5-10.90d.for_sale_count": {
     "min": 0,
-    "max": 15,
+    "max": 18,
     "breaks": [
       0,
       3
@@ -1966,87 +1966,87 @@
   },
   "5-10.90d.sold_median_price": {
     "min": 0,
-    "max": 250000,
+    "max": 300000,
     "breaks": [
       0,
-      66250
+      69900
     ]
   },
   "5-10.90d.for_sale_median_price": {
     "min": 0,
-    "max": 439500,
+    "max": 536450,
     "breaks": [
       0,
-      114500
+      123752
     ]
   },
   "5-10.90d.sold_median_price_per_acre": {
     "min": 0,
-    "max": 37852,
+    "max": 45762,
     "breaks": [
       0,
-      9519
+      9852
     ]
   },
   "5-10.90d.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 67665,
+    "max": 80645,
     "breaks": [
       0,
-      16931
+      17980
     ]
   },
   "5-10.90d.sold_median_days_on_market": {
     "min": 0,
-    "max": 245,
+    "max": 303,
     "breaks": [
       0,
-      59
+      62
     ]
   },
   "5-10.90d.for_sale_median_days_on_market": {
-    "min": 0,
-    "max": 139,
+    "min": -16,
+    "max": 161,
     "breaks": [
       0,
-      44
+      43
     ]
   },
   "5-10.90d.list_sale_ratio": {
     "min": 0,
-    "max": 3.57,
+    "max": 4.1,
     "breaks": [
       0,
-      0.83
+      1
     ]
   },
   "5-10.90d.absorption_rate": {
     "min": 0,
-    "max": 1.7778,
+    "max": 2.4,
     "breaks": [
       0,
-      0.375
+      0.5
     ]
   },
   "5-10.90d.months_of_supply": {
     "min": 0,
-    "max": 10.5,
+    "max": 12.4,
     "breaks": [
       0,
-      2.5
+      3
     ]
   },
   "5-10.PENDING.sold_count": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "5-10.PENDING.for_sale_count": {
     "min": 0,
-    "max": 5,
+    "max": 6,
     "breaks": [
       0,
       1
@@ -2056,45 +2056,45 @@
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "5-10.PENDING.for_sale_median_price": {
     "min": 0,
-    "max": 220000,
+    "max": 265000,
     "breaks": [
       0,
-      15000
+      30000
     ]
   },
   "5-10.PENDING.sold_median_price_per_acre": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "5-10.PENDING.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 31598,
+    "max": 38625,
     "breaks": [
       0,
-      977
+      3997
     ]
   },
   "5-10.PENDING.sold_median_days_on_market": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "5-10.PENDING.for_sale_median_days_on_market": {
-    "min": 0,
-    "max": 212,
+    "min": -16,
+    "max": 227,
     "breaks": [
       0,
       0
@@ -2104,29 +2104,29 @@
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "5-10.PENDING.absorption_rate": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "5-10.PENDING.months_of_supply": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "10-20.12M.sold_count": {
     "min": 0,
-    "max": 27,
+    "max": 36,
     "breaks": [
       1,
       7
@@ -2134,7 +2134,7 @@
   },
   "10-20.12M.for_sale_count": {
     "min": 0,
-    "max": 21,
+    "max": 25,
     "breaks": [
       1,
       5
@@ -2142,87 +2142,87 @@
   },
   "10-20.12M.sold_median_price": {
     "min": 0,
-    "max": 406000,
+    "max": 495000,
     "breaks": [
-      44998,
-      125000
+      47500,
+      129000
     ]
   },
   "10-20.12M.for_sale_median_price": {
     "min": 0,
-    "max": 625000,
+    "max": 750000,
     "breaks": [
-      70000,
-      185000
+      75000,
+      189950
     ]
   },
   "10-20.12M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 29949,
+    "max": 36224,
     "breaks": [
-      3182,
-      9079
+      3444,
+      9265
     ]
   },
   "10-20.12M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 46792,
+    "max": 55827,
     "breaks": [
-      4975,
-      13300
+      5330,
+      13750
     ]
   },
   "10-20.12M.sold_median_days_on_market": {
     "min": 0,
-    "max": 289,
+    "max": 346,
     "breaks": [
-      34,
+      35,
       92
     ]
   },
   "10-20.12M.for_sale_median_days_on_market": {
-    "min": 0,
-    "max": 346,
+    "min": -12,
+    "max": 404,
     "breaks": [
-      26,
+      24,
       114
     ]
   },
   "10-20.12M.list_sale_ratio": {
     "min": 0,
-    "max": 2.5,
+    "max": 3,
     "breaks": [
       0,
-      0.67
+      0.7
     ]
   },
   "10-20.12M.absorption_rate": {
     "min": 0,
-    "max": 4.1667,
+    "max": 5.1,
     "breaks": [
       0,
-      1.0714
+      1.2
     ]
   },
   "10-20.12M.months_of_supply": {
     "min": 0,
-    "max": 30,
+    "max": 36,
     "breaks": [
       0,
-      8
+      8.2
     ]
   },
   "10-20.24M.sold_count": {
     "min": 0,
-    "max": 56,
+    "max": 67,
     "breaks": [
-      2,
-      14
+      3,
+      15
     ]
   },
   "10-20.24M.for_sale_count": {
     "min": 0,
-    "max": 23,
+    "max": 28,
     "breaks": [
       1,
       6
@@ -2230,79 +2230,79 @@
   },
   "10-20.24M.sold_median_price": {
     "min": 0,
-    "max": 357500,
+    "max": 420000,
     "breaks": [
-      60500,
-      126000
+      62500,
+      130000
     ]
   },
   "10-20.24M.for_sale_median_price": {
     "min": 0,
-    "max": 635000,
+    "max": 737450,
     "breaks": [
-      77000,
-      187450
+      79900,
+      195000
     ]
   },
   "10-20.24M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 26455,
+    "max": 31088,
     "breaks": [
-      4342,
-      9163
+      4500,
+      9500
     ]
   },
   "10-20.24M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 45703,
+    "max": 53999,
     "breaks": [
-      5484,
-      13462
+      5792,
+      14062
     ]
   },
   "10-20.24M.sold_median_days_on_market": {
     "min": 0,
-    "max": 236,
+    "max": 278,
     "breaks": [
-      50,
+      53,
       96
     ]
   },
   "10-20.24M.for_sale_median_days_on_market": {
-    "min": 0,
-    "max": 430,
+    "min": -12,
+    "max": 528,
     "breaks": [
-      34,
-      132
+      32,
+      131
     ]
   },
   "10-20.24M.list_sale_ratio": {
     "min": 0,
-    "max": 1.6,
+    "max": 1.7,
     "breaks": [
-      0.09,
-      0.43
+      0.1,
+      0.4
     ]
   },
   "10-20.24M.absorption_rate": {
     "min": 0,
-    "max": 7.5,
+    "max": 9,
     "breaks": [
-      0.25,
-      2.027
+      0.3,
+      2.2
     ]
   },
   "10-20.24M.months_of_supply": {
     "min": 0,
-    "max": 37.3333,
+    "max": 45.2,
     "breaks": [
-      2.1818,
-      10.1947
+      2.5,
+      10.3
     ]
   },
   "10-20.30d.sold_count": {
     "min": 0,
-    "max": 2,
+    "max": 3,
     "breaks": [
       0,
       0
@@ -2310,7 +2310,7 @@
   },
   "10-20.30d.for_sale_count": {
     "min": 0,
-    "max": 5,
+    "max": 6,
     "breaks": [
       0,
       1
@@ -2318,7 +2318,7 @@
   },
   "10-20.30d.sold_median_price": {
     "min": 0,
-    "max": 187500,
+    "max": 240000,
     "breaks": [
       0,
       0
@@ -2326,15 +2326,15 @@
   },
   "10-20.30d.for_sale_median_price": {
     "min": 0,
-    "max": 460000,
+    "max": 554340,
     "breaks": [
       0,
-      99900
+      106250
     ]
   },
   "10-20.30d.sold_median_price_per_acre": {
     "min": 0,
-    "max": 13043,
+    "max": 17000,
     "breaks": [
       0,
       0
@@ -2342,26 +2342,26 @@
   },
   "10-20.30d.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 33919,
+    "max": 40761,
     "breaks": [
       0,
-      7390
+      7500
     ]
   },
   "10-20.30d.sold_median_days_on_market": {
     "min": 0,
-    "max": 95,
+    "max": 123,
     "breaks": [
       0,
       0
     ]
   },
   "10-20.30d.for_sale_median_days_on_market": {
-    "min": 0,
-    "max": 44,
+    "min": -11,
+    "max": 54,
     "breaks": [
       0,
-      8
+      9
     ]
   },
   "10-20.30d.list_sale_ratio": {
@@ -2390,15 +2390,15 @@
   },
   "10-20.36M.sold_count": {
     "min": 0,
-    "max": 87,
+    "max": 107,
     "breaks": [
       4,
-      22
+      24
     ]
   },
   "10-20.36M.for_sale_count": {
     "min": 0,
-    "max": 23,
+    "max": 28,
     "breaks": [
       1,
       6
@@ -2406,79 +2406,79 @@
   },
   "10-20.36M.sold_median_price": {
     "min": 0,
-    "max": 335000,
+    "max": 391250,
     "breaks": [
-      64500,
+      65000,
       125000
     ]
   },
   "10-20.36M.for_sale_median_price": {
     "min": 0,
-    "max": 636000,
+    "max": 755000,
     "breaks": [
-      79000,
-      189950
+      79950,
+      195000
     ]
   },
   "10-20.36M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 25548,
+    "max": 29000,
     "breaks": [
-      4584,
-      9151
+      4643,
+      9227
     ]
   },
   "10-20.36M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 46662,
+    "max": 54672,
     "breaks": [
-      5626,
-      13592
+      5933,
+      14135
     ]
   },
   "10-20.36M.sold_median_days_on_market": {
     "min": 0,
-    "max": 233,
+    "max": 268,
     "breaks": [
-      58,
-      100
+      59,
+      102
     ]
   },
   "10-20.36M.for_sale_median_days_on_market": {
-    "min": 0,
-    "max": 456,
+    "min": -12,
+    "max": 558,
     "breaks": [
-      34,
-      136
+      32,
+      137
     ]
   },
   "10-20.36M.list_sale_ratio": {
     "min": 0,
-    "max": 1.06,
+    "max": 1.2,
     "breaks": [
-      0.08,
-      0.29
+      0.1,
+      0.3
     ]
   },
   "10-20.36M.absorption_rate": {
     "min": 0,
-    "max": 11.8,
+    "max": 14.3,
     "breaks": [
-      0.5556,
-      3.3333
+      0.5,
+      3.5
     ]
   },
   "10-20.36M.months_of_supply": {
     "min": 0,
-    "max": 38.25,
+    "max": 45,
     "breaks": [
-      2.7692,
-      10.2857
+      3,
+      10.3
     ]
   },
   "10-20.6M.sold_count": {
     "min": 0,
-    "max": 12,
+    "max": 15,
     "breaks": [
       0,
       3
@@ -2486,7 +2486,7 @@
   },
   "10-20.6M.for_sale_count": {
     "min": 0,
-    "max": 17,
+    "max": 21,
     "breaks": [
       1,
       4
@@ -2494,74 +2494,74 @@
   },
   "10-20.6M.sold_median_price": {
     "min": 0,
-    "max": 380250,
+    "max": 450000,
     "breaks": [
       0,
-      114000
+      116000
     ]
   },
   "10-20.6M.for_sale_median_price": {
     "min": 0,
-    "max": 625000,
+    "max": 750000,
     "breaks": [
-      50000,
-      177500
+      55500,
+      181450
     ]
   },
   "10-20.6M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 28700,
+    "max": 33988,
     "breaks": [
       0,
-      8272
+      8500
     ]
   },
   "10-20.6M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 46886,
+    "max": 56594,
     "breaks": [
-      3625,
-      12723
+      3750,
+      13125
     ]
   },
   "10-20.6M.sold_median_days_on_market": {
     "min": 0,
-    "max": 287,
+    "max": 356,
     "breaks": [
       0,
-      84
+      86
     ]
   },
   "10-20.6M.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 223,
+    "max": 269,
     "breaks": [
-      8,
-      76
+      6,
+      73
     ]
   },
   "10-20.6M.list_sale_ratio": {
     "min": 0,
-    "max": 3.27,
+    "max": 3.8,
     "breaks": [
       0,
-      0.93
+      0.9
     ]
   },
   "10-20.6M.absorption_rate": {
     "min": 0,
-    "max": 2.5,
+    "max": 3,
     "breaks": [
       0,
-      0.6316
+      0.7
     ]
   },
   "10-20.6M.months_of_supply": {
     "min": 0,
-    "max": 20,
+    "max": 24,
     "breaks": [
       0,
-      5.6842
+      6
     ]
   },
   "10-20.7d.sold_count": {
@@ -2654,7 +2654,7 @@
   },
   "10-20.90d.sold_count": {
     "min": 0,
-    "max": 7,
+    "max": 9,
     "breaks": [
       0,
       2
@@ -2662,95 +2662,95 @@
   },
   "10-20.90d.for_sale_count": {
     "min": 0,
-    "max": 10,
+    "max": 12,
     "breaks": [
       0,
-      2
+      3
     ]
   },
   "10-20.90d.sold_median_price": {
     "min": 0,
-    "max": 350000,
+    "max": 425000,
     "breaks": [
       0,
-      90000
+      95000
     ]
   },
   "10-20.90d.for_sale_median_price": {
     "min": 0,
-    "max": 595900,
+    "max": 719000,
     "breaks": [
       0,
-      159900
+      169000
     ]
   },
   "10-20.90d.sold_median_price_per_acre": {
     "min": 0,
-    "max": 26000,
+    "max": 31163,
     "breaks": [
       0,
-      6500
+      6857
     ]
   },
   "10-20.90d.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 44118,
+    "max": 52896,
     "breaks": [
       0,
-      11500
+      12188
     ]
   },
   "10-20.90d.sold_median_days_on_market": {
     "min": 0,
-    "max": 242,
+    "max": 306,
     "breaks": [
       0,
-      54
+      59
     ]
   },
   "10-20.90d.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 136,
+    "max": 162,
     "breaks": [
       0,
-      42
+      41
     ]
   },
   "10-20.90d.list_sale_ratio": {
     "min": 0,
-    "max": 3.11,
+    "max": 3.9,
     "breaks": [
       0,
-      0.6
+      0.7
     ]
   },
   "10-20.90d.absorption_rate": {
     "min": 0,
-    "max": 1.6667,
+    "max": 2,
     "breaks": [
       0,
-      0.3333
+      0.3
     ]
   },
   "10-20.90d.months_of_supply": {
     "min": 0,
-    "max": 9.3333,
+    "max": 12,
     "breaks": [
       0,
-      1.8
+      2.3
     ]
   },
   "10-20.PENDING.sold_count": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "10-20.PENDING.for_sale_count": {
     "min": 0,
-    "max": 5,
+    "max": 6,
     "breaks": [
       0,
       1
@@ -2760,45 +2760,45 @@
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "10-20.PENDING.for_sale_median_price": {
     "min": 0,
-    "max": 275000,
+    "max": 338000,
     "breaks": [
       0,
-      0
+      20000
     ]
   },
   "10-20.PENDING.sold_median_price_per_acre": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "10-20.PENDING.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 20583,
+    "max": 25169,
     "breaks": [
       0,
-      0
+      1000
     ]
   },
   "10-20.PENDING.sold_median_days_on_market": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "10-20.PENDING.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 177,
+    "max": 186,
     "breaks": [
       0,
       0
@@ -2808,37 +2808,37 @@
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "10-20.PENDING.absorption_rate": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "10-20.PENDING.months_of_supply": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "20-50.12M.sold_count": {
     "min": 0,
-    "max": 23,
+    "max": 28,
     "breaks": [
       1,
-      6
+      7
     ]
   },
   "20-50.12M.for_sale_count": {
     "min": 0,
-    "max": 21,
+    "max": 22,
     "breaks": [
       1,
       5
@@ -2846,79 +2846,79 @@
   },
   "20-50.12M.sold_median_price": {
     "min": 0,
-    "max": 641000,
+    "max": 725000,
     "breaks": [
-      76000,
-      199000
+      79950,
+      200000
     ]
   },
   "20-50.12M.for_sale_median_price": {
     "min": 0,
-    "max": 950000,
+    "max": 1126900,
     "breaks": [
-      120000,
-      299000
+      125000,
+      300000
     ]
   },
   "20-50.12M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 20864,
+    "max": 24073,
     "breaks": [
-      2500,
-      6438
+      2548,
+      6500
     ]
   },
   "20-50.12M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 33019,
+    "max": 39772,
     "breaks": [
-      3700,
-      9862
+      3947,
+      10008
     ]
   },
   "20-50.12M.sold_median_days_on_market": {
     "min": 0,
-    "max": 314,
+    "max": 381,
     "breaks": [
-      37,
-      98
+      39,
+      99
     ]
   },
   "20-50.12M.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 362,
+    "max": 432,
     "breaks": [
-      33,
-      118
+      29,
+      114
     ]
   },
   "20-50.12M.list_sale_ratio": {
     "min": 0,
-    "max": 2.5,
+    "max": 3,
     "breaks": [
-      0,
-      0.72
+      0.1,
+      0.8
     ]
   },
   "20-50.12M.absorption_rate": {
     "min": 0,
-    "max": 4,
+    "max": 5.1,
     "breaks": [
-      0,
-      1
+      0.1,
+      1.1
     ]
   },
   "20-50.12M.months_of_supply": {
     "min": 0,
-    "max": 30,
+    "max": 36,
     "breaks": [
-      0,
-      8.6667
+      0.9,
+      9.2
     ]
   },
   "20-50.24M.sold_count": {
     "min": 0,
-    "max": 49,
+    "max": 59,
     "breaks": [
       3,
       14
@@ -2926,7 +2926,7 @@
   },
   "20-50.24M.for_sale_count": {
     "min": 0,
-    "max": 21,
+    "max": 25,
     "breaks": [
       1,
       6
@@ -2934,79 +2934,79 @@
   },
   "20-50.24M.sold_median_price": {
     "min": 0,
-    "max": 545390,
+    "max": 635000,
     "breaks": [
-      96500,
+      99900,
       200000
     ]
   },
   "20-50.24M.for_sale_median_price": {
     "min": 0,
-    "max": 946250,
+    "max": 1126900,
     "breaks": [
-      124650,
-      299838
+      128000,
+      301750
     ]
   },
   "20-50.24M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 18333,
+    "max": 21469,
     "breaks": [
-      3124,
-      6588
+      3171,
+      6687
     ]
   },
   "20-50.24M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 32986,
+    "max": 39752,
     "breaks": [
-      3980,
-      9997
+      4000,
+      10092
     ]
   },
   "20-50.24M.sold_median_days_on_market": {
     "min": 0,
-    "max": 252,
+    "max": 294,
     "breaks": [
-      53,
-      100
+      54,
+      101
     ]
   },
   "20-50.24M.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 441,
+    "max": 520,
     "breaks": [
-      41,
-      136
+      35,
+      135
     ]
   },
   "20-50.24M.list_sale_ratio": {
     "min": 0,
-    "max": 1.67,
+    "max": 2,
     "breaks": [
-      0.11,
-      0.45
+      0.1,
+      0.5
     ]
   },
   "20-50.24M.absorption_rate": {
     "min": 0,
-    "max": 7.5,
+    "max": 9,
     "breaks": [
-      0.3846,
-      2
+      0.4,
+      2.1
     ]
   },
   "20-50.24M.months_of_supply": {
     "min": 0,
-    "max": 40,
+    "max": 48,
     "breaks": [
-      2.5946,
-      10.9091
+      2.9,
+      11.3
     ]
   },
   "20-50.30d.sold_count": {
     "min": 0,
-    "max": 2,
+    "max": 3,
     "breaks": [
       0,
       0
@@ -3014,7 +3014,7 @@
   },
   "20-50.30d.for_sale_count": {
     "min": 0,
-    "max": 5,
+    "max": 6,
     "breaks": [
       0,
       1
@@ -3022,7 +3022,7 @@
   },
   "20-50.30d.sold_median_price": {
     "min": 0,
-    "max": 250000,
+    "max": 300000,
     "breaks": [
       0,
       0
@@ -3030,15 +3030,15 @@
   },
   "20-50.30d.for_sale_median_price": {
     "min": 0,
-    "max": 687500,
+    "max": 824950,
     "breaks": [
       0,
-      140000
+      162500
     ]
   },
   "20-50.30d.sold_median_price_per_acre": {
     "min": 0,
-    "max": 8582,
+    "max": 9701,
     "breaks": [
       0,
       0
@@ -3046,15 +3046,15 @@
   },
   "20-50.30d.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 22477,
+    "max": 28302,
     "breaks": [
       0,
-      4458
+      5000
     ]
   },
   "20-50.30d.sold_median_days_on_market": {
     "min": 0,
-    "max": 90,
+    "max": 75,
     "breaks": [
       0,
       0
@@ -3062,10 +3062,10 @@
   },
   "20-50.30d.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 45,
+    "max": 50,
     "breaks": [
       0,
-      8
+      10
     ]
   },
   "20-50.30d.list_sale_ratio": {
@@ -3094,15 +3094,15 @@
   },
   "20-50.36M.sold_count": {
     "min": 0,
-    "max": 78,
+    "max": 96,
     "breaks": [
       5,
-      22
+      23
     ]
   },
   "20-50.36M.for_sale_count": {
     "min": 0,
-    "max": 23,
+    "max": 25,
     "breaks": [
       1,
       6
@@ -3110,79 +3110,79 @@
   },
   "20-50.36M.sold_median_price": {
     "min": 0,
-    "max": 500000,
+    "max": 580000,
     "breaks": [
-      102000,
-      195000
+      102639,
+      199450
     ]
   },
   "20-50.36M.for_sale_median_price": {
     "min": 0,
-    "max": 984000,
+    "max": 1153110,
     "breaks": [
-      127500,
-      299900
+      129900,
+      307562
     ]
   },
   "20-50.36M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 17234,
+    "max": 19794,
     "breaks": [
-      3295,
-      6370
+      3331,
+      6442
     ]
   },
   "20-50.36M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 33334,
+    "max": 40000,
     "breaks": [
-      4000,
-      10000
+      4054,
+      10300
     ]
   },
   "20-50.36M.sold_median_days_on_market": {
     "min": 0,
-    "max": 255,
+    "max": 300,
     "breaks": [
-      62,
-      106
+      63,
+      109
     ]
   },
   "20-50.36M.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 467,
+    "max": 558,
     "breaks": [
-      42,
-      141
+      36,
+      143
     ]
   },
   "20-50.36M.list_sale_ratio": {
     "min": 0,
-    "max": 1.04,
+    "max": 1.2,
     "breaks": [
-      0.09,
-      0.29
+      0.1,
+      0.3
     ]
   },
   "20-50.36M.absorption_rate": {
     "min": 0,
-    "max": 12.3333,
+    "max": 14.8,
     "breaks": [
-      0.871,
-      3.5
+      0.8,
+      3.6
     ]
   },
   "20-50.36M.months_of_supply": {
     "min": 0,
-    "max": 37.3846,
+    "max": 43.6,
     "breaks": [
-      3.1304,
-      10.2857
+      3.3,
+      10.5
     ]
   },
   "20-50.6M.sold_count": {
     "min": 0,
-    "max": 12,
+    "max": 15,
     "breaks": [
       0,
       3
@@ -3190,7 +3190,7 @@
   },
   "20-50.6M.for_sale_count": {
     "min": 0,
-    "max": 15,
+    "max": 18,
     "breaks": [
       1,
       4
@@ -3198,55 +3198,55 @@
   },
   "20-50.6M.sold_median_price": {
     "min": 0,
-    "max": 611000,
+    "max": 722500,
     "breaks": [
       0,
-      181500
+      185000
     ]
   },
   "20-50.6M.for_sale_median_price": {
     "min": 0,
-    "max": 999000,
+    "max": 1199000,
     "breaks": [
-      89500,
-      286250
+      99500,
+      299000
     ]
   },
   "20-50.6M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 20375,
+    "max": 24344,
     "breaks": [
       0,
-      5985
+      6106
     ]
   },
   "20-50.6M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 34096,
+    "max": 41450,
     "breaks": [
-      2656,
-      9326
+      3034,
+      9860
     ]
   },
   "20-50.6M.sold_median_days_on_market": {
     "min": 0,
-    "max": 325,
+    "max": 384,
     "breaks": [
       0,
-      90
+      92
     ]
   },
   "20-50.6M.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 230,
+    "max": 266,
     "breaks": [
-      12,
-      76
+      10,
+      74
     ]
   },
   "20-50.6M.list_sale_ratio": {
     "min": 0,
-    "max": 3.43,
+    "max": 3.9,
     "breaks": [
       0,
       1
@@ -3254,15 +3254,15 @@
   },
   "20-50.6M.absorption_rate": {
     "min": 0,
-    "max": 2.5,
+    "max": 3,
     "breaks": [
       0,
-      0.625
+      0.7
     ]
   },
   "20-50.6M.months_of_supply": {
     "min": 0,
-    "max": 20.5714,
+    "max": 24.9,
     "breaks": [
       0,
       6
@@ -3358,7 +3358,7 @@
   },
   "20-50.90d.sold_count": {
     "min": 0,
-    "max": 5,
+    "max": 6,
     "breaks": [
       0,
       1
@@ -3366,7 +3366,7 @@
   },
   "20-50.90d.for_sale_count": {
     "min": 0,
-    "max": 10,
+    "max": 12,
     "breaks": [
       0,
       3
@@ -3374,63 +3374,63 @@
   },
   "20-50.90d.sold_median_price": {
     "min": 0,
-    "max": 525000,
+    "max": 631150,
     "breaks": [
       0,
-      140000
+      150000
     ]
   },
   "20-50.90d.for_sale_median_price": {
     "min": 0,
-    "max": 925000,
+    "max": 1124950,
     "breaks": [
       0,
-      259000
+      265750
     ]
   },
   "20-50.90d.sold_median_price_per_acre": {
     "min": 0,
-    "max": 17514,
+    "max": 20487,
     "breaks": [
       0,
-      4500
+      4914
     ]
   },
   "20-50.90d.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 31977,
+    "max": 38810,
     "breaks": [
       0,
-      8350
+      8748
     ]
   },
   "20-50.90d.sold_median_days_on_market": {
     "min": 0,
-    "max": 267,
+    "max": 324,
     "breaks": [
       0,
-      56
+      57
     ]
   },
   "20-50.90d.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 134,
+    "max": 151,
     "breaks": [
       0,
-      42
+      41
     ]
   },
   "20-50.90d.list_sale_ratio": {
     "min": 0,
-    "max": 3,
+    "max": 3.9,
     "breaks": [
       0,
-      0.55
+      0.7
     ]
   },
   "20-50.90d.absorption_rate": {
     "min": 0,
-    "max": 1.6667,
+    "max": 2,
     "breaks": [
       0,
       0.3
@@ -3438,23 +3438,23 @@
   },
   "20-50.90d.months_of_supply": {
     "min": 0,
-    "max": 9,
+    "max": 12,
     "breaks": [
       0,
-      1.6364
+      2.4
     ]
   },
   "20-50.PENDING.sold_count": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "20-50.PENDING.for_sale_count": {
     "min": 0,
-    "max": 5,
+    "max": 6,
     "breaks": [
       0,
       1
@@ -3464,45 +3464,45 @@
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "20-50.PENDING.for_sale_median_price": {
     "min": 0,
-    "max": 437450,
+    "max": 552300,
     "breaks": [
       0,
-      0
+      54000
     ]
   },
   "20-50.PENDING.sold_median_price_per_acre": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "20-50.PENDING.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 14647,
+    "max": 18513,
     "breaks": [
       0,
-      0
+      1488
     ]
   },
   "20-50.PENDING.sold_median_days_on_market": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "20-50.PENDING.for_sale_median_days_on_market": {
-    "min": 0,
-    "max": 202,
+    "min": -17,
+    "max": 201,
     "breaks": [
       0,
       0
@@ -3512,123 +3512,27 @@
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "20-50.PENDING.absorption_rate": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "20-50.PENDING.months_of_supply": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "50-100.12M.sold_count": {
-    "min": 0,
-    "max": 10,
-    "breaks": [
-      0,
-      3
-    ]
-  },
-  "50-100.12M.for_sale_count": {
-    "min": 0,
-    "max": 10,
-    "breaks": [
-      1,
-      3
-    ]
-  },
-  "50-100.12M.sold_median_price": {
-    "min": 0,
-    "max": 1004004,
-    "breaks": [
-      0,
-      305000
-    ]
-  },
-  "50-100.12M.for_sale_median_price": {
-    "min": 0,
-    "max": 1733550,
-    "breaks": [
-      1,
-      457000
-    ]
-  },
-  "50-100.12M.sold_median_price_per_acre": {
-    "min": 0,
-    "max": 14967,
-    "breaks": [
-      0,
-      4500
-    ]
-  },
-  "50-100.12M.for_sale_median_price_per_acre": {
-    "min": 0,
-    "max": 26142,
-    "breaks": [
-      0,
-      6608
-    ]
-  },
-  "50-100.12M.sold_median_days_on_market": {
-    "min": 0,
-    "max": 353,
-    "breaks": [
-      0,
-      96
-    ]
-  },
-  "50-100.12M.for_sale_median_days_on_market": {
-    "min": 0,
-    "max": 362,
-    "breaks": [
-      0,
-      108
-    ]
-  },
-  "50-100.12M.list_sale_ratio": {
-    "min": 0,
-    "max": 2.5,
-    "breaks": [
-      0,
-      0.6
-    ]
-  },
-  "50-100.12M.absorption_rate": {
-    "min": 0,
-    "max": 2.5,
-    "breaks": [
-      0,
-      0.6667
-    ]
-  },
-  "50-100.12M.months_of_supply": {
-    "min": 0,
-    "max": 30,
-    "breaks": [
-      0,
-      7.2
-    ]
-  },
-  "50-100.24M.sold_count": {
-    "min": 0,
-    "max": 21,
-    "breaks": [
-      1,
-      6
-    ]
-  },
-  "50-100.24M.for_sale_count": {
     "min": 0,
     "max": 12,
     "breaks": [
@@ -3636,76 +3540,172 @@
       3
     ]
   },
+  "50-100.12M.for_sale_count": {
+    "min": 0,
+    "max": 12,
+    "breaks": [
+      1,
+      3
+    ]
+  },
+  "50-100.12M.sold_median_price": {
+    "min": 0,
+    "max": 1208000,
+    "breaks": [
+      0,
+      312400
+    ]
+  },
+  "50-100.12M.for_sale_median_price": {
+    "min": 0,
+    "max": 2074375,
+    "breaks": [
+      72000,
+      474500
+    ]
+  },
+  "50-100.12M.sold_median_price_per_acre": {
+    "min": 0,
+    "max": 17750,
+    "breaks": [
+      0,
+      4567
+    ]
+  },
+  "50-100.12M.for_sale_median_price_per_acre": {
+    "min": 0,
+    "max": 30365,
+    "breaks": [
+      891,
+      6788
+    ]
+  },
+  "50-100.12M.sold_median_days_on_market": {
+    "min": 0,
+    "max": 410,
+    "breaks": [
+      0,
+      99
+    ]
+  },
+  "50-100.12M.for_sale_median_days_on_market": {
+    "min": -12,
+    "max": 425,
+    "breaks": [
+      0,
+      109
+    ]
+  },
+  "50-100.12M.list_sale_ratio": {
+    "min": 0,
+    "max": 3,
+    "breaks": [
+      0,
+      0.7
+    ]
+  },
+  "50-100.12M.absorption_rate": {
+    "min": 0,
+    "max": 3.3,
+    "breaks": [
+      0,
+      0.8
+    ]
+  },
+  "50-100.12M.months_of_supply": {
+    "min": 0,
+    "max": 36,
+    "breaks": [
+      0,
+      8
+    ]
+  },
+  "50-100.24M.sold_count": {
+    "min": 0,
+    "max": 25,
+    "breaks": [
+      1,
+      6
+    ]
+  },
+  "50-100.24M.for_sale_count": {
+    "min": 0,
+    "max": 15,
+    "breaks": [
+      1,
+      3
+    ]
+  },
   "50-100.24M.sold_median_price": {
     "min": 0,
-    "max": 1003000,
+    "max": 1168000,
     "breaks": [
-      140425,
-      335000
+      144000,
+      339000
     ]
   },
   "50-100.24M.for_sale_median_price": {
     "min": 0,
-    "max": 1777500,
+    "max": 2074375,
     "breaks": [
-      92000,
-      474950
+      109950,
+      480000
     ]
   },
   "50-100.24M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 14736,
+    "max": 17194,
     "breaks": [
-      1980,
-      4852
+      2050,
+      4931
     ]
   },
   "50-100.24M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 26575,
+    "max": 31250,
     "breaks": [
-      1214,
-      6901
+      1431,
+      7061
     ]
   },
   "50-100.24M.sold_median_days_on_market": {
     "min": 0,
-    "max": 370,
+    "max": 441,
     "breaks": [
-      44,
-      112
+      45,
+      114
     ]
   },
   "50-100.24M.for_sale_median_days_on_market": {
-    "min": 0,
-    "max": 450,
+    "min": -12,
+    "max": 530,
     "breaks": [
       0,
-      126
+      130
     ]
   },
   "50-100.24M.list_sale_ratio": {
     "min": 0,
-    "max": 1.86,
+    "max": 2,
     "breaks": [
       0,
-      0.44
+      0.5
     ]
   },
   "50-100.24M.absorption_rate": {
     "min": 0,
-    "max": 5.5714,
+    "max": 6.8,
     "breaks": [
       0,
-      1.375
+      1.5
     ]
   },
   "50-100.24M.months_of_supply": {
     "min": 0,
-    "max": 44.5714,
+    "max": 48,
     "breaks": [
       0,
-      10.6667
+      12
     ]
   },
   "50-100.30d.sold_count": {
@@ -3718,7 +3718,7 @@
   },
   "50-100.30d.for_sale_count": {
     "min": 0,
-    "max": 2,
+    "max": 3,
     "breaks": [
       0,
       0
@@ -3734,7 +3734,7 @@
   },
   "50-100.30d.for_sale_median_price": {
     "min": 0,
-    "max": 695000,
+    "max": 825000,
     "breaks": [
       0,
       0
@@ -3750,7 +3750,7 @@
   },
   "50-100.30d.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 9570,
+    "max": 11346,
     "breaks": [
       0,
       0
@@ -3766,7 +3766,7 @@
   },
   "50-100.30d.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 22,
+    "max": 30,
     "breaks": [
       0,
       0
@@ -3798,15 +3798,15 @@
   },
   "50-100.36M.sold_count": {
     "min": 0,
-    "max": 36,
+    "max": 43,
     "breaks": [
-      2,
+      3,
       11
     ]
   },
   "50-100.36M.for_sale_count": {
     "min": 0,
-    "max": 12,
+    "max": 15,
     "breaks": [
       1,
       3
@@ -3814,55 +3814,55 @@
   },
   "50-100.36M.sold_median_price": {
     "min": 0,
-    "max": 936000,
+    "max": 1080000,
     "breaks": [
-      160000,
-      327000
+      165000,
+      335000
     ]
   },
   "50-100.36M.for_sale_median_price": {
     "min": 0,
-    "max": 1800000,
+    "max": 2130000,
     "breaks": [
-      114950,
-      481000
+      132000,
+      495000
     ]
   },
   "50-100.36M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 13650,
+    "max": 15625,
     "breaks": [
-      2305,
-      4786
+      2413,
+      4882
     ]
   },
   "50-100.36M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 27192,
+    "max": 31452,
     "breaks": [
-      1500,
-      7000
+      1728,
+      7184
     ]
   },
   "50-100.36M.sold_median_days_on_market": {
     "min": 0,
-    "max": 318,
+    "max": 367,
     "breaks": [
-      59,
-      117
+      62,
+      120
     ]
   },
   "50-100.36M.for_sale_median_days_on_market": {
-    "min": 0,
-    "max": 476,
+    "min": -12,
+    "max": 567,
     "breaks": [
       0,
-      131
+      134
     ]
   },
   "50-100.36M.list_sale_ratio": {
     "min": 0,
-    "max": 1.25,
+    "max": 1.5,
     "breaks": [
       0,
       0.3
@@ -3870,23 +3870,23 @@
   },
   "50-100.36M.absorption_rate": {
     "min": 0,
-    "max": 10,
+    "max": 12,
     "breaks": [
       0,
-      2.5
+      2.6
     ]
   },
   "50-100.36M.months_of_supply": {
     "min": 0,
-    "max": 45,
+    "max": 54,
     "breaks": [
       0,
-      10.8
+      11.5
     ]
   },
   "50-100.6M.sold_count": {
     "min": 0,
-    "max": 5,
+    "max": 6,
     "breaks": [
       0,
       1
@@ -3894,7 +3894,7 @@
   },
   "50-100.6M.for_sale_count": {
     "min": 0,
-    "max": 7,
+    "max": 9,
     "breaks": [
       0,
       2
@@ -3902,55 +3902,55 @@
   },
   "50-100.6M.sold_median_price": {
     "min": 0,
-    "max": 875000,
+    "max": 1056000,
     "breaks": [
       0,
-      240000
+      250000
     ]
   },
   "50-100.6M.for_sale_median_price": {
     "min": 0,
-    "max": 1580000,
+    "max": 1830000,
     "breaks": [
       0,
-      400000
+      402450
     ]
   },
   "50-100.6M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 13081,
+    "max": 15751,
     "breaks": [
       0,
-      3491
+      3704
     ]
   },
   "50-100.6M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 24516,
+    "max": 28082,
     "breaks": [
       0,
-      5924
+      6039
     ]
   },
   "50-100.6M.sold_median_days_on_market": {
-    "min": 0,
-    "max": 305,
+    "min": -13,
+    "max": 366,
     "breaks": [
       0,
-      66
+      72
     ]
   },
   "50-100.6M.for_sale_median_days_on_market": {
-    "min": 0,
-    "max": 225,
+    "min": -12,
+    "max": 257,
     "breaks": [
       0,
-      69
+      64
     ]
   },
   "50-100.6M.list_sale_ratio": {
     "min": 0,
-    "max": 2.5,
+    "max": 3,
     "breaks": [
       0,
       0.5
@@ -3958,15 +3958,15 @@
   },
   "50-100.6M.absorption_rate": {
     "min": 0,
-    "max": 1.7778,
+    "max": 2.3,
     "breaks": [
       0,
-      0.2727
+      0.3
     ]
   },
   "50-100.6M.months_of_supply": {
     "min": 0,
-    "max": 15,
+    "max": 18,
     "breaks": [
       0,
       3
@@ -4062,7 +4062,7 @@
   },
   "50-100.90d.sold_count": {
     "min": 0,
-    "max": 2,
+    "max": 3,
     "breaks": [
       0,
       1
@@ -4070,7 +4070,7 @@
   },
   "50-100.90d.for_sale_count": {
     "min": 0,
-    "max": 5,
+    "max": 6,
     "breaks": [
       0,
       1
@@ -4078,39 +4078,39 @@
   },
   "50-100.90d.sold_median_price": {
     "min": 0,
-    "max": 635000,
+    "max": 765000,
     "breaks": [
       0,
-      35000
+      85000
     ]
   },
   "50-100.90d.for_sale_median_price": {
     "min": 0,
-    "max": 1309500,
+    "max": 1525000,
     "breaks": [
       0,
-      314900
+      325000
     ]
   },
   "50-100.90d.sold_median_price_per_acre": {
     "min": 0,
-    "max": 9527,
+    "max": 11400,
     "breaks": [
       0,
-      411
+      1155
     ]
   },
   "50-100.90d.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 19270,
+    "max": 22519,
     "breaks": [
       0,
-      4400
+      4606
     ]
   },
   "50-100.90d.sold_median_days_on_market": {
     "min": 0,
-    "max": 170,
+    "max": 206,
     "breaks": [
       0,
       0
@@ -4118,15 +4118,15 @@
   },
   "50-100.90d.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 122,
+    "max": 147,
     "breaks": [
       0,
-      31
+      30
     ]
   },
   "50-100.90d.list_sale_ratio": {
     "min": 0,
-    "max": 1.25,
+    "max": 1.5,
     "breaks": [
       0,
       0
@@ -4134,7 +4134,7 @@
   },
   "50-100.90d.absorption_rate": {
     "min": 0,
-    "max": 0.6,
+    "max": 0.8,
     "breaks": [
       0,
       0
@@ -4142,7 +4142,7 @@
   },
   "50-100.90d.months_of_supply": {
     "min": 0,
-    "max": 3.75,
+    "max": 4.5,
     "breaks": [
       0,
       0
@@ -4152,13 +4152,13 @@
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "50-100.PENDING.for_sale_count": {
     "min": 0,
-    "max": 2,
+    "max": 3,
     "breaks": [
       0,
       0
@@ -4168,13 +4168,13 @@
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "50-100.PENDING.for_sale_median_price": {
     "min": 0,
-    "max": 150000,
+    "max": 270000,
     "breaks": [
       0,
       0
@@ -4184,13 +4184,13 @@
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "50-100.PENDING.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 2133,
+    "max": 3586,
     "breaks": [
       0,
       0
@@ -4200,8 +4200,8 @@
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "50-100.PENDING.for_sale_median_days_on_market": {
@@ -4216,29 +4216,29 @@
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "50-100.PENDING.absorption_rate": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "50-100.PENDING.months_of_supply": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "100+.12M.sold_count": {
     "min": 0,
-    "max": 7,
+    "max": 9,
     "breaks": [
       0,
       2
@@ -4246,7 +4246,7 @@
   },
   "100+.12M.for_sale_count": {
     "min": 0,
-    "max": 10,
+    "max": 12,
     "breaks": [
       1,
       3
@@ -4254,79 +4254,79 @@
   },
   "100+.12M.sold_median_price": {
     "min": 0,
-    "max": 2000000,
+    "max": 2376000,
     "breaks": [
       0,
-      505000
+      541175
     ]
   },
   "100+.12M.for_sale_median_price": {
     "min": 0,
-    "max": 3500000,
+    "max": 4200000,
     "breaks": [
-      100500,
-      900000
+      179000,
+      950000
     ]
   },
   "100+.12M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 11134,
+    "max": 13475,
     "breaks": [
       0,
-      3028
+      3194
     ]
   },
   "100+.12M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 18022,
+    "max": 21678,
     "breaks": [
-      7,
-      4688
+      821,
+      4878
     ]
   },
   "100+.12M.sold_median_days_on_market": {
     "min": 0,
-    "max": 385,
+    "max": 458,
     "breaks": [
       0,
-      103
+      107
     ]
   },
   "100+.12M.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 361,
+    "max": 454,
     "breaks": [
       0,
-      111
+      112
     ]
   },
   "100+.12M.list_sale_ratio": {
     "min": 0,
-    "max": 2.5,
+    "max": 3,
+    "breaks": [
+      0,
+      0.7
+    ]
+  },
+  "100+.12M.absorption_rate": {
+    "min": 0,
+    "max": 3,
     "breaks": [
       0,
       0.6
     ]
   },
-  "100+.12M.absorption_rate": {
-    "min": 0,
-    "max": 2.5,
-    "breaks": [
-      0,
-      0.5
-    ]
-  },
   "100+.12M.months_of_supply": {
     "min": 0,
-    "max": 30,
+    "max": 36,
     "breaks": [
       0,
-      7.2
+      8.4
     ]
   },
   "100+.24M.sold_count": {
     "min": 0,
-    "max": 16,
+    "max": 19,
     "breaks": [
       1,
       5
@@ -4342,74 +4342,74 @@
   },
   "100+.24M.sold_median_price": {
     "min": 0,
-    "max": 2050000,
+    "max": 2396000,
     "breaks": [
-      241500,
-      636000
+      256000,
+      657500
     ]
   },
   "100+.24M.for_sale_median_price": {
     "min": 0,
-    "max": 3625000,
+    "max": 4390000,
     "breaks": [
-      242000,
-      960000
+      275000,
+      996800
     ]
   },
   "100+.24M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 11500,
+    "max": 13592,
     "breaks": [
-      1306,
-      3500
+      1432,
+      3636
     ]
   },
   "100+.24M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 18821,
+    "max": 22500,
     "breaks": [
-      1045,
-      4828
+      1250,
+      5001
     ]
   },
   "100+.24M.sold_median_days_on_market": {
     "min": 0,
-    "max": 418,
+    "max": 503,
     "breaks": [
-      51,
-      127
+      53,
+      129
     ]
   },
   "100+.24M.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 480,
+    "max": 570,
     "breaks": [
-      0,
-      134
+      6,
+      136
     ]
   },
   "100+.24M.list_sale_ratio": {
     "min": 0,
-    "max": 2.5,
+    "max": 3,
     "breaks": [
       0,
-      0.57
+      0.6
     ]
   },
   "100+.24M.absorption_rate": {
     "min": 0,
-    "max": 5,
+    "max": 6,
     "breaks": [
       0,
-      1
+      1.1
     ]
   },
   "100+.24M.months_of_supply": {
     "min": 0,
-    "max": 60,
+    "max": 72,
     "breaks": [
       0,
-      13.7143
+      14.4
     ]
   },
   "100+.30d.sold_count": {
@@ -4422,7 +4422,7 @@
   },
   "100+.30d.for_sale_count": {
     "min": 0,
-    "max": 2,
+    "max": 3,
     "breaks": [
       0,
       0
@@ -4438,7 +4438,7 @@
   },
   "100+.30d.for_sale_median_price": {
     "min": 0,
-    "max": 999000,
+    "max": 1424500,
     "breaks": [
       0,
       0
@@ -4454,7 +4454,7 @@
   },
   "100+.30d.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 5670,
+    "max": 7516,
     "breaks": [
       0,
       0
@@ -4470,7 +4470,7 @@
   },
   "100+.30d.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 20,
+    "max": 30,
     "breaks": [
       0,
       0
@@ -4502,15 +4502,15 @@
   },
   "100+.36M.sold_count": {
     "min": 0,
-    "max": 27,
+    "max": 32,
     "breaks": [
       3,
-      8
+      9
     ]
   },
   "100+.36M.for_sale_count": {
     "min": 0,
-    "max": 12,
+    "max": 15,
     "breaks": [
       1,
       3
@@ -4518,55 +4518,55 @@
   },
   "100+.36M.sold_median_price": {
     "min": 0,
-    "max": 1950000,
+    "max": 2192000,
     "breaks": [
-      306872,
-      640000
+      312000,
+      660000
     ]
   },
   "100+.36M.for_sale_median_price": {
     "min": 0,
-    "max": 3679200,
+    "max": 4495000,
     "breaks": [
-      262450,
-      974950
+      290000,
+      1012500
     ]
   },
   "100+.36M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 10747,
+    "max": 12526,
     "breaks": [
-      1702,
-      3592
+      1759,
+      3744
     ]
   },
   "100+.36M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 19000,
+    "max": 22753,
     "breaks": [
-      1200,
-      4910
+      1362,
+      5107
     ]
   },
   "100+.36M.sold_median_days_on_market": {
     "min": 0,
-    "max": 370,
+    "max": 440,
     "breaks": [
-      74,
-      140
+      75,
+      145
     ]
   },
   "100+.36M.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 515,
+    "max": 615,
     "breaks": [
-      5,
-      140
+      8,
+      146
     ]
   },
   "100+.36M.list_sale_ratio": {
     "min": 0,
-    "max": 1.5,
+    "max": 1.7,
     "breaks": [
       0,
       0.4
@@ -4574,7 +4574,7 @@
   },
   "100+.36M.absorption_rate": {
     "min": 0,
-    "max": 7.5,
+    "max": 9,
     "breaks": [
       0,
       2
@@ -4582,15 +4582,15 @@
   },
   "100+.36M.months_of_supply": {
     "min": 0,
-    "max": 54,
+    "max": 64.8,
     "breaks": [
       0,
-      14.4
+      13.8
     ]
   },
   "100+.6M.sold_count": {
     "min": 0,
-    "max": 5,
+    "max": 6,
     "breaks": [
       0,
       1
@@ -4598,7 +4598,7 @@
   },
   "100+.6M.for_sale_count": {
     "min": 0,
-    "max": 7,
+    "max": 9,
     "breaks": [
       0,
       2
@@ -4606,74 +4606,74 @@
   },
   "100+.6M.sold_median_price": {
     "min": 0,
-    "max": 1605000,
+    "max": 1908750,
     "breaks": [
       0,
-      347500
+      364000
     ]
   },
   "100+.6M.for_sale_median_price": {
     "min": 0,
-    "max": 3190500,
+    "max": 3800000,
     "breaks": [
       0,
-      784550
+      819392
     ]
   },
   "100+.6M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 8862,
+    "max": 10715,
     "breaks": [
       0,
-      2011
+      2250
     ]
   },
   "100+.6M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 16250,
+    "max": 19473,
     "breaks": [
       0,
-      4000
+      4131
     ]
   },
   "100+.6M.sold_median_days_on_market": {
     "min": 0,
-    "max": 312,
+    "max": 378,
     "breaks": [
       0,
-      61
+      69
     ]
   },
   "100+.6M.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 220,
+    "max": 258,
     "breaks": [
       0,
-      66
+      62
     ]
   },
   "100+.6M.list_sale_ratio": {
     "min": 0,
-    "max": 2.5,
+    "max": 3,
+    "breaks": [
+      0,
+      0.3
+    ]
+  },
+  "100+.6M.absorption_rate": {
+    "min": 0,
+    "max": 1.5,
     "breaks": [
       0,
       0.2
     ]
   },
-  "100+.6M.absorption_rate": {
-    "min": 0,
-    "max": 1.25,
-    "breaks": [
-      0,
-      0.1111
-    ]
-  },
   "100+.6M.months_of_supply": {
     "min": 0,
-    "max": 15,
+    "max": 18,
     "breaks": [
       0,
-      1.2
+      2.4
     ]
   },
   "100+.7d.sold_count": {
@@ -4766,15 +4766,15 @@
   },
   "100+.90d.sold_count": {
     "min": 0,
-    "max": 2,
+    "max": 3,
     "breaks": [
       0,
-      0
+      1
     ]
   },
   "100+.90d.for_sale_count": {
     "min": 0,
-    "max": 5,
+    "max": 6,
     "breaks": [
       0,
       1
@@ -4782,7 +4782,7 @@
   },
   "100+.90d.sold_median_price": {
     "min": 0,
-    "max": 887500,
+    "max": 1075000,
     "breaks": [
       0,
       0
@@ -4790,15 +4790,15 @@
   },
   "100+.90d.for_sale_median_price": {
     "min": 0,
-    "max": 2655750,
+    "max": 3176458,
     "breaks": [
       0,
-      578000
+      625200
     ]
   },
   "100+.90d.sold_median_price_per_acre": {
     "min": 0,
-    "max": 5227,
+    "max": 6540,
     "breaks": [
       0,
       0
@@ -4806,15 +4806,15 @@
   },
   "100+.90d.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 13777,
+    "max": 16842,
     "breaks": [
       0,
-      3077
+      3322
     ]
   },
   "100+.90d.sold_median_days_on_market": {
     "min": 0,
-    "max": 140,
+    "max": 174,
     "breaks": [
       0,
       0
@@ -4822,15 +4822,15 @@
   },
   "100+.90d.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 127,
+    "max": 146,
     "breaks": [
       0,
-      34
+      30
     ]
   },
   "100+.90d.list_sale_ratio": {
     "min": 0,
-    "max": 0.78,
+    "max": 0.8,
     "breaks": [
       0,
       0
@@ -4846,7 +4846,7 @@
   },
   "100+.90d.months_of_supply": {
     "min": 0,
-    "max": 2.3333,
+    "max": 3,
     "breaks": [
       0,
       0
@@ -4856,13 +4856,13 @@
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "100+.PENDING.for_sale_count": {
     "min": 0,
-    "max": 2,
+    "max": 3,
     "breaks": [
       0,
       0
@@ -4872,8 +4872,8 @@
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "100+.PENDING.for_sale_median_price": {
@@ -4888,8 +4888,8 @@
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "100+.PENDING.for_sale_median_price_per_acre": {
@@ -4904,8 +4904,8 @@
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "100+.PENDING.for_sale_median_days_on_market": {
@@ -4920,189 +4920,189 @@
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "100+.PENDING.absorption_rate": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "100+.PENDING.months_of_supply": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "0-1.12M.sold_count": {
     "min": 0,
-    "max": 104,
+    "max": 131,
     "breaks": [
       3,
-      20
+      21
     ]
   },
   "0-1.12M.for_sale_count": {
     "min": 0,
-    "max": 105,
+    "max": 126,
     "breaks": [
-      4,
-      21
+      5,
+      23
     ]
   },
   "0-1.12M.sold_median_price": {
     "min": 0,
-    "max": 121500,
+    "max": 146950,
     "breaks": [
-      14700,
-      35000
+      15000,
+      37000
     ]
   },
   "0-1.12M.for_sale_median_price": {
     "min": 0,
-    "max": 155000,
-    "breaks": [
-      23500,
-      49900
-    ]
-  },
-  "0-1.12M.sold_median_price_per_acre": {
-    "min": 0,
-    "max": 333333,
-    "breaks": [
-      30998,
-      80000
-    ]
-  },
-  "0-1.12M.for_sale_median_price_per_acre": {
-    "min": 0,
-    "max": 413043,
-    "breaks": [
-      50454,
-      117391
-    ]
-  },
-  "0-1.12M.sold_median_days_on_market": {
-    "min": 0,
-    "max": 279,
-    "breaks": [
-      62,
-      111
-    ]
-  },
-  "0-1.12M.for_sale_median_days_on_market": {
-    "min": 0,
-    "max": 309,
-    "breaks": [
-      76,
-      133
-    ]
-  },
-  "0-1.12M.list_sale_ratio": {
-    "min": 0,
-    "max": 3.11,
-    "breaks": [
-      0.38,
-      0.96
-    ]
-  },
-  "0-1.12M.absorption_rate": {
-    "min": 0,
-    "max": 3.8,
-    "breaks": [
-      0.4,
-      1.1765
-    ]
-  },
-  "0-1.12M.months_of_supply": {
-    "min": 0,
-    "max": 37.3333,
-    "breaks": [
-      4.5366,
-      11.5556
-    ]
-  },
-  "0-1.24M.sold_count": {
-    "min": 0,
-    "max": 217,
-    "breaks": [
-      7,
-      39
-    ]
-  },
-  "0-1.24M.for_sale_count": {
-    "min": 0,
-    "max": 124,
-    "breaks": [
-      5,
-      25
-    ]
-  },
-  "0-1.24M.sold_median_price": {
-    "min": 0,
-    "max": 120000,
-    "breaks": [
-      16000,
-      35000
-    ]
-  },
-  "0-1.24M.for_sale_median_price": {
-    "min": 0,
-    "max": 154750,
+    "max": 177000,
     "breaks": [
       24500,
       50000
     ]
   },
+  "0-1.12M.sold_median_price_per_acre": {
+    "min": 0,
+    "max": 386207,
+    "breaks": [
+      31250,
+      83611
+    ]
+  },
+  "0-1.12M.for_sale_median_price_per_acre": {
+    "min": 0,
+    "max": 498000,
+    "breaks": [
+      51887,
+      120909
+    ]
+  },
+  "0-1.12M.sold_median_days_on_market": {
+    "min": 0,
+    "max": 327,
+    "breaks": [
+      62,
+      114
+    ]
+  },
+  "0-1.12M.for_sale_median_days_on_market": {
+    "min": -3,
+    "max": 370,
+    "breaks": [
+      76,
+      135
+    ]
+  },
+  "0-1.12M.list_sale_ratio": {
+    "min": 0,
+    "max": 3.5,
+    "breaks": [
+      0.4,
+      1
+    ]
+  },
+  "0-1.12M.absorption_rate": {
+    "min": 0,
+    "max": 4.7,
+    "breaks": [
+      0.4,
+      1.2
+    ]
+  },
+  "0-1.12M.months_of_supply": {
+    "min": 0,
+    "max": 45.3,
+    "breaks": [
+      4.4,
+      11.9
+    ]
+  },
+  "0-1.24M.sold_count": {
+    "min": 0,
+    "max": 262,
+    "breaks": [
+      8,
+      42
+    ]
+  },
+  "0-1.24M.for_sale_count": {
+    "min": 0,
+    "max": 148,
+    "breaks": [
+      5,
+      27
+    ]
+  },
+  "0-1.24M.sold_median_price": {
+    "min": 0,
+    "max": 138000,
+    "breaks": [
+      16500,
+      36250
+    ]
+  },
+  "0-1.24M.for_sale_median_price": {
+    "min": 0,
+    "max": 175000,
+    "breaks": [
+      24750,
+      50000
+    ]
+  },
   "0-1.24M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 312000,
+    "max": 372881,
     "breaks": [
-      34375,
-      81379
+      35000,
+      83891
     ]
   },
   "0-1.24M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 411878,
+    "max": 496620,
     "breaks": [
-      51429,
-      118135
+      51948,
+      121622
     ]
   },
   "0-1.24M.sold_median_days_on_market": {
     "min": 0,
-    "max": 257,
+    "max": 297,
     "breaks": [
-      71,
-      116
+      73,
+      118
     ]
   },
   "0-1.24M.for_sale_median_days_on_market": {
-    "min": 0,
-    "max": 419,
+    "min": -3,
+    "max": 509,
     "breaks": [
-      88,
-      165
+      89,
+      174
     ]
   },
   "0-1.24M.list_sale_ratio": {
     "min": 0,
-    "max": 2,
+    "max": 2.6,
     "breaks": [
-      0.27,
+      0.3,
       0.6
     ]
   },
   "0-1.24M.absorption_rate": {
     "min": 0,
-    "max": 6.25,
+    "max": 7.3,
     "breaks": [
       0.8,
       2
@@ -5110,15 +5110,15 @@
   },
   "0-1.24M.months_of_supply": {
     "min": 0,
-    "max": 48.2129,
+    "max": 57.6,
     "breaks": [
-      6.6207,
-      14.4906
+      6.4,
+      14.5
     ]
   },
   "0-1.30d.sold_count": {
     "min": 0,
-    "max": 7,
+    "max": 9,
     "breaks": [
       0,
       1
@@ -5126,7 +5126,7 @@
   },
   "0-1.30d.for_sale_count": {
     "min": 0,
-    "max": 17,
+    "max": 24,
     "breaks": [
       0,
       3
@@ -5134,47 +5134,47 @@
   },
   "0-1.30d.sold_median_price": {
     "min": 0,
-    "max": 117500,
+    "max": 138000,
     "breaks": [
       0,
-      20000
+      20500
     ]
   },
   "0-1.30d.for_sale_median_price": {
     "min": 0,
-    "max": 175000,
+    "max": 209500,
     "breaks": [
       0,
-      42750
+      45000
     ]
   },
   "0-1.30d.sold_median_price_per_acre": {
     "min": 0,
-    "max": 280616,
+    "max": 332917,
     "breaks": [
       0,
-      40909
+      42628
     ]
   },
   "0-1.30d.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 450000,
+    "max": 553810,
     "breaks": [
       0,
-      99829
+      102273
     ]
   },
   "0-1.30d.sold_median_days_on_market": {
     "min": 0,
-    "max": 255,
+    "max": 279,
     "breaks": [
       0,
-      49
+      50
     ]
   },
   "0-1.30d.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 54,
+    "max": 63,
     "breaks": [
       0,
       17
@@ -5182,201 +5182,201 @@
   },
   "0-1.30d.list_sale_ratio": {
     "min": 0,
-    "max": 3.83,
+    "max": 4.5,
     "breaks": [
       0,
-      0.71
+      0.8
     ]
   },
   "0-1.30d.absorption_rate": {
     "min": 0,
-    "max": 1.3333,
+    "max": 1.5,
     "breaks": [
       0,
-      0.25
+      0.3
     ]
   },
   "0-1.30d.months_of_supply": {
     "min": 0,
-    "max": 3.8333,
+    "max": 4.8,
     "breaks": [
       0,
-      0.7143
+      1
     ]
   },
   "0-1.36M.sold_count": {
     "min": 0,
-    "max": 353,
+    "max": 433,
     "breaks": [
-      11,
-      63
+      12,
+      70
     ]
   },
   "0-1.36M.for_sale_count": {
     "min": 0,
-    "max": 131,
+    "max": 154,
     "breaks": [
       6,
-      28
+      29
     ]
   },
   "0-1.36M.sold_median_price": {
     "min": 0,
-    "max": 120000,
+    "max": 140000,
     "breaks": [
-      17250,
-      36200
+      17500,
+      37780
     ]
   },
   "0-1.36M.for_sale_median_price": {
     "min": 0,
-    "max": 154750,
+    "max": 177000,
     "breaks": [
-      24700,
+      24950,
       50000
     ]
   },
   "0-1.36M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 310485,
+    "max": 366790,
     "breaks": [
-      35714,
-      80985
+      36000,
+      84756
     ]
   },
   "0-1.36M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 419032,
+    "max": 491667,
     "breaks": [
-      51429,
-      117647
+      52000,
+      122259
     ]
   },
   "0-1.36M.sold_median_days_on_market": {
     "min": 0,
-    "max": 271,
+    "max": 305,
     "breaks": [
-      80,
-      125
+      83,
+      126
     ]
   },
   "0-1.36M.for_sale_median_days_on_market": {
-    "min": 0,
-    "max": 464,
+    "min": -3,
+    "max": 550,
     "breaks": [
       92,
-      177
+      184
     ]
   },
   "0-1.36M.list_sale_ratio": {
     "min": 0,
-    "max": 1.45,
+    "max": 1.6,
     "breaks": [
-      0.18,
-      0.42
+      0.2,
+      0.4
     ]
   },
   "0-1.36M.absorption_rate": {
     "min": 0,
-    "max": 9.3333,
+    "max": 11.2,
     "breaks": [
-      1.1429,
-      3.0625
+      1.1,
+      3.2
     ]
   },
   "0-1.36M.months_of_supply": {
     "min": 0,
-    "max": 51.4286,
+    "max": 60.2,
     "breaks": [
-      6.6316,
-      15
+      6.6,
+      14.9
     ]
   },
   "0-1.6M.sold_count": {
     "min": 0,
-    "max": 48,
+    "max": 58,
     "breaks": [
       1,
-      8
+      9
     ]
   },
   "0-1.6M.for_sale_count": {
     "min": 0,
-    "max": 74,
+    "max": 89,
     "breaks": [
       3,
-      15
+      16
     ]
   },
   "0-1.6M.sold_median_price": {
     "min": 0,
-    "max": 132732,
+    "max": 155500,
     "breaks": [
       10000,
-      34450
+      35000
     ]
   },
   "0-1.6M.for_sale_median_price": {
     "min": 0,
-    "max": 157450,
+    "max": 175900,
     "breaks": [
-      21000,
-      49500
+      22000,
+      50000
     ]
   },
   "0-1.6M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 357143,
+    "max": 433333,
     "breaks": [
-      20028,
-      78223
+      20281,
+      80882
     ]
   },
   "0-1.6M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 423077,
+    "max": 509952,
     "breaks": [
-      47500,
-      115385
+      48810,
+      120000
     ]
   },
   "0-1.6M.sold_median_days_on_market": {
     "min": 0,
-    "max": 343,
+    "max": 440,
     "breaks": [
       42,
-      111
+      114
     ]
   },
   "0-1.6M.for_sale_median_days_on_market": {
-    "min": 0,
-    "max": 204,
+    "min": -3,
+    "max": 235,
     "breaks": [
-      48,
-      88
+      46,
+      86
     ]
   },
   "0-1.6M.list_sale_ratio": {
     "min": 0,
-    "max": 5,
+    "max": 6,
     "breaks": [
-      0.35,
-      1.33
+      0.3,
+      1.3
     ]
   },
   "0-1.6M.absorption_rate": {
     "min": 0,
-    "max": 2.5,
+    "max": 3,
     "breaks": [
-      0.1429,
-      0.7143
+      0.1,
+      0.8
     ]
   },
   "0-1.6M.months_of_supply": {
     "min": 0,
-    "max": 30,
+    "max": 36,
     "breaks": [
-      2.093,
+      2,
       8
     ]
   },
@@ -5390,7 +5390,7 @@
   },
   "0-1.7d.for_sale_count": {
     "min": 0,
-    "max": 5,
+    "max": 6,
     "breaks": [
       0,
       1
@@ -5406,10 +5406,10 @@
   },
   "0-1.7d.for_sale_median_price": {
     "min": 0,
-    "max": 111450,
+    "max": 145900,
     "breaks": [
       0,
-      5000
+      15250
     ]
   },
   "0-1.7d.sold_median_price_per_acre": {
@@ -5422,10 +5422,10 @@
   },
   "0-1.7d.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 265957,
+    "max": 350000,
     "breaks": [
       0,
-      0
+      22464
     ]
   },
   "0-1.7d.sold_median_days_on_market": {
@@ -5441,7 +5441,7 @@
     "max": 12,
     "breaks": [
       0,
-      1
+      2
     ]
   },
   "0-1.7d.list_sale_ratio": {
@@ -5470,7 +5470,7 @@
   },
   "0-1.90d.sold_count": {
     "min": 0,
-    "max": 27,
+    "max": 33,
     "breaks": [
       1,
       5
@@ -5478,63 +5478,63 @@
   },
   "0-1.90d.for_sale_count": {
     "min": 0,
-    "max": 46,
+    "max": 58,
     "breaks": [
       2,
-      9
+      10
     ]
   },
   "0-1.90d.sold_median_price": {
     "min": 0,
-    "max": 137500,
+    "max": 160000,
     "breaks": [
       0,
-      30970
+      32500
     ]
   },
   "0-1.90d.for_sale_median_price": {
     "min": 0,
-    "max": 165000,
+    "max": 192000,
     "breaks": [
-      19000,
-      49900
+      19800,
+      50000
     ]
   },
   "0-1.90d.sold_median_price_per_acre": {
     "min": 0,
-    "max": 344062,
+    "max": 409762,
     "breaks": [
       0,
-      71540
+      76087
     ]
   },
   "0-1.90d.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 437500,
+    "max": 536364,
     "breaks": [
-      40404,
-      111111
+      41912,
+      117800
     ]
   },
   "0-1.90d.sold_median_days_on_market": {
     "min": 0,
-    "max": 350,
+    "max": 419,
     "breaks": [
       0,
-      92
+      98
     ]
   },
   "0-1.90d.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 130,
+    "max": 150,
     "breaks": [
-      24,
-      52
+      22,
+      50
     ]
   },
   "0-1.90d.list_sale_ratio": {
     "min": 0,
-    "max": 5,
+    "max": 6,
     "breaks": [
       0,
       1.3
@@ -5542,31 +5542,31 @@
   },
   "0-1.90d.absorption_rate": {
     "min": 0,
-    "max": 2.1333,
+    "max": 2.7,
     "breaks": [
       0,
-      0.5714
+      0.6
     ]
   },
   "0-1.90d.months_of_supply": {
     "min": 0,
-    "max": 15,
+    "max": 18,
     "breaks": [
       0,
-      3.8852
+      4
     ]
   },
   "0-1.PENDING.sold_count": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "0-1.PENDING.for_sale_count": {
     "min": 0,
-    "max": 12,
+    "max": 15,
     "breaks": [
       0,
       2
@@ -5576,589 +5576,589 @@
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "0-1.PENDING.for_sale_median_price": {
     "min": 0,
-    "max": 122700,
+    "max": 147000,
     "breaks": [
       0,
-      24500
+      25000
     ]
   },
   "0-1.PENDING.sold_median_price_per_acre": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "0-1.PENDING.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 299600,
+    "max": 345090,
     "breaks": [
       0,
-      46429
+      52632
     ]
   },
   "0-1.PENDING.sold_median_days_on_market": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "0-1.PENDING.for_sale_median_days_on_market": {
-    "min": 0,
-    "max": 360,
+    "min": -16,
+    "max": 438,
     "breaks": [
       0,
-      67
+      61
     ]
   },
   "0-1.PENDING.list_sale_ratio": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "0-1.PENDING.absorption_rate": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "0-1.PENDING.months_of_supply": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "TOTAL.12M.sold_count": {
     "min": 0,
-    "max": 291,
+    "max": 353,
     "breaks": [
-      15,
-      73
+      17,
+      77
     ]
   },
   "TOTAL.12M.for_sale_count": {
     "min": 0,
-    "max": 264,
+    "max": 313,
     "breaks": [
       19,
-      68
+      70
     ]
   },
   "TOTAL.12M.sold_median_price": {
     "min": 0,
-    "max": 270000,
+    "max": 317500,
     "breaks": [
-      48500,
-      87500
+      50000,
+      90000
     ]
   },
   "TOTAL.12M.for_sale_median_price": {
     "min": 0,
-    "max": 351850,
+    "max": 415000,
     "breaks": [
-      60000,
-      121450
+      62500,
+      125000
     ]
   },
   "TOTAL.12M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 112500,
+    "max": 131364,
     "breaks": [
-      8200,
-      24105
+      8475,
+      24696
     ]
   },
   "TOTAL.12M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 168382,
+    "max": 198259,
     "breaks": [
-      16000,
-      45091
+      16826,
+      46895
     ]
   },
   "TOTAL.12M.sold_median_days_on_market": {
     "min": 0,
-    "max": 208,
+    "max": 236,
     "breaks": [
       78,
-      108
+      110
     ]
   },
   "TOTAL.12M.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 237,
+    "max": 286,
     "breaks": [
-      88,
-      124
+      89,
+      128
     ]
   },
   "TOTAL.12M.list_sale_ratio": {
     "min": 0,
-    "max": 2.78,
+    "max": 3.1,
     "breaks": [
-      0.56,
-      0.99
+      0.6,
+      1
     ]
   },
   "TOTAL.12M.absorption_rate": {
     "min": 0,
-    "max": 3.4348,
+    "max": 4.1,
     "breaks": [
-      0.7073,
-      1.3571
+      0.7,
+      1.4
     ]
   },
   "TOTAL.12M.months_of_supply": {
     "min": 0,
-    "max": 33.3333,
+    "max": 39,
     "breaks": [
-      6.7368,
-      11.8525
+      6.8,
+      12
     ]
   },
   "TOTAL.24M.sold_count": {
     "min": 0,
-    "max": 588,
+    "max": 707,
     "breaks": [
-      34,
-      146
+      36,
+      156
     ]
   },
   "TOTAL.24M.for_sale_count": {
     "min": 0,
-    "max": 306,
+    "max": 363,
     "breaks": [
-      22,
-      77
+      23,
+      80
     ]
   },
   "TOTAL.24M.sold_median_price": {
     "min": 0,
-    "max": 270000,
+    "max": 315833,
     "breaks": [
       50000,
-      89450
+      90000
     ]
   },
   "TOTAL.24M.for_sale_median_price": {
     "min": 0,
-    "max": 345000,
+    "max": 405375,
     "breaks": [
-      59900,
-      117500
+      60000,
+      120000
     ]
   },
   "TOTAL.24M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 104174,
+    "max": 125146,
     "breaks": [
-      8548,
-      23392
+      8750,
+      24400
     ]
   },
   "TOTAL.24M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 170940,
+    "max": 200416,
     "breaks": [
-      16726,
-      46624
+      17273,
+      47880
     ]
   },
   "TOTAL.24M.sold_median_days_on_market": {
-    "min": 14,
-    "max": 193,
+    "min": 0,
+    "max": 220,
     "breaks": [
-      84,
+      82,
       109
     ]
   },
   "TOTAL.24M.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 315,
+    "max": 380,
     "breaks": [
-      103,
-      149
+      102,
+      160
     ]
   },
   "TOTAL.24M.list_sale_ratio": {
     "min": 0,
-    "max": 1.68,
+    "max": 2.1,
     "breaks": [
-      0.34,
-      0.59
+      0.3,
+      0.6
     ]
   },
   "TOTAL.24M.absorption_rate": {
     "min": 0,
-    "max": 5.6863,
+    "max": 7.2,
     "breaks": [
-      1.2523,
-      2.3488
+      1.3,
+      2.5
     ]
   },
   "TOTAL.24M.months_of_supply": {
     "min": 0,
-    "max": 40.1143,
+    "max": 46.7,
     "breaks": [
-      8.1951,
-      14.1818
+      8,
+      14
     ]
   },
   "TOTAL.30d.sold_count": {
     "min": 0,
-    "max": 25,
+    "max": 27,
     "breaks": [
       1,
-      5
+      6
     ]
   },
   "TOTAL.30d.for_sale_count": {
     "min": 0,
-    "max": 49,
+    "max": 62,
     "breaks": [
       3,
-      12
+      13
     ]
   },
   "TOTAL.30d.sold_median_price": {
     "min": 0,
-    "max": 300000,
+    "max": 365000,
     "breaks": [
-      18200,
-      79000
+      19900,
+      84000
     ]
   },
   "TOTAL.30d.for_sale_median_price": {
     "min": 0,
-    "max": 389900,
+    "max": 462500,
     "breaks": [
-      50000,
-      124900
+      55000,
+      130000
     ]
   },
   "TOTAL.30d.sold_median_price_per_acre": {
     "min": 0,
-    "max": 112674,
+    "max": 139500,
     "breaks": [
-      2496,
-      19470
+      3171,
+      20236
     ]
   },
   "TOTAL.30d.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 169998,
+    "max": 197802,
     "breaks": [
-      10162,
-      38965
+      10212,
+      39900
     ]
   },
   "TOTAL.30d.sold_median_days_on_market": {
-    "min": 0,
-    "max": 310,
+    "min": -13,
+    "max": 392,
     "breaks": [
-      32,
-      92
+      30,
+      94
     ]
   },
   "TOTAL.30d.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 41,
+    "max": 49,
     "breaks": [
-      12,
+      13,
       20
     ]
   },
   "TOTAL.30d.list_sale_ratio": {
     "min": 0,
-    "max": 6.38,
+    "max": 7.8,
     "breaks": [
-      0.43,
-      1.83
+      0.5,
+      1.9
     ]
   },
   "TOTAL.30d.absorption_rate": {
     "min": 0,
-    "max": 1.7143,
+    "max": 2,
     "breaks": [
-      0.0864,
+      0.1,
       0.5
     ]
   },
   "TOTAL.30d.months_of_supply": {
     "min": 0,
-    "max": 6.375,
+    "max": 7.8,
     "breaks": [
-      0.4286,
-      1.8261
+      0.5,
+      2
     ]
   },
   "TOTAL.36M.sold_count": {
     "min": 0,
-    "max": 968,
+    "max": 1180,
     "breaks": [
-      54,
-      234
+      58,
+      252
     ]
   },
   "TOTAL.36M.for_sale_count": {
     "min": 0,
-    "max": 317,
+    "max": 374,
     "breaks": [
-      23,
-      82
+      24,
+      84
     ]
   },
   "TOTAL.36M.sold_median_price": {
     "min": 0,
-    "max": 269000,
+    "max": 311250,
     "breaks": [
       50000,
-      89310
+      90000
     ]
   },
   "TOTAL.36M.for_sale_median_price": {
     "min": 0,
-    "max": 340500,
+    "max": 408000,
     "breaks": [
-      59700,
-      115000
+      59950,
+      120000
     ]
   },
   "TOTAL.36M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 99180,
+    "max": 118750,
     "breaks": [
-      8264,
-      22477
+      8486,
+      23659
     ]
   },
   "TOTAL.36M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 172069,
+    "max": 204024,
     "breaks": [
-      17264,
-      46853
+      17931,
+      48784
     ]
   },
   "TOTAL.36M.sold_median_days_on_market": {
-    "min": 16,
-    "max": 203,
+    "min": 0,
+    "max": 226,
     "breaks": [
       87,
-      114
+      115
     ]
   },
   "TOTAL.36M.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 355,
+    "max": 413,
     "breaks": [
-      107,
-      163
+      106,
+      170
     ]
   },
   "TOTAL.36M.list_sale_ratio": {
     "min": 0,
-    "max": 1.12,
+    "max": 1.4,
     "breaks": [
-      0.22,
-      0.39
+      0.2,
+      0.4
     ]
   },
   "TOTAL.36M.absorption_rate": {
     "min": 0,
-    "max": 8.95,
+    "max": 11,
     "breaks": [
-      1.9337,
-      3.5833
+      1.9,
+      3.8
     ]
   },
   "TOTAL.36M.months_of_supply": {
     "min": 0,
-    "max": 39.8919,
+    "max": 45.8,
     "breaks": [
-      8.0703,
-      13.8857
+      7.9,
+      13.9
     ]
   },
   "TOTAL.6M.sold_count": {
     "min": 0,
-    "max": 135,
+    "max": 161,
     "breaks": [
-      7,
-      34
+      8,
+      35
     ]
   },
   "TOTAL.6M.for_sale_count": {
     "min": 0,
-    "max": 192,
+    "max": 232,
     "breaks": [
       14,
-      50
+      51
     ]
   },
   "TOTAL.6M.sold_median_price": {
     "min": 0,
-    "max": 282250,
+    "max": 336000,
     "breaks": [
-      45000,
-      89000
+      46500,
+      92290
     ]
   },
   "TOTAL.6M.for_sale_median_price": {
     "min": 0,
-    "max": 349500,
+    "max": 404500,
     "breaks": [
-      61500,
-      122500
+      64900,
+      125000
     ]
   },
   "TOTAL.6M.sold_median_price_per_acre": {
     "min": 0,
-    "max": 109114,
+    "max": 129464,
     "breaks": [
-      7100,
-      22014
+      7388,
+      22982
     ]
   },
   "TOTAL.6M.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 166667,
+    "max": 189252,
     "breaks": [
-      14750,
-      43490
+      15000,
+      44261
     ]
   },
   "TOTAL.6M.sold_median_days_on_market": {
     "min": 0,
-    "max": 237,
+    "max": 271,
     "breaks": [
-      75,
-      112
+      76,
+      113
     ]
   },
   "TOTAL.6M.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 156,
+    "max": 174,
     "breaks": [
-      63,
-      86
+      59,
+      83
     ]
   },
   "TOTAL.6M.list_sale_ratio": {
     "min": 0,
-    "max": 3.92,
+    "max": 4.6,
     "breaks": [
-      0.83,
-      1.45
+      0.8,
+      1.4
     ]
   },
   "TOTAL.6M.absorption_rate": {
     "min": 0,
-    "max": 2.1364,
+    "max": 2.7,
     "breaks": [
-      0.44,
-      0.8667
+      0.4,
+      0.9
     ]
   },
   "TOTAL.6M.months_of_supply": {
     "min": 0,
-    "max": 23.52,
+    "max": 28,
     "breaks": [
-      4.98,
-      8.6757
+      4.8,
+      8.8
     ]
   },
   "TOTAL.7d.sold_count": {
     "min": 0,
-    "max": 2,
-    "breaks": [
-      0,
-      0
-    ]
-  },
-  "TOTAL.7d.for_sale_count": {
-    "min": 0,
-    "max": 12,
-    "breaks": [
-      0,
-      3
-    ]
-  },
-  "TOTAL.7d.sold_median_price": {
-    "min": 0,
-    "max": 167950,
-    "breaks": [
-      0,
-      10000
-    ]
-  },
-  "TOTAL.7d.for_sale_median_price": {
-    "min": 0,
-    "max": 410000,
-    "breaks": [
-      0,
-      94900
-    ]
-  },
-  "TOTAL.7d.sold_median_price_per_acre": {
-    "min": 0,
-    "max": 50000,
-    "breaks": [
-      0,
-      0
-    ]
-  },
-  "TOTAL.7d.for_sale_median_price_per_acre": {
-    "min": 0,
-    "max": 152381,
-    "breaks": [
-      0,
-      24950
-    ]
-  },
-  "TOTAL.7d.sold_median_days_on_market": {
-    "min": 0,
-    "max": 175,
+    "max": 6,
     "breaks": [
       0,
       1
     ]
   },
-  "TOTAL.7d.for_sale_median_days_on_market": {
+  "TOTAL.7d.for_sale_count": {
     "min": 0,
-    "max": 15,
+    "max": 18,
+    "breaks": [
+      1,
+      3
+    ]
+  },
+  "TOTAL.7d.sold_median_price": {
+    "min": 0,
+    "max": 225000,
     "breaks": [
       0,
-      5
+      25000
+    ]
+  },
+  "TOTAL.7d.for_sale_median_price": {
+    "min": 0,
+    "max": 525000,
+    "breaks": [
+      5500,
+      110000
+    ]
+  },
+  "TOTAL.7d.sold_median_price_per_acre": {
+    "min": 0,
+    "max": 64946,
+    "breaks": [
+      0,
+      2417
+    ]
+  },
+  "TOTAL.7d.for_sale_median_price_per_acre": {
+    "min": 0,
+    "max": 194167,
+    "breaks": [
+      0,
+      27478
+    ]
+  },
+  "TOTAL.7d.sold_median_days_on_market": {
+    "min": 0,
+    "max": 230,
+    "breaks": [
+      0,
+      28
+    ]
+  },
+  "TOTAL.7d.for_sale_median_days_on_market": {
+    "min": 0,
+    "max": 21,
+    "breaks": [
+      0,
+      6
     ]
   },
   "TOTAL.7d.list_sale_ratio": {
     "min": 0,
-    "max": 3.75,
+    "max": 6,
     "breaks": [
       0,
-      0
+      0.5
     ]
   },
   "TOTAL.7d.absorption_rate": {
     "min": 0,
-    "max": 0.6667,
+    "max": 0.8,
     "breaks": [
       0,
       0
@@ -6166,186 +6166,186 @@
   },
   "TOTAL.7d.months_of_supply": {
     "min": 0,
-    "max": 0.8667,
+    "max": 1.5,
     "breaks": [
       0,
-      0
+      0.1
     ]
   },
   "TOTAL.90d.sold_count": {
     "min": 0,
-    "max": 72,
+    "max": 86,
     "breaks": [
       4,
-      17
+      19
     ]
   },
   "TOTAL.90d.for_sale_count": {
     "min": 0,
-    "max": 123,
+    "max": 153,
     "breaks": [
       9,
-      32
+      34
     ]
   },
   "TOTAL.90d.sold_median_price": {
     "min": 0,
-    "max": 275000,
+    "max": 329950,
     "breaks": [
-      38000,
-      82628
+      40000,
+      85800
     ]
   },
   "TOTAL.90d.for_sale_median_price": {
     "min": 0,
-    "max": 371000,
+    "max": 425000,
     "breaks": [
-      60000,
-      126950
+      62000,
+      128500
     ]
   },
   "TOTAL.90d.sold_median_price_per_acre": {
     "min": 0,
-    "max": 113571,
+    "max": 134251,
     "breaks": [
-      6497,
-      22333
+      6483,
+      22500
     ]
   },
   "TOTAL.90d.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 160364,
+    "max": 186000,
     "breaks": [
-      13448,
-      40609
+      14080,
+      41638
     ]
   },
   "TOTAL.90d.sold_median_days_on_market": {
     "min": 0,
-    "max": 256,
+    "max": 318,
     "breaks": [
-      60,
-      105
+      61,
+      111
     ]
   },
   "TOTAL.90d.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 92,
+    "max": 114,
     "breaks": [
-      38,
-      54
+      36,
+      53
     ]
   },
   "TOTAL.90d.list_sale_ratio": {
     "min": 0,
-    "max": 4.8,
+    "max": 5.8,
     "breaks": [
-      0.88,
-      1.71
+      0.9,
+      1.7
     ]
   },
   "TOTAL.90d.absorption_rate": {
     "min": 0,
-    "max": 1.96,
+    "max": 2.3,
     "breaks": [
-      0.3182,
-      0.6875
+      0.3,
+      0.7
     ]
   },
   "TOTAL.90d.months_of_supply": {
     "min": 0,
-    "max": 14.4,
+    "max": 17.2,
     "breaks": [
-      2.625,
-      5.137
+      2.7,
+      5.3
     ]
   },
   "TOTAL.PENDING.sold_count": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "TOTAL.PENDING.for_sale_count": {
     "min": 0,
-    "max": 42,
+    "max": 50,
     "breaks": [
-      2,
-      10
+      3,
+      11
     ]
   },
   "TOTAL.PENDING.sold_median_price": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "TOTAL.PENDING.for_sale_median_price": {
     "min": 0,
-    "max": 362100,
+    "max": 425000,
     "breaks": [
-      28800,
-      98500
+      30500,
+      100000
     ]
   },
   "TOTAL.PENDING.sold_median_price_per_acre": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "TOTAL.PENDING.for_sale_median_price_per_acre": {
     "min": 0,
-    "max": 118000,
+    "max": 146951,
     "breaks": [
-      3613,
-      20564
+      3871,
+      21845
     ]
   },
   "TOTAL.PENDING.sold_median_days_on_market": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "TOTAL.PENDING.for_sale_median_days_on_market": {
     "min": 0,
-    "max": 470,
+    "max": 617,
     "breaks": [
-      35,
-      135
+      23,
+      151
     ]
   },
   "TOTAL.PENDING.list_sale_ratio": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "TOTAL.PENDING.absorption_rate": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   },
   "TOTAL.PENDING.months_of_supply": {
     "min": 0,
     "max": 0,
     "breaks": [
-      null,
-      null
+      0,
+      0
     ]
   }
 }

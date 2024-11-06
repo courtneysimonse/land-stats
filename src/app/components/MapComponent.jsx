@@ -127,11 +127,18 @@ const MapComponent = () => {
 
     let i = 0;
     breaksSet.forEach((b) => {
-      categories.push({
-        title: b,
-        color: colors[i]
-      })
-      i++;
+      // if (b == 0) {
+      //   categories.push({
+      //     title: b,
+      //     color: "#e3e3e3"
+      //   })
+      // } else {
+        categories.push({
+          title: b,
+          color: colors[i]
+        })
+        i++;
+      // }
     })
 
     return categories;
@@ -358,7 +365,7 @@ const MapComponent = () => {
           291,
           "#f3663a"
         ],
-        ["rgba", 0, 0, 0, 0]
+        ["rgba", 255, 255, 255, 0]
       ]))
 
       map.current.setPaintProperty('states-totals', 'fill-color', [
@@ -383,7 +390,7 @@ const MapComponent = () => {
           17085,
           "#f3663a"
         ],
-        ["rgba", 0, 0, 0, 0]
+        ["rgba", 255, 255, 255, 0]
       ])
 
       map.current.on('mouseenter', ['states-totals', ...countiesLayers], () => {
