@@ -282,8 +282,8 @@ const MapComponent = () => {
       let monthsSupply = props[`${acreageRanges[acres]}.${timeFrames[time]}.months_of_supply`] ?? 0;
       listEl.appendChild(createLi("Months Supply: "+ monthsSupply.toLocaleString(), 'months_of_supply'))
 
-      let absorptionRate = props[`${acreageRanges[acres]}.${timeFrames[time]}.absorption_rate`] ?? 0;
-      listEl.appendChild(createLi("Absorption Rate: "+absorptionRate.toLocaleString(), 'absorption_rate'))
+      let absorptionRate = props[`${acreageRanges[acres]}.${timeFrames[time]}.absorption_rate`] * 100 ?? 0;
+      listEl.appendChild(createLi("Absorption Rate: "+absorptionRate.toLocaleString()+"%", 'absorption_rate'))
 
       // Object.entries(statCats[selectedStatus]).forEach(([l, v]) => {
       //     let statEl = document.createElement('li');
@@ -376,9 +376,9 @@ const MapComponent = () => {
         // add link to button
         if (e.features[0].layer.id == 'states-totals') {
           let stateAbbrev = states.find(x=> x["GEOID"] == e.features[0].properties["GEOID"]).STUSPS
-          popupBtn.setAttribute('href', `/search-results?state=${stateAbbrev}`)
+          popupBtn.setAttribute('href', `${process.env.NEXT_PUBLIC_BASE_URL}/search-results?state=${stateAbbrev}`)
         } else {
-          popupBtn.setAttribute('href', `https://webapp.land-stats.com/search-results?county=${e.features[0].id.toString().padStart(5, '0')}`)
+          popupBtn.setAttribute('href', `${process.env.NEXT_PUBLIC_BASE_URL}/search-results?county=${e.features[0].id.toString().padStart(5, '0')}`)
         }
   
         let highlighted = stat;
