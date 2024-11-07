@@ -69,7 +69,7 @@ const SimpleMapComponent = () => {
         
       });
   
-      map.current.on('mousemove', ['states-fill', 'counties-fill'], (e) => {
+      map.current.on('mousemove', ['states-fill'], (e) => {
         if (e.features.length === 0) return;
         
         let popupContent = createPopup(e.features[0]);
