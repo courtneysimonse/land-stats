@@ -2,7 +2,15 @@ import './LegendControl.css';
 
 const createLi = (category, unit) => {
   let li = document.createElement('li');
-  li.innerText = unit + Math.round(category.title).toLocaleString();
+  if (unit == "$") {
+    li.innerText = unit;
+  }
+  if (unit != "%") {
+    li.innerText += Math.round(category.title).toLocaleString();
+  } else {
+    li.innerText += Math.round(category.title * 100).toLocaleString() + "%";
+  }
+  
 
   let symbol = document.createElement('span');
   symbol.style.background = category.color;
@@ -64,7 +72,12 @@ export default class LegendControl {
     // Clear the existing list items
     this._legendList.innerHTML = '';
 
-    let unit = stat.includes("Price") ? "$" : "";
+    let unit = "";
+    if (stat.includes("Price")) {
+      unit = "$"
+    } else if (stat.includes("Rate")) {
+      unit = "%";
+    }
 
     this._categories.forEach(c => {
       this._legendList.appendChild(createLi(c, unit));
