@@ -33,8 +33,8 @@ const MapComponent = () => {
   const [acres, setAcres] = useState("All Acreages");
   const [layer, setLayer] = useState("State");
   const [legendControl, setLegendControl] = useState(null);
-  const [statesMinMax, setStatesMinMax] = useState(null);
-  const [countiesMinMax, setCountiesMinMax] = useState(null);
+  // const [statesMinMax, setStatesMinMax] = useState(null);
+  // const [countiesMinMax, setCountiesMinMax] = useState(null);
   const [states, setStates] = useState(null);
   const [counties, setCounties] = useState(null);
 
@@ -242,7 +242,6 @@ const MapComponent = () => {
     
     // const categories = calcBreaks(data);
 
-    // Usage example:
     const stats = getStatsForAttribute('composite', mapLayers, varName);
     console.debug('Min:', stats.min);
     console.debug('Max:', stats.max);
@@ -313,7 +312,11 @@ const MapComponent = () => {
     
     map.current.addControl(new ZoomDisplayControl(), 'bottom-right');
 
-    let legend = new LegendControl(calcBreaks({
+    // let stats = getStatsForAttribute('composite', countiesLayers, `${acreageRanges[acres]}.${timeFrames[time]}.${stat}`);
+    // let breaks = calcBreaks(stats);
+
+    let legend = new LegendControl(
+      calcBreaks({
       "min": 361,
       "max": 20144,
       "breaks": [
@@ -322,7 +325,8 @@ const MapComponent = () => {
       ]
     }
       // statesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`]
-    ))
+    )
+    )
     setLegendControl(legend);
     map.current.addControl(legend, 'bottom-right');
 
@@ -675,18 +679,22 @@ const MapComponent = () => {
         let legendTitle;
         let breaks;
 
-        // if (status == "Pending") {
-        //     legendTitle = `${e.target.value} Level - ${status} - ${statName}`;
-        //     breaks = calcBreaks(statesMinMax[`${acreageRanges[acres]}.PENDING.${stat}`])
-        // } else {
-        //     legendTitle = `${e.target.value} Level - ${status} - ${time} - ${statName}`; 
-        //     breaks = calcBreaks(statesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`])
-        // } 
+        if (status == "Pending") {
+            legendTitle = `${e.target.value} Level - ${status} - ${statName}`;
+            let stats = getStatsForAttribute('composite', ['states-totals'], `${acreageRanges[acres]}.PENDING.${stat}`);
+            breaks = calcBreaks(stats);
+            // breaks = calcBreaks(statesMinMax[`${acreageRanges[acres]}.PENDING.${stat}`])
+        } else {
+            legendTitle = `${e.target.value} Level - ${status} - ${time} - ${statName}`; 
+            let stats = getStatsForAttribute('composite', ['states-totals'], `${acreageRanges[acres]}.${timeFrames[time]}.${stat}`);
+            breaks = calcBreaks(stats);
+            // breaks = calcBreaks(statesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`])
+        } 
 
-        // legendControl.updateScale(
-        //   breaks,
-        //   legendTitle
-        // )
+        legendControl.updateScale(
+          breaks,
+          legendTitle
+        )
     }
   }
 
