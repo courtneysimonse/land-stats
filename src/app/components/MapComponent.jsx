@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
+import useSWR from "swr";
 import * as d3 from "d3-fetch";
 import LegendControl from "./LegendControl";
 import ZoomDisplayControl from "./ZoomDisplayControl";
@@ -10,6 +11,17 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 
 import "./MapComponent.css";
 
+function useTimestamp () {
+  const fetcher = (...args) => fetch(...args).then(res => res.json())
+  const baseUrl = "https://landstats-timestamp-api.replit.app";
+  const { data, error, isLoading } = useSWR(`${baseUrl}/timestamp`, fetcher);
+ 
+  return {
+    timestamp: data,
+    isLoading,
+    isError: error
+  }
+}
 
 const MapComponent = () => {
   const mapContainer = useRef(null);
@@ -25,6 +37,23 @@ const MapComponent = () => {
   const [countiesMinMax, setCountiesMinMax] = useState(null);
   const [states, setStates] = useState(null);
   const [counties, setCounties] = useState(null);
+
+  // get timestamp for data
+  const { timestamp, isLoading } = useTimestamp();
+  useEffect(() => {
+    if (!isLoading && timestamp) {
+      console.log("Timestamp:", timestamp);
+    }
+  }, [isLoading, timestamp]);  
+
+  function formatDate(isoString) {
+    const date = new Date(isoString);
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(date.getDate()).padStart(2, '0');
+    const year = date.getFullYear();
+    
+    return `${month}/${day}/${year}`;
+  }
 
   const countiesLayers = ["counties-totals-part-1", "counties-totals-part-2"];
 
@@ -185,16 +214,20 @@ const MapComponent = () => {
   }, [updateColors]);
 
   useEffect(() => {
-    if (!states || !counties || !statesMinMax || !countiesMinMax) return; // Wait for the data to load
+    if (!states || !counties || !statesMinMax || !countiesMinMax || isLoading || !timestamp) return; // Wait for the data to load
     
     if (map.current) return; // initialize map only once
+
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-      
+
+    console.log(timestamp["data"]["timestamp"]);
+    
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/landstats/clvfmorch02dd01pecuq9e0hr',
       bounds: [[-128, 22], [-63, 50]],
-      projection: 'mercator'
+      projection: 'mercator',
+      customAttribution: timestamp["data"]["timestamp"] ? `Data as of: ${formatDate(timestamp["data"]["timestamp"])}` : ""
     });
     
     map.current.addControl(new ZoomDisplayControl(), 'bottom-right');
@@ -300,6 +333,10 @@ const MapComponent = () => {
       //     statEl.textContent = `${l}: ${props[varName].toLocaleString()}`
       //     listEl.appendChild(statEl);
       // })
+
+      let dateEl = document.createElement('li');
+      dateEl.innerText = timestamp["data"]["timestamp"] ? `Data as of: ${formatDate(timestamp["data"]["timestamp"])}` : "";
+      listEl.appendChild(dateEl);
 
       popupContent.appendChild(listEl);
 
@@ -474,7 +511,7 @@ const MapComponent = () => {
       }
     };
 
-  }, [states, counties, statesMinMax, countiesMinMax]);
+  }, [states, counties, statesMinMax, countiesMinMax, isLoading, timestamp]);
 
   const handleStatusChange = (e) => {
     setStatus(e.target.value);
