@@ -33,8 +33,6 @@ const MapComponent = () => {
   const [acres, setAcres] = useState("All Acreages");
   const [layer, setLayer] = useState("State");
   const [legendControl, setLegendControl] = useState(null);
-  // const [statesMinMax, setStatesMinMax] = useState(null);
-  // const [countiesMinMax, setCountiesMinMax] = useState(null);
   const [states, setStates] = useState(null);
   const [counties, setCounties] = useState(null);
 
@@ -123,12 +121,6 @@ const MapComponent = () => {
       const countiesData = await d3.csv('./data/counties.csv');
       setStates(statesData);
       setCounties(countiesData);
-
-      // // load propertyMinMaxs
-      // const statesMinMaxData = await d3.json('./data/state_properties.json');
-      // const countiesMinMaxData = await d3.json('./data/counties_properties.json');
-      // setStatesMinMax(statesMinMaxData);
-      // setCountiesMinMax(countiesMinMaxData);
     }
     loadData()
   }, []);
@@ -238,9 +230,6 @@ const MapComponent = () => {
 
     const mapLayers = geo === "State" ? ['states-totals'] : ['counties-totals-part-1', 'counties-totals-part-2'];
     const varName = status === "Pending" ? `${acreageRanges[acres]}.PENDING.${stat}` : `${acreageRanges[acres]}.${timeFrames[time]}.${stat}`
-    // const data = geo === "State" ? statesMinMax[varName] : countiesMinMax[varName];
-    
-    // const categories = calcBreaks(data);
 
     const stats = getStatsForAttribute('composite', mapLayers, varName);
     console.debug('Min:', stats.min);
@@ -271,9 +260,7 @@ const MapComponent = () => {
 
       legendControl.updateScale(categories, legendTitle);
     }
-  }, [map, acres, time, stat, status
-    //, statesMinMax, countiesMinMax
-    ]);
+  }, [map, acres, time, stat, status ]);
 
   useEffect(() => {
     if (map.current && map.current.loaded() && map.current.idle()) {
@@ -283,9 +270,7 @@ const MapComponent = () => {
   }, [updateColors]);
 
   useEffect(() => {
-    if (!states || !counties || 
-      //!statesMinMax || !countiesMinMax || 
-      isLoading || !timestamp) return; // Wait for the data to load
+    if (!states || !counties || isLoading || !timestamp) return; // Wait for the data to load
     
     if (map.current) return; // initialize map only once
 
@@ -312,9 +297,6 @@ const MapComponent = () => {
     
     map.current.addControl(new ZoomDisplayControl(), 'bottom-right');
 
-    // let stats = getStatsForAttribute('composite', countiesLayers, `${acreageRanges[acres]}.${timeFrames[time]}.${stat}`);
-    // let breaks = calcBreaks(stats);
-
     let legend = new LegendControl(
       calcBreaks({
       "min": 361,
@@ -323,10 +305,8 @@ const MapComponent = () => {
         2576,
         6771
       ]
-    }
-      // statesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`]
-    )
-    )
+      }
+    ))
     setLegendControl(legend);
     map.current.addControl(legend, 'bottom-right');
 
@@ -378,11 +358,6 @@ const MapComponent = () => {
       statusLi.innerHTML = "<strong>STATUS:</strong> "+ status;
       listEl.appendChild(statusLi);
 
-      // if (selectedStatus == "Pending") {
-          
-      // } else {
-          
-      // }
       let soldCount = props[`${acreageRanges[acres]}.${timeFrames[time]}.sold_count`] ?? 0;
       listEl.appendChild(createLi(`Sold Count: ${soldCount.toLocaleString()}`, 'sold_count'));
       
@@ -408,25 +383,14 @@ const MapComponent = () => {
       let medianPrice = props[`${acreageRanges[acres]}.${timeFrames[time]}.sold_median_price`] ?? 0; 
       listEl.appendChild(createLi("Median Price: $"+medianPrice.toLocaleString(), 'sold_median_price'))
 
-      // listEl.appendChild(createLi("Pending Median Price: $"+props[`${acreageRanges[acres]}.PENDING.for_sale_median_price`].toLocaleString(), 'pending.for_sale_median_price'))
-
       let medianPpa = props[`${acreageRanges[acres]}.${timeFrames[time]}.sold_median_price_per_acre`] ?? 0;
       listEl.appendChild(createLi("Median PPA: $"+medianPpa.toLocaleString(), 'sold_median_price_per_acre'))
-
-      // listEl.appendChild(createLi("Pending Median PPA: $"+props[`${acreageRanges[acres]}.PENDING.for_sale_median_price_per_acre`].toLocaleString(), 'pending.for_sale_median_price_per_acre'))
 
       let monthsSupply = props[`${acreageRanges[acres]}.${timeFrames[time]}.months_of_supply`] ?? 0;
       listEl.appendChild(createLi("Months Supply: "+ monthsSupply.toLocaleString(), 'months_of_supply'))
 
       let absorptionRate = props[`${acreageRanges[acres]}.${timeFrames[time]}.absorption_rate`] * 100 ?? 0;
       listEl.appendChild(createLi("Absorption Rate: "+absorptionRate.toLocaleString()+"%", 'absorption_rate'))
-
-      // Object.entries(statCats[selectedStatus]).forEach(([l, v]) => {
-      //     let statEl = document.createElement('li');
-      //     let varName = `${acreageRanges[acres]}.${timeFrames[time]}.${v}`
-      //     statEl.textContent = `${l}: ${props[varName].toLocaleString()}`
-      //     listEl.appendChild(statEl);
-      // })
 
       let dateEl = document.createElement('li');
       dateEl.innerText = timestampMessage;
@@ -605,9 +569,7 @@ const MapComponent = () => {
       }
     };
 
-  }, [states, counties, 
-    //statesMinMax, countiesMinMax, 
-    isLoading, timestamp]);
+  }, [states, counties, isLoading, timestamp]);
 
   const handleStatusChange = (e) => {
     setStatus(e.target.value);
@@ -655,12 +617,12 @@ const MapComponent = () => {
           legendTitle = `${e.target.value} Level - ${status} - ${statName}`;
           let stats = getStatsForAttribute('composite', countiesLayers, `${acreageRanges[acres]}.PENDING.${stat}`);
           breaks = calcBreaks(stats);
-          // breaks = calcBreaks(countiesMinMax[`${acreageRanges[acres]}.PENDING.${stat}`])
+
       } else {
           legendTitle = `${e.target.value} Level - ${status} - ${time} - ${statName}`; 
           let stats = getStatsForAttribute('composite', countiesLayers, `${acreageRanges[acres]}.${timeFrames[time]}.${stat}`);
           breaks = calcBreaks(stats);
-          // breaks = calcBreaks(countiesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`])
+
       } 
 
       legendControl.updateScale(
@@ -683,12 +645,12 @@ const MapComponent = () => {
             legendTitle = `${e.target.value} Level - ${status} - ${statName}`;
             let stats = getStatsForAttribute('composite', ['states-totals'], `${acreageRanges[acres]}.PENDING.${stat}`);
             breaks = calcBreaks(stats);
-            // breaks = calcBreaks(statesMinMax[`${acreageRanges[acres]}.PENDING.${stat}`])
+
         } else {
             legendTitle = `${e.target.value} Level - ${status} - ${time} - ${statName}`; 
             let stats = getStatsForAttribute('composite', ['states-totals'], `${acreageRanges[acres]}.${timeFrames[time]}.${stat}`);
             breaks = calcBreaks(stats);
-            // breaks = calcBreaks(statesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`])
+
         } 
 
         legendControl.updateScale(
