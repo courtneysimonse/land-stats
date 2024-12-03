@@ -124,11 +124,11 @@ const MapComponent = () => {
       setStates(statesData);
       setCounties(countiesData);
 
-      // load propertyMinMaxs
-      const statesMinMaxData = await d3.json('./data/state_properties.json');
-      const countiesMinMaxData = await d3.json('./data/counties_properties.json');
-      setStatesMinMax(statesMinMaxData);
-      setCountiesMinMax(countiesMinMaxData);
+      // // load propertyMinMaxs
+      // const statesMinMaxData = await d3.json('./data/state_properties.json');
+      // const countiesMinMaxData = await d3.json('./data/counties_properties.json');
+      // setStatesMinMax(statesMinMaxData);
+      // setCountiesMinMax(countiesMinMaxData);
     }
     loadData()
   }, []);
@@ -173,14 +173,82 @@ const MapComponent = () => {
     return categories;
   };
 
+  function getStatsForAttribute(sourceId, sourceLayers, attribute) {
+    // Query features from the source
+    const features = [];
+
+    sourceLayers.forEach(sourceLayer => {
+      let newFeatures = map.current.querySourceFeatures(sourceId, {
+        sourceLayer: sourceLayer
+      });
+      features.push(...newFeatures);
+    })
+
+    if (features.length == 0) return;
+
+    // Extract attribute values, filter out non-numeric or null values
+    const values = features
+        .map(feature => feature.properties[attribute])
+        .filter(value => typeof +value === 'number' && !isNaN(+value));
+
+    if (values.length === 0) {
+        return { min: null, max: null, breaks: [], filteredValues: [] };
+    }
+
+    // Sort values in ascending order
+    values.sort((a, b) => a - b);
+
+    // Helper function to calculate specific percentile
+    const getPercentile = (sortedValues, p) => {
+      const pos = (sortedValues.length - 1) * p;
+      const base = Math.floor(pos);
+      const rest = pos - base;
+
+      if (sortedValues[base + 1] !== undefined) {
+          return sortedValues[base] + rest * (sortedValues[base + 1] - sortedValues[base]);
+      } else {
+          return sortedValues[base];
+      }
+    };
+
+    // Calculate 33.3rd and 66.6th percentiles for terciles
+    const T1 = getPercentile(values, 1 / 3);  // 33.3rd percentile
+    const T2 = getPercentile(values, 2 / 3);  // 66.6th percentile
+
+    // Define thresholds for outliers using T1 and T2 (optional)
+    const ITR = T2 - T1;  // Inter-tercile range (analogous to IQR)
+    const lowerBound = T1 - 1.5 * ITR;
+    const upperBound = T2 + 1.5 * ITR;
+
+    // Filter out outliers
+    const filteredValues = values.filter(value => value >= lowerBound && value <= upperBound);
+
+    // Recalculate min, max, and terciles after filtering
+    const min = values.filter(v => v != 0)[0];
+    const max = values[values.length - 1];
+    const breaks = [
+      getPercentile(filteredValues, 1 / 3),
+      getPercentile(filteredValues, 2 / 3)
+    ];
+
+    return { min, max, breaks };
+  }
 
   const updateColors = useCallback((geo) => {
 
     const mapLayers = geo === "State" ? ['states-totals'] : ['counties-totals-part-1', 'counties-totals-part-2'];
     const varName = status === "Pending" ? `${acreageRanges[acres]}.PENDING.${stat}` : `${acreageRanges[acres]}.${timeFrames[time]}.${stat}`
-    const data = geo === "State" ? statesMinMax[varName] : countiesMinMax[varName];
+    // const data = geo === "State" ? statesMinMax[varName] : countiesMinMax[varName];
     
-    const categories = calcBreaks(data);
+    // const categories = calcBreaks(data);
+
+    // Usage example:
+    const stats = getStatsForAttribute('composite', mapLayers, varName);
+    console.debug('Min:', stats.min);
+    console.debug('Max:', stats.max);
+    console.debug('Terciles:', stats.breaks);
+
+    const categories = stats ? calcBreaks(stats) : [];
 
     const colorExp = [
       'case', 
@@ -204,35 +272,57 @@ const MapComponent = () => {
 
       legendControl.updateScale(categories, legendTitle);
     }
-  }, [map, acres, time, stat, status, statesMinMax, countiesMinMax]);
+  }, [map, acres, time, stat, status
+    //, statesMinMax, countiesMinMax
+    ]);
 
   useEffect(() => {
-    if (map.current && map.current.loaded()) {
+    if (map.current && map.current.loaded() && map.current.idle()) {
       updateColors("State");
       updateColors("County");
     }
   }, [updateColors]);
 
   useEffect(() => {
-    if (!states || !counties || !statesMinMax || !countiesMinMax || isLoading || !timestamp) return; // Wait for the data to load
+    if (!states || !counties || 
+      //!statesMinMax || !countiesMinMax || 
+      isLoading || !timestamp) return; // Wait for the data to load
     
     if (map.current) return; // initialize map only once
 
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
-    console.log(timestamp["data"]["timestamp"]);
+    let timestampMessage = "";
+
+    try {
+      const dataTimestamp = timestamp?.data?.timestamp;
+      timestampMessage = dataTimestamp 
+        ? `Data as of: ${formatDate(dataTimestamp)}`
+        : "";
+    } catch (error) {
+      console.error("Error accessing or formatting timestamp:", error);
+    }    
     
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/landstats/clvfmorch02dd01pecuq9e0hr',
       bounds: [[-128, 22], [-63, 50]],
       projection: 'mercator',
-      customAttribution: timestamp["data"]["timestamp"] ? `Data as of: ${formatDate(timestamp["data"]["timestamp"])}` : ""
+      customAttribution: timestampMessage
     });
     
     map.current.addControl(new ZoomDisplayControl(), 'bottom-right');
 
-    let legend = new LegendControl(calcBreaks(statesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`]))
+    let legend = new LegendControl(calcBreaks({
+      "min": 361,
+      "max": 20144,
+      "breaks": [
+        2576,
+        6771
+      ]
+    }
+      // statesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`]
+    ))
     setLegendControl(legend);
     map.current.addControl(legend, 'bottom-right');
 
@@ -335,7 +425,7 @@ const MapComponent = () => {
       // })
 
       let dateEl = document.createElement('li');
-      dateEl.innerText = timestamp["data"]["timestamp"] ? `Data as of: ${formatDate(timestamp["data"]["timestamp"])}` : "";
+      dateEl.innerText = timestampMessage;
       listEl.appendChild(dateEl);
 
       popupContent.appendChild(listEl);
@@ -511,11 +601,17 @@ const MapComponent = () => {
       }
     };
 
-  }, [states, counties, statesMinMax, countiesMinMax, isLoading, timestamp]);
+  }, [states, counties, 
+    //statesMinMax, countiesMinMax, 
+    isLoading, timestamp]);
 
   const handleStatusChange = (e) => {
     setStatus(e.target.value);
-    setStat('for_sale_count');
+    if (e.target.value == "Sold") {
+      setStat('sold_count');
+    } else {
+      setStat('for_sale_count');
+    }
 
     // Update time select disabled state
     setTimeSelectDisabled(e.target.value === "Pending");
@@ -553,10 +649,14 @@ const MapComponent = () => {
       let breaks;
       if (status == "Pending") {
           legendTitle = `${e.target.value} Level - ${status} - ${statName}`;
-          breaks = calcBreaks(countiesMinMax[`${acreageRanges[acres]}.PENDING.${stat}`])
+          let stats = getStatsForAttribute('composite', countiesLayers, `${acreageRanges[acres]}.PENDING.${stat}`);
+          breaks = calcBreaks(stats);
+          // breaks = calcBreaks(countiesMinMax[`${acreageRanges[acres]}.PENDING.${stat}`])
       } else {
           legendTitle = `${e.target.value} Level - ${status} - ${time} - ${statName}`; 
-          breaks = calcBreaks(countiesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`])
+          let stats = getStatsForAttribute('composite', countiesLayers, `${acreageRanges[acres]}.${timeFrames[time]}.${stat}`);
+          breaks = calcBreaks(stats);
+          // breaks = calcBreaks(countiesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`])
       } 
 
       legendControl.updateScale(
@@ -575,18 +675,18 @@ const MapComponent = () => {
         let legendTitle;
         let breaks;
 
-        if (status == "Pending") {
-            legendTitle = `${e.target.value} Level - ${status} - ${statName}`;
-            breaks = calcBreaks(statesMinMax[`${acreageRanges[acres]}.PENDING.${stat}`])
-        } else {
-            legendTitle = `${e.target.value} Level - ${status} - ${time} - ${statName}`; 
-            breaks = calcBreaks(statesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`])
-        } 
+        // if (status == "Pending") {
+        //     legendTitle = `${e.target.value} Level - ${status} - ${statName}`;
+        //     breaks = calcBreaks(statesMinMax[`${acreageRanges[acres]}.PENDING.${stat}`])
+        // } else {
+        //     legendTitle = `${e.target.value} Level - ${status} - ${time} - ${statName}`; 
+        //     breaks = calcBreaks(statesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`])
+        // } 
 
-        legendControl.updateScale(
-          breaks,
-          legendTitle
-        )
+        // legendControl.updateScale(
+        //   breaks,
+        //   legendTitle
+        // )
     }
   }
 
