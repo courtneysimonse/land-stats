@@ -2,11 +2,24 @@ import './LegendControl.css';
 
 const createLi = (category, unit) => {
   let li = document.createElement('li');
-  li.innerText = unit + Math.round(category.title).toLocaleString();
-
+  if (unit == "$") {
+    li.innerText = unit;
+  }
+  if (unit != "%") {
+    li.innerText += Math.round(category.title).toLocaleString();
+  } else {
+    li.innerText += Math.round(category.title * 100).toLocaleString() + "%";
+  }
+  
   let symbol = document.createElement('span');
-  symbol.style.background = category.color;
-  symbol.style.borderColor = category.color;
+  if (+category.title == 0) {
+    symbol.style.background = "#e3e3e3";
+    symbol.style.borderColor = "#e3e3e3";
+  } else {
+    symbol.style.background = category.color;
+    symbol.style.borderColor = category.color;
+  }
+
   li.appendChild(symbol);
 
   return li
@@ -14,7 +27,7 @@ const createLi = (category, unit) => {
 
 export default class LegendControl {
   constructor(categories) {
-    this.categories = categories;
+    this.categories = categories.sort((a, b) => b.title - a.title);
   }
 
   onAdd(map) {
@@ -57,14 +70,19 @@ export default class LegendControl {
       return;
     }
 
-    this._categories = categories;
+    this._categories = categories.sort((a, b) => b.title - a.title);
 
     this._legendSubHeading.innerText = stat;
 
     // Clear the existing list items
     this._legendList.innerHTML = '';
 
-    let unit = stat.includes("Price") ? "$" : "";
+    let unit = "";
+    if (stat.includes("Price")) {
+      unit = "$"
+    } else if (stat.includes("Rate")) {
+      unit = "%";
+    }
 
     this._categories.forEach(c => {
       this._legendList.appendChild(createLi(c, unit));
