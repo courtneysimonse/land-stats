@@ -1,3 +1,5 @@
+import config from "./mapConfig";
+
 export const getStatsForAttribute = (map, sourceId, sourceLayers, attribute) => {
     const features = sourceLayers.flatMap(layer => 
       map.querySourceFeatures(sourceId, { sourceLayer: layer })
@@ -24,36 +26,84 @@ export const getStatsForAttribute = (map, sourceId, sourceLayers, attribute) => 
     const breaks = [getPercentile(values, 1 / 3), getPercentile(values, 2 / 3)];
   
     return { min, max, breaks };
-  };
-  
-  export const calcBreaks = ({ min, max, breaks }) => {
+};
+
+export const calcBreaks = ({ min, max, breaks }) => {
     const colors = ["#0f9b4a", "#fecc08", "#f69938", "#f3663a"];
     return [min, ...breaks, max].map((val, i) => ({
-      title: val,
-      color: colors[i],
+        title: val,
+        color: colors[i],
     }));
-  };
+};
+
+export function createPopup(feature, {states, counties}, filters, timestampMessage) {
+    let props = feature.properties;
+    let popupContent = document.createElement('div');
+    let listEl = document.createElement('ul');
   
-  export const createPopup = (feature, states, counties, filters) => {
-    const props = feature.properties;
-    const content = document.createElement('div');
-    const list = document.createElement('ul');
+    // Add layer and geo information
+    listEl.appendChild(createListItem("LAYER:", feature.layer.id === 'states-totals' ? "State" : "County"));
+    listEl.appendChild(createGeoListItem(feature, {states, counties}));
   
-    const items = [
-      { label: "Layer", value: feature.layer.id.includes("state") ? "State" : "County" },
-      { label: "Timeframe", value: filters.time },
-      { label: "Acreage", value: filters.acres },
-      { label: "Status", value: filters.status },
-      { label: "Sold Count", value: props.sold_count ?? 0 },
-    ];
+    // Add filter information
+    listEl.appendChild(createListItem("TIMEFRAME:", filters.time));
+    listEl.appendChild(createListItem("ACREAGE:", filters.acres));
+    listEl.appendChild(createListItem("STATUS:", filters.status));
   
-    items.forEach(({ label, value }) => {
-      const li = document.createElement('li');
-      li.innerHTML = `<strong>${label}:</strong> ${value}`;
-      list.appendChild(li);
-    });
+    // Construct the stat prefix
+    let statPrefix = `${config.acresOptions[filters.acres]}.${config.timeOptions[filters.time]}`;
   
-    content.appendChild(list);
-    return content.outerHTML;
-  };
+    // Add stats
+    listEl.appendChild(createStatItem("Sold Count", props[`${statPrefix}.sold_count`], 'sold_count'));
+    listEl.appendChild(createStatItem("For Sale Count", props[`${statPrefix}.for_sale_count`], 'for_sale_count'));
+    listEl.appendChild(createStatItem("Pending Count", props[`${config.acresOptions[filters.acres]}.PENDING.for_sale_count`], 'pending.for_sale_count'));
+  
+    let soldCount = props[`${statPrefix}.sold_count`] ?? 0;
+    let forSaleCount = props[`${statPrefix}.for_sale_count`] ?? 0;
+    let strRaw = soldCount / forSaleCount;
+    listEl.appendChild(createStatItem("STR", `${(100 * strRaw).toFixed(0)}%`, 'list_sale_ratio'));
+  
+    listEl.appendChild(createStatItem("DOM Sold", props[`${statPrefix}.sold_median_days_on_market`], 'sold_median_days_on_market'));
+    listEl.appendChild(createStatItem("DOM For Sale", props[`${statPrefix}.for_sale_median_days_on_market`], 'for_sale_median_days_on_market'));
+    listEl.appendChild(createStatItem("DOM Pending", props[`${config.acresOptions[filters.acres]}.PENDING.for_sale_median_days_on_market`], 'pending.for_sale_median_days_on_market'));
+  
+    listEl.appendChild(createStatItem("Median Price", props[`${statPrefix}.sold_median_price`], 'sold_median_price'));
+    listEl.appendChild(createStatItem("Median PPA", props[`${statPrefix}.sold_median_price_per_acre`], 'sold_median_price_per_acre'));
+    listEl.appendChild(createStatItem("Months Supply", props[`${statPrefix}.months_of_supply`], 'months_of_supply'));
+  
+    let absorptionRate = props[`${statPrefix}.absorption_rate`] * 100 ?? 0;
+    listEl.appendChild(createStatItem("Absorption Rate", `${absorptionRate.toLocaleString()}%`, 'absorption_rate'));
+  
+    // Add date information
+    listEl.appendChild(createListItem("Date:", timestampMessage));
+  
+    popupContent.appendChild(listEl);
+
+    function createStatItem(label, statValue = 0, propName) {
+      if (!propName.includes('rate')) {
+        statValue = statValue.toLocaleString();
+      } 
+      return createListItem(label, statValue, propName);
+    } 
+
+    return popupContent;
+  }
+  
+  function createListItem(label, value, propName) {
+    let li = document.createElement('li');
+    li.innerHTML = `<strong>${label}</strong> ${value}`;
+    li.dataset.stat = propName
+    return li;
+  }
+  
+  function createGeoListItem(feature, {states, counties}) {
+    let li = document.createElement('li');
+    let geoLabel = feature.layer.id === 'states-totals' ? "State" : "County";
+    let geoName = feature.layer.id === 'states-totals' 
+      ? states.find(x => x["GEOID"] == feature.properties["GEOID"])?.NAME 
+      : counties.find(x => x['GEOID'] == feature.id)?.NAME;
+  
+    li.innerHTML = `<strong>SELECTED:</strong> ${geoName || 'N/A'}`;
+    return li;
+  }
   

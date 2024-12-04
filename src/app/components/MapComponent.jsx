@@ -5,6 +5,7 @@ import ZoomDisplayControl from "./ZoomDisplayControl";
 import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import config from "./mapConfig";
+import { createPopup } from "./mapUtils";
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
@@ -177,7 +178,8 @@ const MapComponent = () => {
   const updateColors = useCallback((geo) => {
 
     const mapLayers = filters.layer === "State" ? config.stateLayers : config.countyLayers;
-    const varName = `${config.acresOptions[filters.acres]}.${config.timeOptions[filters.time]}.${filters.stat}`;
+
+    const varName = filters.status === "Pending" ? `${config.acresOptions[filters.acres]}.PENDING.${filters.stat}` : `${config.acresOptions[filters.acres]}.${config.timeOptions[filters.time]}.${filters.stat}`;
 
     const stats = getStatsForAttribute('composite', mapLayers, varName);
     console.debug('Min:', stats.min);
@@ -259,124 +261,6 @@ const MapComponent = () => {
       'bottom-left'
     );
 
-    function createPopup(feature) {
-
-      let props = feature.properties;
-      
-      let popupContent = document.createElement('div');
-
-      let listEl = document.createElement('ul');
-
-      let layerLi = document.createElement('li');
-      let geoLi = document.createElement('li');
-      if (feature.layer.id == 'states-totals') {
-          layerLi.innerHTML = "<strong>LAYER:</strong> State";
-
-          let stateName = states.find(x=> x["GEOID"] == props["GEOID"]).NAME
-          geoLi.innerHTML = "<strong>SELECTED:</strong> " + stateName;
-
-      } else {
-          layerLi.innerHTML = "<strong>LAYER:</strong> County"
-
-          let countyFeature = counties.find(x=> x['GEOID'] == feature.id);
-          
-          let countyName = counties.find(x=> x['GEOID'] == feature.id).NAME ?? "";
-          geoLi.innerHTML = "<strong>SELECTED:</strong> " + countyName;
-      }
-
-      listEl.appendChild(layerLi);
-      listEl.appendChild(geoLi);
-
-      let timeLi = document.createElement('li');
-      timeLi.innerHTML = "<strong>TIMEFRAME:</strong> " + filters.time;
-      listEl.appendChild(timeLi);
-
-      let acreLi = document.createElement('li');
-      acreLi.innerHTML = "<strong>ACREAGE:</strong> " + filters.acres;
-      listEl.appendChild(acreLi);
-
-      let statusLi = document.createElement('li');
-      statusLi.innerHTML = "<strong>STATUS:</strong> "+ filters.status;
-      listEl.appendChild(statusLi);
-
-      let statPrefix = `${config.acresOptions[filters.acres]}.${config.timeOptions[filters.time]}`;
-
-      let soldCount = props[`${statPrefix}.sold_count`] ?? 0;
-      listEl.appendChild(createLi(`Sold Count: ${soldCount.toLocaleString()}`, 'sold_count'));
-      
-      let forSaleCount = props[`${statPrefix}.for_sale_count`] ?? 0;
-      listEl.appendChild(createLi("For Sale Count: "+forSaleCount.toLocaleString(), 'for_sale_count'))
-
-      let pendingCount = props[`${config.acresOptions[filters.acres]}.PENDING.for_sale_count`] ?? 0;
-      listEl.appendChild(createLi("Pending Count: "+pendingCount.toLocaleString(), 'pending.for_sale_count'))
-
-      let strRaw = soldCount / forSaleCount;
-      let str = 100*strRaw;
-      listEl.appendChild(createLi("STR: "+ str.toFixed(0)+"%", 'list_sale_ratio'))
-
-      let domSold = props[`${statPrefix}.sold_median_days_on_market`] ?? 0;
-      listEl.appendChild(createLi("DOM Sold: "+domSold.toLocaleString() + ' d', 'sold_median_days_on_market'))
-
-      let domForSale = props[`${statPrefix}.for_sale_median_days_on_market`] ?? 0;
-      listEl.appendChild(createLi("DOM For Sale: "+domForSale.toLocaleString() + ' d', 'for_sale_median_days_on_market'))
-
-      let domPending = props[`${statPrefix}.PENDING.for_sale_median_days_on_market`] ?? 0;
-      listEl.appendChild(createLi("DOM Pending: "+domPending.toLocaleString() + ' d', 'pending.for_sale_median_days_on_market'))
-
-      let medianPrice = props[`${statPrefix}.sold_median_price`] ?? 0; 
-      listEl.appendChild(createLi("Median Price: $"+medianPrice.toLocaleString(), 'sold_median_price'))
-
-      let medianPpa = props[`${statPrefix}.sold_median_price_per_acre`] ?? 0;
-      listEl.appendChild(createLi("Median PPA: $"+medianPpa.toLocaleString(), 'sold_median_price_per_acre'))
-
-      let monthsSupply = props[`${statPrefix}.months_of_supply`] ?? 0;
-      listEl.appendChild(createLi("Months Supply: "+ monthsSupply.toLocaleString(), 'months_of_supply'))
-
-      let absorptionRate = props[`${statPrefix}.absorption_rate`] * 100 ?? 0;
-      listEl.appendChild(createLi("Absorption Rate: "+absorptionRate.toLocaleString()+"%", 'absorption_rate'))
-
-      let dateEl = document.createElement('li');
-      dateEl.innerText = timestampMessage;
-      listEl.appendChild(dateEl);
-
-      popupContent.appendChild(listEl);
-
-      return popupContent;
-    }
-
-    function createLi(text, attr) {
-      let li = document.createElement('li');
-      li.innerText = text;
-      li.dataset.stat = attr;
-      return li;
-    }
-
-    // const defaultStateColors = map.current.getPaintProperty('states-totals', 'fill-color');
-    // const defaultCounty1Colors = map.current.getPaintProperty('counties-totals-part-1', 'fill-color');
-    // const defaultCounty2Colors = map.current.getPaintProperty('counties-totals-part-2', 'fill-color');
-
-
-    // map.current.on('zoomend', () => {
-    //   if (map.current.getZoom() >= 9) {
-    //     map.current.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'visible');
-    //     map.current.setLayoutProperty('counties-totals', 'visibility', 'none');
-    //     map.current.setLayoutProperty('states-totals', 'visibility', 'none');
-    //     map.current.setFilter('states-totals', null);
-    //   } else if (map.current.getZoom() >= 5) {
-    //     map.current.setLayoutProperty('counties-totals', 'visibility', 'visible');
-    //     map.current.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
-    //     map.current.setLayoutProperty('states-totals', 'visibility', 'none');
-    //     map.current.setFilter('states-totals', null);
-    //     legend.updateScale(calcBreaks(countiesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`]));
-    //   } else {
-    //     map.current.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
-    //     map.current.setLayoutProperty('counties-totals', 'visibility', 'none');
-    //     map.current.setLayoutProperty('states-totals', 'visibility', 'visible');
-    //     map.current.setFilter('states-totals', null);
-    //     legend.updateScale(calcBreaks(statesMinMax[`${acreageRanges[acres]}.${timeFrames[time]}.${stat}`]));
-    //   }
-    // });
-
     const tooltip = new mapboxgl.Popup({closeButton: false, className: 'map-tooltip'});
 
     map.current.on('load', () => {
@@ -436,7 +320,7 @@ const MapComponent = () => {
       });
   
       map.current.on('mousemove', [...config.stateLayers, ...config.countyLayers], (e) => {
-        let popupContent = createPopup(e.features[0]);
+        let popupContent = createPopup(e.features[0], {states, counties}, filters, timestampMessage);
   
         let highlighted = filters.stat;
         if (filters.status == "Pending") {
@@ -464,7 +348,7 @@ const MapComponent = () => {
       map.current.on('click', [...config.stateLayers, ...config.countyLayers], (e) => {
         tooltip.remove();
         
-        let popupContent = createPopup(e.features[0]);
+        let popupContent = createPopup(e.features[0], {states, counties}, filters, timestampMessage);
   
         let popupBtn = document.createElement('a');
         popupBtn.classList = 'btn btn-primary';
@@ -557,62 +441,6 @@ const MapComponent = () => {
     const legendTitle = `${newLayer} Level - ${filters.status} - ${filters.status === "Pending" ? statName : `${filters.time} - ${statName}`}`;
     legendControl.updateScale(breaks, legendTitle);
 
-    // if (e.target.value == 'County') {
-
-    //   countiesLayers.forEach(layer => map.current.setLayoutProperty(layer, 'visibility', 'visible'))
-
-    //   map.current.setLayoutProperty('counties-lines', 'visibility', 'visible');
-    //   // map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
-    //   map.current.setLayoutProperty('states-totals', 'visibility', 'none');
-    //   map.current.setFilter('states-totals', null);
-
-    //   let legendTitle;
-    //   let breaks;
-    //   if (filters.status == "Pending") {
-    //       legendTitle = `${e.target.value} Level - ${filters.status} - ${statName}`;
-    //       let stats = getStatsForAttribute('composite', countiesLayers, `${config.acresOptions[filters.acres]}.PENDING.${filters.stat}`);
-    //       breaks = calcBreaks(stats);
-
-    //   } else {
-    //       legendTitle = `${e.target.value} Level - ${filters.status} - ${filters.time} - ${statName}`; 
-    //       let stats = getStatsForAttribute('composite', countiesLayers, `${config.acresOptions[filters.acres]}.${config.timeOptions[filters.time]}.${filters.stat}`);
-    //       breaks = calcBreaks(stats);
-
-    //   } 
-
-    //   legendControl.updateScale(
-    //     breaks,
-    //     legendTitle
-    //   )
-    // } else {
-
-    //     // map.setLayoutProperty('zip-totals-Zoom 5', 'visibility', 'none');
-    //     map.current.setLayoutProperty('counties-totals-part-1', 'visibility', 'none');
-    //     map.current.setLayoutProperty('counties-totals-part-2', 'visibility', 'none');
-    //     map.current.setLayoutProperty('counties-lines', 'visibility', 'none');
-    //     map.current.setLayoutProperty('states-totals', 'visibility', 'visible');
-    //     map.current.setFilter('states-totals', null);
-    
-    //     let legendTitle;
-    //     let breaks;
-
-    //     if (filters.status == "Pending") {
-    //         legendTitle = `${e.target.value} Level - ${filters.status} - ${statName}`;
-    //         let stats = getStatsForAttribute('composite', config.stateLayers, `${config.acresOptions[filters.acres]}.PENDING.${filters.stat}`);
-    //         breaks = calcBreaks(stats);
-
-    //     } else {
-    //         legendTitle = `${e.target.value} Level - ${filters.status} - ${filters.time} - ${statName}`; 
-    //         let stats = getStatsForAttribute('composite', config.stateLayers, `${config.acresOptions[filters.acres]}.${config.timeOptions[filters.time]}.${filters.stat}`);
-    //         breaks = calcBreaks(stats);
-
-    //     } 
-
-    //     legendControl.updateScale(
-    //       breaks,
-    //       legendTitle
-    //     )
-    // }
   }
 
   return (
@@ -631,12 +459,7 @@ const MapComponent = () => {
       <div id="map-filters">
         <fieldset>
           {filterConfigs.map(({ label, name, options }) => {
-              console.log("Rendering filter:", label);
-              console.log("Current filter name:", name);
-              console.log("Current filter value:", filters[name]);
-              
               const selectOptions = name === "stat" ? config.statOptions[filters.status] : options;
-              console.log("Stat options:", selectOptions);
 
               return (
                 <div key={name} className="filter-group">
@@ -663,70 +486,6 @@ const MapComponent = () => {
                 </div>
               );
             })}
-
-            {/* <label htmlFor="status-select">Status:</label>
-            <select 
-              name="status"
-              id="status-select" 
-              value={status} 
-              onChange={handleStatusChange}
-            >
-              {Object.keys(statCats).map((status) => (
-                <option key={status} value={status}>
-                  {status}
-                </option>
-              ))} 
-            </select>
-          </div>
-          <div className="filter-group">
-            <label htmlFor="time-select">Time Frame:</label>
-            <select 
-              name="time-frame" 
-              id="time-select" 
-              value={time} 
-              onChange={handleTimeChange}
-              disabled={isTimeSelectDisabled}
-            >
-              {Object.keys(timeFrames).map((status) => (
-                <option key={status} value={status}>
-                  {status}
-                </option>
-              ))} 
-            </select>
-          </div>
-          <div className="filter-group">
-            <label htmlFor="acres-select">Acreages:</label>
-            <select
-              name="acreages" 
-              id="acres-select" 
-              value={acres} 
-              onChange={handleAcresChange}
-            >
-              {Object.keys(acreageRanges).map((status) => (
-                <option key={status} value={status}>
-                  {status}
-                </option>
-              ))} 
-            </select>
-          </div>
-          <div className="filter-group">
-            <label htmlFor="stats-select">Statistics:</label>
-            <select name="statistics" id="stats-select" value={stat} onChange={handleStatChange}>
-              {updateStatsOpts()}
-            </select>
-          </div>
-          <div className="filter-group">
-              <label htmlFor="layer-select">Layers:</label>
-              <select 
-                name="layers" 
-                id="layer-select" 
-                value={layer}
-                onChange={handleLayerChange}
-              >
-                <option value="State">States</option>
-                <option value="County">Counties</option>
-              </select>
-          </div> */}
         </fieldset>
       </div>
       <div id="map"
