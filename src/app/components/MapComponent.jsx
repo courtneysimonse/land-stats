@@ -5,7 +5,7 @@ import ZoomDisplayControl from "./ZoomDisplayControl";
 import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import config from "./mapConfig";
-import { createPopup } from "./mapUtils";
+import { getStatsForAttribute, calcBreaks, createPopup } from "./mapUtils";
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
@@ -84,96 +84,96 @@ const MapComponent = () => {
     if (name === "layer") handleLayerChange(e);
   };
 
-  const calcBreaks = (data) => {
-    let breaks = [
-      data.min,
-      ...data.breaks,
-      data.max
-    ];
+  // const calcBreaks = (data) => {
+  //   let breaks = [
+  //     data.min,
+  //     ...data.breaks,
+  //     data.max
+  //   ];
 
-    let breaksSet = new Set(breaks);
+  //   let breaksSet = new Set(breaks);
 
-    let categories = [];
+  //   let categories = [];
 
-    let i = 0;
-    breaksSet.forEach((b) => {
-      // if (b == 0) {
-      //   categories.push({
-      //     title: b,
-      //     color: "#e3e3e3"
-      //   })
-      // } else {
-        categories.push({
-          title: b,
-          color: config.colors[i]
-        })
-        i++;
-      // }
-    })
+  //   let i = 0;
+  //   breaksSet.forEach((b) => {
+  //     // if (b == 0) {
+  //     //   categories.push({
+  //     //     title: b,
+  //     //     color: "#e3e3e3"
+  //     //   })
+  //     // } else {
+  //       categories.push({
+  //         title: b,
+  //         color: config.colors[i]
+  //       })
+  //       i++;
+  //     // }
+  //   })
 
-    return categories;
-  };
+  //   return categories;
+  // };
 
-  function getStatsForAttribute(sourceId, sourceLayers, attribute) {
-    // Query features from the source
-    const features = [];
+  // function getStatsForAttribute(sourceId, sourceLayers, attribute) {
+  //   // Query features from the source
+  //   const features = [];
 
-    sourceLayers.forEach(sourceLayer => {
-      let newFeatures = map.current.querySourceFeatures(sourceId, {
-        sourceLayer: sourceLayer
-      });
-      features.push(...newFeatures);
-    })
+  //   sourceLayers.forEach(sourceLayer => {
+  //     let newFeatures = map.current.querySourceFeatures(sourceId, {
+  //       sourceLayer: sourceLayer
+  //     });
+  //     features.push(...newFeatures);
+  //   })
 
-    if (features.length == 0) return;
+  //   if (features.length == 0) return;
 
-    // Extract attribute values, filter out non-numeric or null values
-    const values = features
-        .map(feature => feature.properties[attribute])
-        .filter(value => typeof +value === 'number' && !isNaN(+value));
+  //   // Extract attribute values, filter out non-numeric or null values
+  //   const values = features
+  //       .map(feature => feature.properties[attribute])
+  //       .filter(value => typeof +value === 'number' && !isNaN(+value));
 
-    if (values.length === 0) {
-        return { min: null, max: null, breaks: [], filteredValues: [] };
-    }
+  //   if (values.length === 0) {
+  //       return { min: null, max: null, breaks: [], filteredValues: [] };
+  //   }
 
-    // Sort values in ascending order
-    values.sort((a, b) => a - b);
+  //   // Sort values in ascending order
+  //   values.sort((a, b) => a - b);
 
-    // Helper function to calculate specific percentile
-    const getPercentile = (sortedValues, p) => {
-      const pos = (sortedValues.length - 1) * p;
-      const base = Math.floor(pos);
-      const rest = pos - base;
+  //   // Helper function to calculate specific percentile
+  //   const getPercentile = (sortedValues, p) => {
+  //     const pos = (sortedValues.length - 1) * p;
+  //     const base = Math.floor(pos);
+  //     const rest = pos - base;
 
-      if (sortedValues[base + 1] !== undefined) {
-          return sortedValues[base] + rest * (sortedValues[base + 1] - sortedValues[base]);
-      } else {
-          return sortedValues[base];
-      }
-    };
+  //     if (sortedValues[base + 1] !== undefined) {
+  //         return sortedValues[base] + rest * (sortedValues[base + 1] - sortedValues[base]);
+  //     } else {
+  //         return sortedValues[base];
+  //     }
+  //   };
 
-    // Calculate 33.3rd and 66.6th percentiles for terciles
-    const T1 = getPercentile(values, 1 / 3);  // 33.3rd percentile
-    const T2 = getPercentile(values, 2 / 3);  // 66.6th percentile
+  //   // Calculate 33.3rd and 66.6th percentiles for terciles
+  //   const T1 = getPercentile(values, 1 / 3);  // 33.3rd percentile
+  //   const T2 = getPercentile(values, 2 / 3);  // 66.6th percentile
 
-    // Define thresholds for outliers using T1 and T2 (optional)
-    const ITR = T2 - T1;  // Inter-tercile range (analogous to IQR)
-    const lowerBound = T1 - 1.5 * ITR;
-    const upperBound = T2 + 1.5 * ITR;
+  //   // Define thresholds for outliers using T1 and T2 (optional)
+  //   const ITR = T2 - T1;  // Inter-tercile range (analogous to IQR)
+  //   const lowerBound = T1 - 1.5 * ITR;
+  //   const upperBound = T2 + 1.5 * ITR;
 
-    // Filter out outliers
-    const filteredValues = values.filter(value => value >= lowerBound && value <= upperBound);
+  //   // Filter out outliers
+  //   const filteredValues = values.filter(value => value >= lowerBound && value <= upperBound);
 
-    // Recalculate min, max, and terciles after filtering
-    const min = values.filter(v => v != 0)[0];
-    const max = values[values.length - 1];
-    const breaks = [
-      getPercentile(filteredValues, 1 / 3),
-      getPercentile(filteredValues, 2 / 3)
-    ];
+  //   // Recalculate min, max, and terciles after filtering
+  //   const min = values.filter(v => v != 0)[0];
+  //   const max = values[values.length - 1];
+  //   const breaks = [
+  //     getPercentile(filteredValues, 1 / 3),
+  //     getPercentile(filteredValues, 2 / 3)
+  //   ];
 
-    return { min, max, breaks };
-  }
+  //   return { min, max, breaks };
+  // }
 
   const updateColors = useCallback((geo) => {
 
@@ -181,7 +181,7 @@ const MapComponent = () => {
 
     const varName = filters.status === "Pending" ? `${config.acresOptions[filters.acres]}.PENDING.${filters.stat}` : `${config.acresOptions[filters.acres]}.${config.timeOptions[filters.time]}.${filters.stat}`;
 
-    const stats = getStatsForAttribute('composite', mapLayers, varName);
+    const stats = getStatsForAttribute(map.current, 'composite', mapLayers, varName);
     console.debug('Min:', stats.min);
     console.debug('Max:', stats.max);
     console.debug('Terciles:', stats.breaks);
