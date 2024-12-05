@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import * as d3 from "d3-fetch";
 import LegendControl from "./LegendControl";
 import ZoomDisplayControl from "./ZoomDisplayControl";
+import FilterControls from "./FilterControls";
 import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import config from "./mapConfig";
@@ -34,6 +35,7 @@ const MapComponent = () => {
   const [states, setStates] = useState(null);
   const [counties, setCounties] = useState(null);
   const [timestamp, setTimestamp] = useState(null); 
+  const [isTimeSelectDisabled, setTimeSelectDisabled] = useState(false);
 
   function formatDate(isoString) {
     const date = new Date(isoString);
@@ -77,7 +79,25 @@ const MapComponent = () => {
     }));
 
     if (name === "layer") handleLayerChange(e);
+
+    // Disable time select if status is "Pending"
+    if (name === "status") {
+      setTimeSelectDisabled(value === "Pending");
+    }
   };
+
+
+  // const handleStatusChange = (e) => {
+  //   setStatus(e.target.value);
+  //   if (e.target.value == "Sold") {
+  //     setStat('sold_count');
+  //   } else {
+  //     setStat('for_sale_count');
+  //   }
+
+  //   // Update time select disabled state
+  //   setTimeSelectDisabled(e.target.value === "Pending");
+  // }
 
   const updateColors = useCallback(() => {
 
@@ -253,18 +273,6 @@ const MapComponent = () => {
 
   }, [states, counties, timestamp]);
 
-  // const handleStatusChange = (e) => {
-  //   setStatus(e.target.value);
-  //   if (e.target.value == "Sold") {
-  //     setStat('sold_count');
-  //   } else {
-  //     setStat('for_sale_count');
-  //   }
-
-  //   // Update time select disabled state
-  //   setTimeSelectDisabled(e.target.value === "Pending");
-  // }
-
   const handleLayerChange = (e) => {
     const newLayer = e.target.value;
     setFilters(prev => ({ ...prev, layer: newLayer }));
@@ -311,38 +319,12 @@ const MapComponent = () => {
         // flexWrap: "wrap",
         justifyContent: "center"
       }}>
-      <div id="map-filters">
-        <fieldset>
-          {filterConfigs.map(({ label, name, options }) => {
-              const selectOptions = name === "stat" ? config.statOptions[filters.status] : options;
-
-              return (
-                <div key={name} className="filter-group">
-                  <label htmlFor={`${name}-select`}>{label}:</label>
-                  <select
-                    id={`${name}-select`}
-                    name={name}
-                    value={filters[name]}
-                    onChange={handleSelectChange}
-                  >
-                    {name === "stat" 
-                      ? Object.entries(selectOptions || {}).map(([optionLabel, optionValue]) => (
-                          <option key={optionValue || optionLabel} value={optionValue || optionLabel}>
-                            {optionLabel}
-                          </option>
-                        ))
-                      : options.map(option => (
-                          <option key={option} value={option}>
-                            {option}
-                          </option>
-                        ))
-                    }
-                  </select>
-                </div>
-              );
-            })}
-        </fieldset>
-      </div>
+      <FilterControls
+        filters={filters}
+        handleSelectChange={handleSelectChange}
+        filterConfigs={filterConfigs}
+        isTimeSelectDisabled={isTimeSelectDisabled}
+      />
       <div id="map"
         ref={mapContainer}
         style={{
