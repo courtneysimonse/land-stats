@@ -186,80 +186,80 @@ const MapComponent = () => {
       'bottom-left'
     );
 
-    const tooltip = new mapboxgl.Popup({closeButton: false, className: 'map-tooltip'});
+    // const tooltip = new mapboxgl.Popup({closeButton: false, className: 'map-tooltip'});
 
-    map.current.on('load', () => {
+    // map.current.on('load', () => {
 
-      map.current.on('mouseenter', [...config.stateLayers, ...config.countyLayers], () => {
-        map.current.getCanvas().style.cursor = 'pointer';
-      });
+    //   map.current.on('mouseenter', [...config.layers], () => {
+    //     map.current.getCanvas().style.cursor = 'pointer';
+    //   });
   
-      map.current.on('mousemove', [...config.stateLayers, ...config.countyLayers], (e) => {
-        let popupContent = createPopup(e.features[0], {states, counties}, filters, timestampMessage);
+    //   map.current.on('mousemove', [...config.layers], (e) => {
+    //     let popupContent = createPopup(e.features[0], {states, counties}, filters, timestampMessage);
   
-        let highlighted = filters.stat;
-        if (filters.status == "Pending") {
-            highlighted = "pending."+filters.stat
-        }
+    //     let highlighted = filters.stat;
+    //     if (filters.status == "Pending") {
+    //         highlighted = "pending."+filters.stat
+    //     }
   
-        // add highlight
-        let selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
-        if (selectedLi) {
-            selectedLi.classList.add('selected');   
-        }
+    //     // add highlight
+    //     let selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
+    //     if (selectedLi) {
+    //         selectedLi.classList.add('selected');   
+    //     }
   
-        tooltip.setHTML(popupContent.outerHTML)
-            .setLngLat(e.lngLat)
-            .addTo(map.current)
+    //     tooltip.setHTML(popupContent.outerHTML)
+    //         .setLngLat(e.lngLat)
+    //         .addTo(map.current)
   
-      });
+    //   });
   
-      map.current.on('mouseleave', [...config.stateLayers, ...config.countyLayers], () => {
-        map.current.getCanvas().style.cursor = '';
-        tooltip.remove();
-      });
+    //   map.current.on('mouseleave', [...config.layers], () => {
+    //     map.current.getCanvas().style.cursor = '';
+    //     tooltip.remove();
+    //   });
   
-      const popup = new mapboxgl.Popup({closeButton: true, className: 'map-tooltip'});
-      map.current.on('click', [...config.stateLayers, ...config.countyLayers], (e) => {
-        tooltip.remove();
+    //   const popup = new mapboxgl.Popup({closeButton: true, className: 'map-tooltip'});
+    //   map.current.on('click', [...config.stateLayers, ...config.countyLayers], (e) => {
+    //     tooltip.remove();
         
-        let popupContent = createPopup(e.features[0], {states, counties}, filters, timestampMessage);
+    //     let popupContent = createPopup(e.features[0], {states, counties}, filters, timestampMessage);
   
-        let popupBtn = document.createElement('a');
-        popupBtn.classList = 'btn btn-primary';
-        popupBtn.innerText = "Go to Table";
+    //     let popupBtn = document.createElement('a');
+    //     popupBtn.classList = 'btn btn-primary';
+    //     popupBtn.innerText = "Go to Table";
   
-        // add link to button
-        if (e.features[0].layer.id == 'states-totals') {
-          let stateAbbrev = states.find(x=> x["GEOID"] == e.features[0].properties["GEOID"]).STUSPS
-          popupBtn.setAttribute('href', `${process.env.NEXT_PUBLIC_BASE_URL}search-results?state=${stateAbbrev}`)
-        } else {
-          popupBtn.setAttribute('href', `${process.env.NEXT_PUBLIC_BASE_URL}search-results?county=${e.features[0].id.toString().padStart(5, '0')}`)
-        }
+    //     // add link to button
+    //     if (e.features[0].layer.id == 'states-totals') {
+    //       let stateAbbrev = states.find(x=> x["GEOID"] == e.features[0].properties["GEOID"]).STUSPS
+    //       popupBtn.setAttribute('href', `${process.env.NEXT_PUBLIC_BASE_URL}search-results?state=${stateAbbrev}`)
+    //     } else {
+    //       popupBtn.setAttribute('href', `${process.env.NEXT_PUBLIC_BASE_URL}search-results?county=${e.features[0].id.toString().padStart(5, '0')}`)
+    //     }
   
-        let highlighted = filters.stat;
-        if (filters.status == "Pending") {
-            highlighted = "pending."+filters.stat
-        }
+    //     let highlighted = filters.stat;
+    //     if (filters.status == "Pending") {
+    //         highlighted = "pending."+filters.stat
+    //     }
   
-        // add highlight
-        let selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
-        if (selectedLi) {
-            selectedLi.classList.add('selected');   
-        }
+    //     // add highlight
+    //     let selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
+    //     if (selectedLi) {
+    //         selectedLi.classList.add('selected');   
+    //     }
   
-        popupContent.appendChild(popupBtn);
+    //     popupContent.appendChild(popupBtn);
   
-        popup.setHTML(popupContent.outerHTML)
-            .setLngLat(e.lngLat)
-            .addTo(map.current)
+    //     popup.setHTML(popupContent.outerHTML)
+    //         .setLngLat(e.lngLat)
+    //         .addTo(map.current)
 
-        if (config.countyLayers.includes(e.features[0].layer.id)) {
+    //     if (config.countyLayers.includes(e.features[0].layer.id)) {
           
-        }
+    //     }
   
-      });
-    })
+    //   });
+    // })
     
 
     return () => {
@@ -272,6 +272,64 @@ const MapComponent = () => {
     };
 
   }, [states, counties, timestamp]);
+
+  useEffect(() => {
+    if (!map.current || !map.current.loaded) return; // Ensure map is initialized
+  
+    const tooltip = new mapboxgl.Popup({ closeButton: false, className: 'map-tooltip' });
+    const popup = new mapboxgl.Popup({ closeButton: true, className: 'map-tooltip' });
+  
+    const handleMouseMove = (e) => {
+      const popupContent = createPopup(e.features[0], { states, counties }, filters, formatDate(timestamp));
+      
+      let highlighted = filters.stat;
+      if (filters.status === "Pending") {
+        highlighted = "pending." + filters.stat;
+      }
+  
+      const selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
+      if (selectedLi) selectedLi.classList.add('selected');
+  
+      tooltip.setHTML(popupContent.outerHTML)
+        .setLngLat(e.lngLat)
+        .addTo(map.current);
+    };
+  
+    const handleClick = (e) => {
+      tooltip.remove();
+      
+      const popupContent = createPopup(e.features[0], { states, counties }, filters, formatDate(timestamp));
+      
+      const popupBtn = document.createElement('a');
+      popupBtn.className = 'btn btn-primary';
+      popupBtn.innerText = "Go to Table";
+  
+      const featureId = e.features[0].id.toString().padStart(5, '0');
+      const stateAbbrev = states.find(x => x["GEOID"] === e.features[0].properties["GEOID"])?.STUSPS;
+      
+      const href = e.features[0].layer.id === 'states-totals'
+        ? `${process.env.NEXT_PUBLIC_BASE_URL}search-results?state=${stateAbbrev}`
+        : `${process.env.NEXT_PUBLIC_BASE_URL}search-results?county=${featureId}`;
+      
+      popupBtn.setAttribute('href', href);
+  
+      popupContent.appendChild(popupBtn);
+  
+      popup.setHTML(popupContent.outerHTML)
+        .setLngLat(e.lngLat)
+        .addTo(map.current);
+    };
+  
+    map.current.on('mousemove', [...config.layers], handleMouseMove);
+    map.current.on('click', [...config.stateLayers, ...config.countyLayers], handleClick);
+  
+    return () => {
+      map.current.off('mousemove', handleMouseMove);
+      map.current.off('click', handleClick);
+    };
+  
+  }, [filters, states, counties, timestamp]); // Dependencies ensure updates on filter changes.
+  
 
   const handleLayerChange = (e) => {
     const newLayer = e.target.value;
