@@ -84,98 +84,7 @@ const MapComponent = () => {
     if (name === "layer") handleLayerChange(e);
   };
 
-  // const calcBreaks = (data) => {
-  //   let breaks = [
-  //     data.min,
-  //     ...data.breaks,
-  //     data.max
-  //   ];
-
-  //   let breaksSet = new Set(breaks);
-
-  //   let categories = [];
-
-  //   let i = 0;
-  //   breaksSet.forEach((b) => {
-  //     // if (b == 0) {
-  //     //   categories.push({
-  //     //     title: b,
-  //     //     color: "#e3e3e3"
-  //     //   })
-  //     // } else {
-  //       categories.push({
-  //         title: b,
-  //         color: config.colors[i]
-  //       })
-  //       i++;
-  //     // }
-  //   })
-
-  //   return categories;
-  // };
-
-  // function getStatsForAttribute(sourceId, sourceLayers, attribute) {
-  //   // Query features from the source
-  //   const features = [];
-
-  //   sourceLayers.forEach(sourceLayer => {
-  //     let newFeatures = map.current.querySourceFeatures(sourceId, {
-  //       sourceLayer: sourceLayer
-  //     });
-  //     features.push(...newFeatures);
-  //   })
-
-  //   if (features.length == 0) return;
-
-  //   // Extract attribute values, filter out non-numeric or null values
-  //   const values = features
-  //       .map(feature => feature.properties[attribute])
-  //       .filter(value => typeof +value === 'number' && !isNaN(+value));
-
-  //   if (values.length === 0) {
-  //       return { min: null, max: null, breaks: [], filteredValues: [] };
-  //   }
-
-  //   // Sort values in ascending order
-  //   values.sort((a, b) => a - b);
-
-  //   // Helper function to calculate specific percentile
-  //   const getPercentile = (sortedValues, p) => {
-  //     const pos = (sortedValues.length - 1) * p;
-  //     const base = Math.floor(pos);
-  //     const rest = pos - base;
-
-  //     if (sortedValues[base + 1] !== undefined) {
-  //         return sortedValues[base] + rest * (sortedValues[base + 1] - sortedValues[base]);
-  //     } else {
-  //         return sortedValues[base];
-  //     }
-  //   };
-
-  //   // Calculate 33.3rd and 66.6th percentiles for terciles
-  //   const T1 = getPercentile(values, 1 / 3);  // 33.3rd percentile
-  //   const T2 = getPercentile(values, 2 / 3);  // 66.6th percentile
-
-  //   // Define thresholds for outliers using T1 and T2 (optional)
-  //   const ITR = T2 - T1;  // Inter-tercile range (analogous to IQR)
-  //   const lowerBound = T1 - 1.5 * ITR;
-  //   const upperBound = T2 + 1.5 * ITR;
-
-  //   // Filter out outliers
-  //   const filteredValues = values.filter(value => value >= lowerBound && value <= upperBound);
-
-  //   // Recalculate min, max, and terciles after filtering
-  //   const min = values.filter(v => v != 0)[0];
-  //   const max = values[values.length - 1];
-  //   const breaks = [
-  //     getPercentile(filteredValues, 1 / 3),
-  //     getPercentile(filteredValues, 2 / 3)
-  //   ];
-
-  //   return { min, max, breaks };
-  // }
-
-  const updateColors = useCallback((geo) => {
+  const updateColors = useCallback(() => {
 
     const mapLayers = filters.layer === "State" ? config.stateLayers : config.countyLayers;
 
@@ -206,19 +115,20 @@ const MapComponent = () => {
       map.current.setPaintProperty(l, 'fill-color', colorExp);
     })
 
-    if (legendControl && filters.layer == geo) {
+    if (legendControl) {
       let statName = Object.keys(config.statOptions[filters.status]).find(key => config.statOptions[filters.status][key] === filters.stat);
       let legendTitle = filters.status === "Pending" ? `${filters.layer} Level - ${filters.status} - ${statName}` : 
         `${filters.layer} Level - ${filters.status} - ${filters.time} - ${statName}`
 
       legendControl.updateScale(categories, legendTitle);
     }
-  }, [map, filters, legendControl ]);
+  }, [ map, filters, legendControl ]);
 
   useEffect(() => {
     if (map.current && map.current.loaded() && map.current.idle()) {
-      updateColors("State");
-      updateColors("County");
+      updateColors();
+      // updateColors("State");
+      // updateColors("County");
     }
   }, [updateColors]);
 
@@ -264,56 +174,6 @@ const MapComponent = () => {
     const tooltip = new mapboxgl.Popup({closeButton: false, className: 'map-tooltip'});
 
     map.current.on('load', () => {
-
-      config.countyLayers.forEach(layer => map.current.setPaintProperty(layer, 'fill-color', [
-        "case",
-        [
-          "has",
-          "TOTAL.12M.sold_count"
-        ],
-        [
-          "interpolate",
-          ["linear"],
-          [
-            "get",
-            "TOTAL.12M.sold_count"
-          ],
-          0,
-          "#0f9b4a",
-          15,
-          "#fecc08",
-          73,
-          "#f69938",
-          291,
-          "#f3663a"
-        ],
-        ["rgba", 255, 255, 255, 0]
-      ]))
-
-      map.current.setPaintProperty('states-totals', 'fill-color', [
-        "case",
-        [
-          "has",
-          "TOTAL.12M.sold_count"
-        ],
-        [
-          "interpolate",
-          ["linear"],
-          [
-            "get",
-            "TOTAL.12M.sold_count"
-          ],
-          353,
-          "#0f9b4a",
-          2562,
-          "#fecc08",
-          6395,
-          "#f69938",
-          17085,
-          "#f3663a"
-        ],
-        ["rgba", 255, 255, 255, 0]
-      ])
 
       map.current.on('mouseenter', [...config.stateLayers, ...config.countyLayers], () => {
         map.current.getCanvas().style.cursor = 'pointer';
@@ -435,7 +295,7 @@ const MapComponent = () => {
     ? `${config.acresOptions[filters.acres]}.PENDING.${filters.stat}`
     : `${config.acresOptions[filters.acres]}.${config.timeOptions[filters.time]}.${filters.stat}`;
 
-    const stats = getStatsForAttribute('composite', mapLayers, variablePrefix);
+    const stats = getStatsForAttribute(map.current, 'composite', mapLayers, variablePrefix);
     const breaks = calcBreaks(stats);
 
     const legendTitle = `${newLayer} Level - ${filters.status} - ${filters.status === "Pending" ? statName : `${filters.time} - ${statName}`}`;
