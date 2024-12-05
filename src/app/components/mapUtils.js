@@ -1,24 +1,21 @@
 import config from "./mapConfig";
 
 export const getStatsForAttribute = (map, sourceId, sourceLayers, attribute) => {
-    const features = sourceLayers.flatMap(layer => 
-      map.querySourceFeatures(sourceId, { sourceLayer: layer })
+    const values = sourceLayers.reduce((acc, layer) => {
+    const features = map.querySourceFeatures(sourceId, { sourceLayer: layer });
+    return acc.concat(
+        features.map(f => +f.properties[attribute]).filter(v => !isNaN(v))
     );
-  
-    const values = features
-      .map(f => +f.properties[attribute])
-      .filter(v => !isNaN(v));
-  
-    if (values.length === 0) return null;
+    }, []);
+
+    if (!values.length) return null;
   
     values.sort((a, b) => a - b);
   
     const getPercentile = (data, p) => {
-      const pos = (data.length - 1) * p;
-      const base = Math.floor(pos);
-      return base < data.length - 1 
-        ? data[base] + (pos - base) * (data[base + 1] - data[base]) 
-        : data[base];
+        const pos = (data.length - 1) * p;
+        const base = Math.floor(pos);
+        return data[base] + (pos - base) * (data[base + 1] - data[base]);
     };
   
     const min = values[0];
@@ -29,10 +26,9 @@ export const getStatsForAttribute = (map, sourceId, sourceLayers, attribute) => 
 };
 
 export const calcBreaks = ({ min, max, breaks }) => {
-    const colors = ["#0f9b4a", "#fecc08", "#f69938", "#f3663a"];
     return [min, ...breaks, max].map((val, i) => ({
         title: val,
-        color: colors[i],
+        color: config.colors[i],
     }));
 };
 

@@ -58,17 +58,12 @@ const MapComponent = () => {
     }
 
     const fetchTimestamp = async () => {
-      try {
-        const response = await fetch('https://landstats-timestamp-api.replit.app/timestamp');
-        if (response.status === 404) {
-          return ""; // Set timestamp to empty string on 404
-        }
-        const data = await response.json();
-        return data.data.timestamp;
-      } catch (error) {
-        console.error("Error fetching timestamp:", error);
-        return null; // Default to empty string on error
+      const response = await fetch('https://landstats-timestamp-api.replit.app/timestamp');
+      if (response.status != 200) {
+        return ""; // Set timestamp to empty string on 404
       }
+      const data = await response.json();
+      return data.data.timestamp;
     };
     loadData()
   }, []);
@@ -122,7 +117,7 @@ const MapComponent = () => {
 
       legendControl.updateScale(categories, legendTitle);
     }
-  }, [ map, filters, legendControl ]);
+  }, [ map, filters ]);
 
   useEffect(() => {
     if (map.current && map.current.loaded() && map.current.idle()) {
@@ -133,7 +128,7 @@ const MapComponent = () => {
   }, [updateColors]);
 
   useEffect(() => {
-    if (!states || !counties || !timestamp) return; // Wait for the data to load
+    if (!states || !counties || timestamp == undefined) return; // Wait for the data to load
     
     if (map.current) return; // initialize map only once
 
