@@ -122,7 +122,7 @@ const MapComponent = () => {
 
       legendControl.updateScale(categories, legendTitle);
     }
-  }, [ map, filters, legendControl ]);
+  }, [ map, filters ]);
 
   useEffect(() => {
     if (map.current && map.current.loaded() && map.current.idle()) {
