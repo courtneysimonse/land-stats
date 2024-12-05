@@ -35,6 +35,7 @@ const MapComponent = () => {
   const [states, setStates] = useState(null);
   const [counties, setCounties] = useState(null);
   const [timestamp, setTimestamp] = useState(null); 
+  const [isTimeSelectDisabled, setTimeSelectDisabled] = useState(false);
 
   function formatDate(isoString) {
     const date = new Date(isoString);
@@ -78,7 +79,25 @@ const MapComponent = () => {
     }));
 
     if (name === "layer") handleLayerChange(e);
+
+    // Disable time select if status is "Pending"
+    if (name === "status") {
+      setTimeSelectDisabled(value === "Pending");
+    }
   };
+
+
+  // const handleStatusChange = (e) => {
+  //   setStatus(e.target.value);
+  //   if (e.target.value == "Sold") {
+  //     setStat('sold_count');
+  //   } else {
+  //     setStat('for_sale_count');
+  //   }
+
+  //   // Update time select disabled state
+  //   setTimeSelectDisabled(e.target.value === "Pending");
+  // }
 
   const updateColors = useCallback(() => {
 
@@ -254,18 +273,6 @@ const MapComponent = () => {
 
   }, [states, counties, timestamp]);
 
-  // const handleStatusChange = (e) => {
-  //   setStatus(e.target.value);
-  //   if (e.target.value == "Sold") {
-  //     setStat('sold_count');
-  //   } else {
-  //     setStat('for_sale_count');
-  //   }
-
-  //   // Update time select disabled state
-  //   setTimeSelectDisabled(e.target.value === "Pending");
-  // }
-
   const handleLayerChange = (e) => {
     const newLayer = e.target.value;
     setFilters(prev => ({ ...prev, layer: newLayer }));
@@ -316,6 +323,7 @@ const MapComponent = () => {
         filters={filters}
         handleSelectChange={handleSelectChange}
         filterConfigs={filterConfigs}
+        isTimeSelectDisabled={isTimeSelectDisabled}
       />
       <div id="map"
         ref={mapContainer}
