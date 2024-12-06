@@ -32,7 +32,7 @@ export const calcBreaks = ({ min, max, breaks }) => {
     }));
 };
 
-export function createPopup(feature, {states, counties}, filters, timestampMessage) {
+export function createPopup(feature, {states, counties}, filters, dataDate) {
     let props = feature.properties;
     let popupContent = document.createElement('div');
     let listEl = document.createElement('ul');
@@ -70,8 +70,7 @@ export function createPopup(feature, {states, counties}, filters, timestampMessa
     let absorptionRate = props[`${statPrefix}.absorption_rate`] * 100 ?? 0;
     listEl.appendChild(createStatItem("Absorption Rate", `${absorptionRate.toLocaleString()}%`, 'absorption_rate'));
   
-    // Add date information
-    listEl.appendChild(createListItem("Date:", timestampMessage));
+    listEl.appendChild(createListItem("Date:", dataDate));
   
     popupContent.appendChild(listEl);
 
@@ -94,7 +93,6 @@ export function createPopup(feature, {states, counties}, filters, timestampMessa
   
   function createGeoListItem(feature, {states, counties}) {
     let li = document.createElement('li');
-    let geoLabel = feature.layer.id === 'states-totals' ? "State" : "County";
     let geoName = feature.layer.id === 'states-totals' 
       ? states.find(x => x["GEOID"] == feature.properties["GEOID"])?.NAME 
       : counties.find(x => x['GEOID'] == feature.id)?.NAME;
@@ -103,3 +101,7 @@ export function createPopup(feature, {states, counties}, filters, timestampMessa
     return li;
   }
   
+  export function formatDate(isoString) {
+    const date = new Date(isoString);
+    return date.toLocaleString();
+  }
