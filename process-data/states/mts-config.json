@@ -1,7 +1,0 @@
-{
-  "username": "landstats",
-  "tilesetSourceId": "states_totals-src",
-  "tilesetSourcePath": "states_w_data.geojsonl",
-  "tilesetId": "states_totals",
-  "tilesetName": "States with Totals"
-}
