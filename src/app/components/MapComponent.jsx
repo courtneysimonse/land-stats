@@ -6,7 +6,7 @@ import FilterControls from "./FilterControls";
 import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import config from "./mapConfig";
-import { getStatsForAttribute, calcBreaks, createPopup } from "./mapUtils";
+import { getStatsForAttribute, calcBreaks, createPopup, formatDate } from "./mapUtils";
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
@@ -36,11 +36,6 @@ const MapComponent = () => {
   const [counties, setCounties] = useState(null);
   const [timestamp, setTimestamp] = useState(null); 
   const [isTimeSelectDisabled, setTimeSelectDisabled] = useState(false);
-
-  function formatDate(isoString) {
-    const date = new Date(isoString);
-    return date.toLocaleString();
-  }
 
   useEffect(() => {
     const loadData = async () => {
@@ -280,7 +275,24 @@ const MapComponent = () => {
     const popup = new mapboxgl.Popup({ closeButton: true, className: 'map-tooltip' });
   
     const handleMouseMove = (e) => {
-      const popupContent = createPopup(e.features[0], { states, counties }, filters, formatDate(timestamp));
+      // Add date information
+      let dataDate = formatDate(timestamp);
+      let feature = e.features[0];
+      if (feature.layer.id === 'states-totals' && feature.properties["timestamp"]) {
+        dataDate = formatDate(feature.properties["timestamp"]);
+      } else if (config.countyLayers.includes(feature.layer.id)) {
+        const stateFeatures = map.current.querySourceFeatures('composite',
+          {
+            sourceLayer: 'states-totals',
+            filter: ["==", ["get", "GEOID"], feature.properties["ST_GEOID"]]
+          }
+        )
+        if (stateFeatures.length > 0) {
+          dataDate = formatDate(stateFeatures[0].properties["timestamp"]);
+        }
+        
+      }
+      const popupContent = createPopup(feature, { states, counties }, filters, dataDate);
       
       let highlighted = filters.stat;
       if (filters.status === "Pending") {
