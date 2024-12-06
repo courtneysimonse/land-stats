@@ -274,10 +274,8 @@ const MapComponent = () => {
     const tooltip = new mapboxgl.Popup({ closeButton: false, className: 'map-tooltip' });
     const popup = new mapboxgl.Popup({ closeButton: true, className: 'map-tooltip' });
   
-    const handleMouseMove = (e) => {
-      // Add date information
+    const findDataDate = (feature) => {
       let dataDate = formatDate(timestamp);
-      let feature = e.features[0];
       if (feature.layer.id === 'states-totals' && feature.properties["timestamp"]) {
         dataDate = formatDate(feature.properties["timestamp"]);
       } else if (config.countyLayers.includes(feature.layer.id)) {
@@ -292,7 +290,11 @@ const MapComponent = () => {
         }
         
       }
-      const popupContent = createPopup(feature, { states, counties }, filters, dataDate);
+      return dataDate
+    }
+
+    const handleMouseMove = (e) => {
+      const popupContent = createPopup(e.features[0], { states, counties }, filters, findDataDate(e.features[0]));
       
       let highlighted = filters.stat;
       if (filters.status === "Pending") {
@@ -309,8 +311,8 @@ const MapComponent = () => {
   
     const handleClick = (e) => {
       tooltip.remove();
-      
-      const popupContent = createPopup(e.features[0], { states, counties }, filters, formatDate(timestamp));
+
+      const popupContent = createPopup(e.features[0], { states, counties }, filters, findDataDate(e.features[0]));
       
       const popupBtn = document.createElement('a');
       popupBtn.className = 'btn btn-primary';
