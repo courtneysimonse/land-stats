@@ -8,6 +8,8 @@ import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import config from "../mapConfig";
 import { getStatsForAttribute, calcBreaks, createPopup, formatDate } from "../../utils/mapUtils";
 
+import { useMapState } from "@/app/context/MapContext";
+
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 
@@ -24,18 +26,13 @@ const filterConfigs = [
 const MapComponent = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [filters, setFilters] = useState({
-    status: "Sold",
-    stat: config.statOptions["Sold"]["Inventory Count"],
-    time: "12 months",
-    acres: "All Acreages",
-    layer: "State",
-  });
   const [legendControl, setLegendControl] = useState(null);
   const [states, setStates] = useState(null);
   const [counties, setCounties] = useState(null);
   const [timestamp, setTimestamp] = useState(null); 
-  const [isTimeSelectDisabled, setTimeSelectDisabled] = useState(false);
+
+  const { filters, dynamicTooltip, zoomToState, handleSelectChange, isTimeSelectDisabled } = useMapState();
+
 
   useEffect(() => {
     const loadData = async () => {
@@ -65,21 +62,21 @@ const MapComponent = () => {
     loadData()
   }, []);
 
-  const handleSelectChange = (e) => {
-    const { name, value } = e.target;
-    setFilters((prev) => ({
-      ...prev,
-      [name]: value,
-      ...(name === "status" && { stat: config.statOptions[value]["Inventory Count"] }), // Reset stat on status change
-    }));
+  // const handleSelectChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFilters((prev) => ({
+  //     ...prev,
+  //     [name]: value,
+  //     ...(name === "status" && { stat: config.statOptions[value]["Inventory Count"] }), // Reset stat on status change
+  //   }));
 
-    if (name === "layer") handleLayerChange(e);
+  //   if (name === "layer") handleLayerChange(e);
 
-    // Disable time select if status is "Pending"
-    if (name === "status") {
-      setTimeSelectDisabled(value === "Pending");
-    }
-  };
+  //   // Disable time select if status is "Pending"
+  //   if (name === "status") {
+  //     setTimeSelectDisabled(value === "Pending");
+  //   }
+  // };
 
 
   // const handleStatusChange = (e) => {
@@ -98,7 +95,7 @@ const MapComponent = () => {
 
     const mapLayers = filters.layer === "State" ? config.stateLayers : config.countyLayers;
 
-    const varName = filters.status === "Pending" ? `${config.acresOptions[filters.acres]}.PENDING.${filters.stat}` : `${config.acresOptions[filters.acres]}.${config.timeOptions[filters.time]}.${filters.stat}`;
+    const varName = filters.status === "Pending" ? `${config.acresOptions[filters.acres]}.PENDING.${config.statOptions[filters.status][filters.stat]}` : `${config.acresOptions[filters.acres]}.${config.timeOptions[filters.time]}.${config.statOptions[filters.status][filters.stat]}`;
 
     const stats = getStatsForAttribute(map.current, 'composite', mapLayers, varName);
     console.debug('Min:', stats.min);
@@ -126,7 +123,7 @@ const MapComponent = () => {
     })
 
     if (legendControl) {
-      let statName = Object.keys(config.statOptions[filters.status]).find(key => config.statOptions[filters.status][key] === filters.stat);
+      let statName = Object.keys(config.statOptions[filters.status]).find(key => config.statOptions[filters.status][key] === config.statOptions[filters.status][filters.stat]);
       let legendTitle = filters.status === "Pending" ? `${filters.layer} Level - ${filters.status} - ${statName}` : 
         `${filters.layer} Level - ${filters.status} - ${filters.time} - ${statName}`
 
@@ -170,8 +167,8 @@ const MapComponent = () => {
     map.current.addControl(new ZoomDisplayControl(), 'bottom-right');
 
     let legend = new LegendControl(calcBreaks(config.initialBreaks))
-    setLegendControl(legend);
     map.current.addControl(legend, 'bottom-right');
+    setLegendControl(legend);
 
     map.current.addControl(
       new MapboxGeocoder({
@@ -392,10 +389,10 @@ const MapComponent = () => {
         justifyContent: "center"
       }}>
       <FilterControls
-        filters={filters}
-        handleSelectChange={handleSelectChange}
+        // filters={filters}
+        // handleSelectChange={handleSelectChange}
         filterConfigs={filterConfigs}
-        isTimeSelectDisabled={isTimeSelectDisabled}
+        // isTimeSelectDisabled={isTimeSelectDisabled}
       />
       <div id="map"
         ref={mapContainer}

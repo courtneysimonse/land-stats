@@ -2,10 +2,10 @@ import config from "../components/mapConfig";
 
 export const getStatsForAttribute = (map, sourceId, sourceLayers, attribute) => {
     const values = sourceLayers.reduce((acc, layer) => {
-    const features = map.querySourceFeatures(sourceId, { sourceLayer: layer });
-    return acc.concat(
-        features.map(f => +f.properties[attribute]).filter(v => !isNaN(v))
-    );
+      const features = map.querySourceFeatures(sourceId, { sourceLayer: layer });
+      return acc.concat(
+          features.map(f => +f.properties[attribute]).filter(v => !isNaN(v))
+      );
     }, []);
 
     if (!values.length) return null;

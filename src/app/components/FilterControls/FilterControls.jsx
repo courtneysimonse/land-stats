@@ -1,6 +1,7 @@
 import { useState } from "react";
 import config from "../mapConfig";
 import IconComponent from "../Shared/IconComponent";
+import { useMapState } from "@/app/context/MapContext";
 
 const IconButton = ({ label, onClick }) => {
     return (
@@ -55,10 +56,16 @@ const IconButton = ({ label, onClick }) => {
     );
   };
 
-const FilterControls = ({ filters, handleSelectChange, filterConfigs, isTimeSelectDisabled }) => {
+const FilterControls = ({ filterConfigs = [
+  { label: "Status", name: "status", options: Object.keys(config.statusOptions) },
+  { label: "Time", name: "time", options: Object.keys(config.timeOptions) },
+  { label: "Acreages", name: "acres", options: Object.keys(config.acresOptions) },
+  { label: "Statistics", name: "stat" },
+  { label: "Layer", name: "layer", options: ["State", "County"] },
+] }) => {
     const [isDialogOpen, setDialogOpen] = useState(false);
-    const [dynamicTootlip, setdynamicTootlip] = useState(false);
-    const [zoomToState, setzoomToState] = useState(false);
+
+    const { filters, handleSelectChange, isTimeSelectDisabled, dynamicTooltip, setDynamicTooltip, zoomToState, setZoomToState } = useMapState();
 
     return (
     <div id="map-filters">
@@ -103,8 +110,8 @@ const FilterControls = ({ filters, handleSelectChange, filterConfigs, isTimeSele
                         <label>
                             <input
                             type="checkbox"
-                            checked={dynamicTootlip}
-                            onChange={() => setdynamicTootlip(!dynamicTootlip)}
+                            checked={dynamicTooltip}
+                            onChange={() => setDynamicTooltip(!dynamicTooltip)}
                             />
                             Show Selected Options in Tooltip
                         </label>
