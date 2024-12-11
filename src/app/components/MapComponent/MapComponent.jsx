@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import * as d3 from "d3-fetch";
-import LegendControl from "./LegendControl";
-import ZoomDisplayControl from "./ZoomDisplayControl";
-import FilterControls from "./FilterControls";
+import LegendControl from "../LegendControl/LegendControl";
+import ZoomDisplayControl from "../ZoomDisplayControl";
+import FilterControls from "../FilterControls/FilterControls";
 import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
-import config from "./mapConfig";
-import { getStatsForAttribute, calcBreaks, createPopup, formatDate } from "./mapUtils";
+import config from "../mapConfig";
+import { getStatsForAttribute, calcBreaks, createPopup, formatDate } from "../../utils/mapUtils";
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'

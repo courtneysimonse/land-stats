@@ -1,4 +1,4 @@
-import config from "./mapConfig";
+import config from "../components/mapConfig";
 
 export const getStatsForAttribute = (map, sourceId, sourceLayers, attribute) => {
     const values = sourceLayers.reduce((acc, layer) => {

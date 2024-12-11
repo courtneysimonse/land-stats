@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import '../app/App.css';
-const MapComponent = dynamic(() => import('../app/components/MapComponent'), { ssr: false });
+const MapComponent = dynamic(() => import('../app/components/MapComponent/MapComponent'), { ssr: false });
 
 export default function Home() {
   return (
