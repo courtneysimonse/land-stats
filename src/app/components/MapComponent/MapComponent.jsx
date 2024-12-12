@@ -6,7 +6,8 @@ import FilterControls from "../FilterControls/FilterControls";
 import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import config from "../mapConfig";
-import { getStatsForAttribute, calcBreaks, createPopup, formatDate } from "../../utils/mapUtils";
+import { getStatsForAttribute, calcBreaks, createPopup, formatDate } from "@/app/utils/mapUtils";
+import { eventBus } from "@/app/utils/eventBus";
 
 import { useMapState } from "@/app/context/MapContext";
 
@@ -61,67 +62,80 @@ const MapComponent = () => {
       const data = await response.json();
       return data.data.timestamp;
     };
-    loadData()
+    loadData();
+
   }, []);
 
-  const updateColors = useCallback(() => {
-
-    const mapLayers = filters.layer === "State" ? config.stateLayers : config.countyLayers;
-
-    const varName = filters.status === "Pending" ? `${config.acresOptions[filters.acres]}.PENDING.${config.statOptions[filters.status][filters.stat]}` : `${config.acresOptions[filters.acres]}.${config.timeOptions[filters.time]}.${config.statOptions[filters.status][filters.stat]}`;
-
-    const stats = getStatsForAttribute(map.current, 'composite', mapLayers, varName);
-    console.debug('Min:', stats.min);
-    console.debug('Max:', stats.max);
-    console.debug('Terciles:', stats.breaks);
-
-    if (!stats) return;
-
-    const categories = calcBreaks(stats);
-
-    const colorExp = [
-      'case', 
-      ['has', `${varName}`],
-      [
-      'interpolate',
-      ['linear'],
-      ['get', `${varName}`],
-      ...categories.flatMap(category => [category.title, category.color])
-      ],
-      ["rgba", 255, 255, 255, 0]
-    ];
-
-    mapLayers.forEach(l => {
-      map.current.setPaintProperty(l, 'fill-color', colorExp);
-    })
-
-    const isCounty = filters.layer === 'County';
-    const visibilityMap = {
-      'counties-totals-part-1': isCounty,
-      'counties-totals-part-2': isCounty,
-      'counties-lines': isCounty,
-      'states-totals': !isCounty,
-    };
-
-    Object.entries(visibilityMap).forEach(([layer, visible]) => {
-      map.current.setLayoutProperty(layer, 'visibility', visible ? 'visible' : 'none');
-    });
-
-    if (legendControl) {
-      let statName = Object.keys(config.statOptions[filters.status]).find(key => config.statOptions[filters.status][key] === config.statOptions[filters.status][filters.stat]);
-      let legendTitle = filters.status === "Pending" ? `${filters.layer} Level - ${filters.status} - ${statName}` : 
-        `${filters.layer} Level - ${filters.status} - ${filters.time} - ${statName}`
-
-      legendControl.updateScale(categories, legendTitle);
-    }
-  }, [ map, filters ]);
-
   useEffect(() => {
-    if (map.current && map.current.loaded() && map.current.idle()) {
-      updateColors();
-    }
-  }, [updateColors]);
+    const updateColorsHandler = () => {
+      const mapLayers = filters.layer === "State" ? config.stateLayers : config.countyLayers;
+  
+      const varName = filters.status === "Pending"
+        ? `${config.acresOptions[filters.acres]}.PENDING.${config.statOptions[filters.status][filters.stat]}`
+        : `${config.acresOptions[filters.acres]}.${config.timeOptions[filters.time]}.${config.statOptions[filters.status][filters.stat]}`;
+  
+      const stats = getStatsForAttribute(map.current, 'composite', mapLayers, varName);
+      if (!stats) return;
+  
+      console.debug('Min:', stats.min);
+      console.debug('Max:', stats.max);
+      console.debug('Terciles:', stats.breaks);
+  
+      const categories = calcBreaks(stats);
+  
+      const colorExp = [
+        'case',
+        ['has', `${varName}`],
+        [
+          'interpolate',
+          ['linear'],
+          ['get', `${varName}`],
+          ...categories.flatMap(category => [category.title, category.color])
+        ],
+        ["rgba", 255, 255, 255, 0]
+      ];
+  
+      mapLayers.forEach(l => {
+        map.current.setPaintProperty(l, 'fill-color', colorExp);
+      });
+  
+      const isCounty = filters.layer === 'County';
+      const visibilityMap = {
+        'counties-totals-part-1': isCounty,
+        'counties-totals-part-2': isCounty,
+        'counties-lines': isCounty,
+        'states-totals': !isCounty,
+      };
+  
+      Object.entries(visibilityMap).forEach(([layer, visible]) => {
+        map.current.setLayoutProperty(layer, 'visibility', visible ? 'visible' : 'none');
+      });
+  
+      if (legendControl) {
+        const statName = Object.keys(config.statOptions[filters.status]).find(
+          key => config.statOptions[filters.status][key] === config.statOptions[filters.status][filters.stat]
+        );
+        const legendTitle = filters.status === "Pending"
+          ? `${filters.layer} Level - ${filters.status} - ${statName}`
+          : `${filters.layer} Level - ${filters.status} - ${filters.time} - ${statName}`;
+  
+        legendControl.updateScale(categories, legendTitle);
+      }
+    };
+  
+    // Subscribe to the event bus
+    eventBus.on("updateColors", updateColorsHandler);
 
+    if (map?.current && map.current.loaded() && map.current.idle()) {
+      updateColorsHandler();
+    }
+  
+    // Cleanup the event listener
+    return () => {
+      eventBus.off("updateColors", updateColorsHandler);
+    };
+  }, [filters, legendControl]); // Ensure dependencies are updated
+  
   useEffect(() => {
     if (!states || !counties || timestamp == undefined) return; // Wait for the data to load
     
