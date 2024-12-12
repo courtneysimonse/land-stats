@@ -63,8 +63,8 @@ export function createPopup(feature, {states, counties}, filters, dataDate) {
     listEl.appendChild(createStatItem("DOM For Sale", props[`${statPrefix}.for_sale_median_days_on_market`], 'for_sale_median_days_on_market'));
     listEl.appendChild(createStatItem("DOM Pending", props[`${config.acresOptions[filters.acres]}.PENDING.for_sale_median_days_on_market`], 'pending.for_sale_median_days_on_market'));
   
-    listEl.appendChild(createStatItem("Median Price", props[`${statPrefix}.sold_median_price`], 'sold_median_price'));
-    listEl.appendChild(createStatItem("Median PPA", props[`${statPrefix}.sold_median_price_per_acre`], 'sold_median_price_per_acre'));
+    listEl.appendChild(createStatItem("Median Price $", props[`${statPrefix}.sold_median_price`], 'sold_median_price'));
+    listEl.appendChild(createStatItem("Median PPA $", props[`${statPrefix}.sold_median_price_per_acre`], 'sold_median_price_per_acre'));
     listEl.appendChild(createStatItem("Months Supply", props[`${statPrefix}.months_of_supply`], 'months_of_supply'));
   
     let absorptionRate = props[`${statPrefix}.absorption_rate`] * 100 ?? 0;
@@ -87,6 +87,11 @@ export function createPopup(feature, {states, counties}, filters, dataDate) {
   function createListItem(label, value, propName) {
     let li = document.createElement('li');
     li.innerHTML = `<strong>${label}</strong> ${value}`;
+    if (label.includes('PPA')) {
+      li.innerHTML += '/acre'
+    } else if (label.includes('DOM')){
+      li.innerHTML += ' days'
+    }
     li.dataset.stat = propName
     return li;
   }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import config from "../mapConfig";
-import IconComponent from "../Shared/IconComponent";
+import IconComponent from "../IconComponent/IconComponent";
 import { useMapState } from "@/app/context/MapContext";
 
 const IconButton = ({ label, onClick }) => {
