@@ -100,7 +100,17 @@ const FilterControls = ({ filterConfigs = [
                     </div>
                 );
             })}
-            <div>
+            <div style={{ marginBottom: "10px" }}>
+              <label>
+                  <input
+                  type="checkbox"
+                  checked={dynamicTooltip}
+                  onChange={() => setDynamicTooltip(!dynamicTooltip)}
+                  />
+                  Show Selected Options in Tooltip
+              </label>
+            </div>
+            {/* <div>
                 <IconButton
                     label="Settings"
                     onClick={() => setDialogOpen(true)}
@@ -118,7 +128,7 @@ const FilterControls = ({ filterConfigs = [
                             Show Selected Options in Tooltip
                         </label>
                       </div>
-                      {/* <div style={{ marginBottom: "0px" }}>
+                      <div style={{ marginBottom: "0px" }}>
                         <label>
                             <input
                             type="checkbox"
@@ -127,9 +137,9 @@ const FilterControls = ({ filterConfigs = [
                             />
                             Zoom to State on Click
                         </label>
-                      </div> */}
+                      </div>
                 </Dialog>
-            </div>
+            </div> */}
         </fieldset>
     </div>
   );
