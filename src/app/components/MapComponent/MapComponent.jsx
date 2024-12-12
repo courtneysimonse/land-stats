@@ -31,8 +31,10 @@ const MapComponent = () => {
   const [counties, setCounties] = useState(null);
   const [timestamp, setTimestamp] = useState(null); 
 
-  const { filters, dynamicTooltip, zoomToState, handleSelectChange, isTimeSelectDisabled } = useMapState();
+  const { filters, dynamicTooltip, zoomToState } = useMapState();
 
+  const tooltip = new mapboxgl.Popup({ closeButton: false, className: 'map-tooltip' });
+  const popup = new mapboxgl.Popup({ closeButton: false, className: 'map-tooltip' });
 
   useEffect(() => {
     const loadData = async () => {
@@ -61,35 +63,6 @@ const MapComponent = () => {
     };
     loadData()
   }, []);
-
-  // const handleSelectChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFilters((prev) => ({
-  //     ...prev,
-  //     [name]: value,
-  //     ...(name === "status" && { stat: config.statOptions[value]["Inventory Count"] }), // Reset stat on status change
-  //   }));
-
-  //   if (name === "layer") handleLayerChange(e);
-
-  //   // Disable time select if status is "Pending"
-  //   if (name === "status") {
-  //     setTimeSelectDisabled(value === "Pending");
-  //   }
-  // };
-
-
-  // const handleStatusChange = (e) => {
-  //   setStatus(e.target.value);
-  //   if (e.target.value == "Sold") {
-  //     setStat('sold_count');
-  //   } else {
-  //     setStat('for_sale_count');
-  //   }
-
-  //   // Update time select disabled state
-  //   setTimeSelectDisabled(e.target.value === "Pending");
-  // }
 
   const updateColors = useCallback(() => {
 
@@ -122,6 +95,18 @@ const MapComponent = () => {
       map.current.setPaintProperty(l, 'fill-color', colorExp);
     })
 
+    const isCounty = filters.layer === 'County';
+    const visibilityMap = {
+      'counties-totals-part-1': isCounty,
+      'counties-totals-part-2': isCounty,
+      'counties-lines': isCounty,
+      'states-totals': !isCounty,
+    };
+
+    Object.entries(visibilityMap).forEach(([layer, visible]) => {
+      map.current.setLayoutProperty(layer, 'visibility', visible ? 'visible' : 'none');
+    });
+
     if (legendControl) {
       let statName = Object.keys(config.statOptions[filters.status]).find(key => config.statOptions[filters.status][key] === config.statOptions[filters.status][filters.stat]);
       let legendTitle = filters.status === "Pending" ? `${filters.layer} Level - ${filters.status} - ${statName}` : 
@@ -134,8 +119,6 @@ const MapComponent = () => {
   useEffect(() => {
     if (map.current && map.current.loaded() && map.current.idle()) {
       updateColors();
-      // updateColors("State");
-      // updateColors("County");
     }
   }, [updateColors]);
 
@@ -192,9 +175,6 @@ const MapComponent = () => {
   useEffect(() => {
     if (!map.current || !map.current.loaded) return; // Ensure map is initialized
   
-    const tooltip = new mapboxgl.Popup({ closeButton: false, className: 'map-tooltip' });
-    const popup = new mapboxgl.Popup({ closeButton: true, className: 'map-tooltip' });
-  
     const findDataDate = (feature) => {
       let dataDate = formatDate(timestamp);
       if (feature.layer.id === 'states-totals' && feature.properties["timestamp"]) {
@@ -235,9 +215,21 @@ const MapComponent = () => {
   
     const handleClick = (e) => {
       tooltip.remove();
+      popup.remove();
 
       const popupContent = createPopup(e.features[0], { states, counties }, filters, findDataDate(e.features[0]));
       
+      if (dynamicTooltip) {
+        let highlighted = config.statOptions[filters.status][filters.stat];
+        if (filters.status === "Pending") {
+          highlighted = "pending." + config.statOptions[filters.status][filters.stat];
+        }
+    
+        const selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
+        if (selectedLi) selectedLi.classList.add('selected');
+    
+      }
+
       const popupBtn = document.createElement('a');
       popupBtn.className = 'btn btn-primary';
       popupBtn.innerText = "Go to Table";
@@ -266,41 +258,7 @@ const MapComponent = () => {
       map.current.off('click', handleClick);
     };
   
-  }, [filters, states, counties, timestamp]); // Dependencies ensure updates on filter changes.
-  
-
-  const handleLayerChange = (e) => {
-    const newLayer = e.target.value;
-    setFilters(prev => ({ ...prev, layer: newLayer }));
-    
-    const statName = Object.keys(config.statOptions[filters.status]).find(
-      key => config.statOptions[filters.status][key] === filters.stat
-    );
-
-    const isCounty = newLayer === 'County';
-    const mapLayers = isCounty ? config.countyLayers : config.stateLayers;
-    const visibilityMap = {
-      'counties-totals-part-1': isCounty,
-      'counties-totals-part-2': isCounty,
-      'counties-lines': isCounty,
-      'states-totals': !isCounty,
-    };
-
-    Object.entries(visibilityMap).forEach(([layer, visible]) => {
-      map.current.setLayoutProperty(layer, 'visibility', visible ? 'visible' : 'none');
-    });
-
-    const variablePrefix = filters.status === "Pending"
-    ? `${config.acresOptions[filters.acres]}.PENDING.${filters.stat}`
-    : `${config.acresOptions[filters.acres]}.${config.timeOptions[filters.time]}.${filters.stat}`;
-
-    const stats = getStatsForAttribute(map.current, 'composite', mapLayers, variablePrefix);
-    const breaks = calcBreaks(stats);
-
-    const legendTitle = `${newLayer} Level - ${filters.status} - ${filters.status === "Pending" ? statName : `${filters.time} - ${statName}`}`;
-    legendControl.updateScale(breaks, legendTitle);
-
-  }
+  }, [filters, states, counties, timestamp, dynamicTooltip]); // Dependencies ensure updates on filter changes.
 
   return (
     <div 

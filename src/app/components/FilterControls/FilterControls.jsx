@@ -4,57 +4,56 @@ import IconComponent from "../IconComponent/IconComponent";
 import { useMapState } from "@/app/context/MapContext";
 
 const IconButton = ({ label, onClick }) => {
-    return (
-      <button
-        onClick={onClick}
-        aria-label={label}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          cursor: "pointer",
-        }}
-      >
-        <IconComponent/>
-      </button>
-    );
-  };
+  return (
+    <button
+      onClick={onClick}
+      aria-label={label}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        cursor: "pointer",
+      }}
+    >
+      <IconComponent/>
+      <p>{label}</p>
+    </button>
+  );
+};
 
-  const Dialog = ({ isOpen, onClose, children }) => {
-    if (!isOpen) return null;
-  
-    return (
+const Dialog = ({ isOpen, onClose, children }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        top: "0",
+        left: "0",
+        width: "100%",
+        height: "100%",
+        background: "rgba(0, 0, 0, 0.5)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+      role="dialog"
+      aria-modal="true"
+    >
       <div
         style={{
-          position: "fixed",
-          top: "0",
-          left: "0",
-          width: "100%",
-          height: "100%",
-          background: "rgba(0, 0, 0, 0.5)",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
+          background: "white",
+          padding: "20px",
+          borderRadius: "8px",
         }}
-        role="dialog"
-        aria-modal="true"
       >
-        <div
-          style={{
-            background: "white",
-            padding: "20px",
-            borderRadius: "8px",
-            width: "300px",
-            textAlign: "center",
-          }}
-        >
-          {children}
-          <button onClick={onClose} style={{ marginTop: "20px" }}>
-            Close
-          </button>
-        </div>
+        {children}
+        <button onClick={onClose} style={{ marginTop: "20px" }}>
+          Close
+        </button>
       </div>
-    );
-  };
+    </div>
+  );
+};
 
 const FilterControls = ({ filterConfigs = [
   { label: "Status", name: "status", options: Object.keys(config.statusOptions) },
@@ -65,7 +64,9 @@ const FilterControls = ({ filterConfigs = [
 ] }) => {
     const [isDialogOpen, setDialogOpen] = useState(false);
 
-    const { filters, handleSelectChange, isTimeSelectDisabled, dynamicTooltip, setDynamicTooltip, zoomToState, setZoomToState } = useMapState();
+    const { filters, handleSelectChange, isTimeSelectDisabled, 
+      dynamicTooltip, setDynamicTooltip, zoomToState, setZoomToState,
+      recalculateLegend, setRecalculateLegend } = useMapState();
 
     return (
     <div id="map-filters">
@@ -101,12 +102,13 @@ const FilterControls = ({ filterConfigs = [
             })}
             <div>
                 <IconButton
-                    label="Open settings"
+                    label="Settings"
                     onClick={() => setDialogOpen(true)}
                 />
-                <Dialog isOpen={isDialogOpen} onClose={() => setDialogOpen(false)}>
-                    <h2>Settings</h2>
-                    <div style={{ marginBottom: "20px" }}>
+                <Dialog 
+                  isOpen={isDialogOpen} onClose={() => setDialogOpen(false)}
+                >
+                    <div style={{ marginBottom: "10px" }}>
                         <label>
                             <input
                             type="checkbox"
@@ -115,19 +117,18 @@ const FilterControls = ({ filterConfigs = [
                             />
                             Show Selected Options in Tooltip
                         </label>
-                        </div>
-                        <div style={{ marginBottom: "20px" }}>
+                      </div>
+                      {/* <div style={{ marginBottom: "0px" }}>
                         <label>
                             <input
                             type="checkbox"
                             checked={zoomToState}
-                            onChange={() => setzoomToState(!zoomToState)}
+                            onChange={() => setZoomToState(!zoomToState)}
                             />
                             Zoom to State on Click
                         </label>
-                        </div>
+                      </div> */}
                 </Dialog>
-                <span>Settings</span>
             </div>
         </fieldset>
     </div>

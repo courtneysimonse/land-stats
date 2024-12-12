@@ -57,6 +57,12 @@ export default class LegendControl {
 
     this._container.appendChild(this._legendList);
 
+    let button = document.createElement('button');
+    button.innerText = 'Recalculate based on map view';
+    button.style.margin = '4px';
+
+    this._container.appendChild(button);
+
     return this._container;
   }
   onRemove() {
