@@ -27,6 +27,8 @@ export const MapProvider = ({ children }) => {
       ...(name === "status" && { stat: 'Inventory Count' }), // Reset stat on status change
     }));
 
+    // if (name === "layer") handleLayerChange(e);
+
     if (name === 'status') {
       setTimeSelectDisabled(value === 'Pending');
     }

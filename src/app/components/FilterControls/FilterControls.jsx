@@ -85,7 +85,7 @@ const FilterControls = ({ filterConfigs = [
                     >
                         {name === "stat" 
                         ? Object.entries(selectOptions || {}).map(([optionLabel, optionValue]) => (
-                            <option key={optionValue || optionLabel} value={optionValue || optionLabel}>
+                            <option key={optionLabel || optionValue} value={optionLabel || optionValue}>
                                 {optionLabel}
                             </option>
                             ))
