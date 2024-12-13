@@ -1,3 +1,4 @@
+import { eventBus } from "@/app/utils/eventBus";
 import './LegendControl.css';
 
 const createLi = (category, unit) => {
@@ -24,6 +25,10 @@ const createLi = (category, unit) => {
 
   return li
 }
+
+const handleClick = () => {
+  eventBus.emit("updateColors");
+};
 
 export default class LegendControl {
   constructor(categories) {
@@ -56,6 +61,13 @@ export default class LegendControl {
     });
 
     this._container.appendChild(this._legendList);
+
+    let button = document.createElement('button');
+    button.innerText = 'Recalculate based on map view';
+    button.style.margin = '4px';
+    button.addEventListener('click', handleClick);
+
+    this._container.appendChild(button);
 
     return this._container;
   }

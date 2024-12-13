@@ -1,13 +1,15 @@
 'use client'
 
-import dynamic from 'next/dynamic';
 import '../app/App.css';
-const MapComponent = dynamic(() => import('../app/components/MapComponent'), { ssr: false });
+import { MapProvider } from '@/app/context/MapContext';
+import MapComponent from '@/app/components/MapComponent/MapComponent';
 
 export default function Home() {
   return (
     <div style={{ height: "100vh", width: "100%", padding: "0px", margin: "0px"}}>
-      <MapComponent />
+      <MapProvider>
+        <MapComponent />
+      </MapProvider>
     </div>
   );
 }
