@@ -46,9 +46,9 @@ export default class LegendControl {
     let legendHeading = document.createElement("h3");
     legendHeading.innerText = "Legend";
 
-    this._legendSubHeading = document.createElement("h4");
+    this._legendSubHeading = document.createElement("div");
     this._legendSubHeading.id = "legend-title";
-    this._legendSubHeading.innerText = "State Level - Sold - 12 Months - All Acreages - Inventory Count";
+    this._legendSubHeading.innerHTML = `<p>State Level</p><p>Sold</p><p>12 Months</p><p>All Acreages</p><p>Inventory Count</p>`;
 
     this._container.appendChild(legendHeading);
     this._container.appendChild(this._legendSubHeading);
@@ -76,7 +76,7 @@ export default class LegendControl {
     this._map = undefined;
   }
 
-  updateScale(categories, stat) {
+  updateScale(categories, heading) {
     // Ensure the container and its elements are properly referenced
     if (!this._container || !this._legendSubHeading || !this._legendList) {
       return;
@@ -84,15 +84,15 @@ export default class LegendControl {
 
     this._categories = categories.sort((a, b) => b.title - a.title);
 
-    this._legendSubHeading.innerText = stat;
+    this._legendSubHeading.innerHTML = heading;
 
     // Clear the existing list items
     this._legendList.innerHTML = '';
 
     let unit = "";
-    if (stat.includes("Price")) {
+    if (heading.includes("Price")) {
       unit = "$"
-    } else if (stat.includes("Rate")) {
+    } else if (heading.includes("Rate")) {
       unit = "%";
     }
 

@@ -116,8 +116,8 @@ const MapComponent = () => {
           key => config.statOptions[filters.status][key] === config.statOptions[filters.status][filters.stat]
         );
         const legendTitle = filters.status === "Pending"
-          ? `${filters.layer} Level - ${filters.status} - ${statName}`
-          : `${filters.layer} Level - ${filters.status} - ${filters.time} - ${statName}`;
+          ? `<p>${filters.layer} Level</p><p>${filters.status}</p><p>${filters.acres}</p><p>${statName}</p>`
+          : `<p>${filters.layer} Level</p><p>${filters.status}</p><p>Last ${filters.time}</p><p>${filters.acres}</p><p>${statName}</p>`;
   
         legendControl.updateScale(categories, legendTitle);
       }
