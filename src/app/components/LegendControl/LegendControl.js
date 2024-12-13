@@ -48,7 +48,7 @@ export default class LegendControl {
 
     this._legendSubHeading = document.createElement("div");
     this._legendSubHeading.id = "legend-title";
-    this._legendSubHeading.innerHTML = `<p>State Level</p><p>Sold</p><p>12 Months</p><p>All Acreages</p><p>Inventory Count</p>`;
+    this._legendSubHeading.innerHTML = `<p>State Level</p><p>Sold</p><p>Last 12 Months</p><p>All Acreages</p><p>Inventory Count</p>`;
 
     this._container.appendChild(legendHeading);
     this._container.appendChild(this._legendSubHeading);
