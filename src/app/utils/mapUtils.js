@@ -109,7 +109,7 @@ function createGeoListItem(feature, {states, counties}) {
   
 export function formatDate(isoString) {
   const date = new Date(isoString);
-  return date.toLocaleString();
+  return date.toUTCString();
 }
 
 function getUniqueFeatures(features) {
