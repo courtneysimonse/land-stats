@@ -237,6 +237,8 @@ const MapComponentBase = ({
     
       } else {
         popupContent = createPopup(e.features[0], { states, counties }, config.initialPopupFilters, findDataDate(e.features[0]));
+        popupContent.querySelector(`[data-stat="timeframe"]`).classList.add('selected');
+        popupContent.querySelector(`[data-stat="acreage"]`).classList.add('selected');      
       }
 
       tooltip.setHTML(popupContent.outerHTML)
@@ -263,6 +265,8 @@ const MapComponentBase = ({
     
       } else {
         popupContent = createPopup(e.features[0], { states, counties }, config.initialPopupFilters, findDataDate(e.features[0]));
+        popupContent.querySelector(`[data-stat="timeframe"]`).classList.add('selected');
+        popupContent.querySelector(`[data-stat="acreage"]`).classList.add('selected');
       }
 
       const popupBtn = document.createElement('a');

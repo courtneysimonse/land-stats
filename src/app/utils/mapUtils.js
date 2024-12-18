@@ -43,8 +43,8 @@ export function createPopup(feature, {states, counties}, filters, dataDate) {
   listEl.appendChild(createGeoListItem(feature, {states, counties}));
 
   // Add filter information
-  listEl.appendChild(createListItem("TIMEFRAME:", filters.time));
-  listEl.appendChild(createListItem("ACREAGE:", filters.acres));
+  listEl.appendChild(createListItem("TIMEFRAME:", filters.time, "timeframe"));
+  listEl.appendChild(createListItem("ACREAGE:", filters.acres, "acreage"));
   listEl.appendChild(createListItem("STATUS:", filters.status));
 
   // Construct the stat prefix
