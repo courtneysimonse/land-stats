@@ -9,7 +9,7 @@ import config from "../mapConfig";
 import { getStatsForAttribute, calcBreaks, createPopup, formatDate } from "@/app/utils/mapUtils";
 import { eventBus } from "@/app/utils/eventBus";
 
-import { useMapState } from "@/app/context/MapContext";
+import { useMapState, MapProvider } from "@/app/context/MapContext";
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
@@ -24,7 +24,12 @@ const filterConfigs = [
   { label: "Layer", name: "layer", options: ["State", "County"] },
 ];
 
-const MapComponent = () => {
+const MapComponentBase = ({
+  onFilterChange,
+  height = "100%",
+  width = "100%",
+  useProvider = true
+}) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [legendControl, setLegendControl] = useState(null);
@@ -32,10 +37,27 @@ const MapComponent = () => {
   const [counties, setCounties] = useState(null);
   const [timestamp, setTimestamp] = useState(null); 
 
-  const { filters, dynamicTooltip, zoomToState } = useMapState();
+  // Use context if provider is used, otherwise create local state
+  const { filters, dynamicTooltip, zoomToState } = useProvider ? useMapState() : {
+    filters: {
+      status: 'Sold',
+      stat: 'Inventory Count',
+      time: '12 months',
+      acres: 'All Acreages',
+      layer: 'State',
+    },
+    dynamicTooltip: false,
+    handleSelectChange: () => {}
+  };
 
   const tooltip = new mapboxgl.Popup({ closeButton: false, className: 'map-tooltip' });
   const popup = new mapboxgl.Popup({ closeButton: false, className: 'map-tooltip' });
+
+  useEffect(() => {
+    if (onFilterChange) {
+      onFilterChange(filters);
+    }
+  }, [filters, onFilterChange]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -277,22 +299,16 @@ const MapComponent = () => {
   return (
     <div 
       style={{ 
-        height: "100%", 
-        width: "100%",
+        height, 
+        width,
         margin: 0,
         padding: 0,
         display: "flex",
         flexDirection: "column",
         overflow: "hidden",
-        // flexWrap: "wrap",
         justifyContent: "center"
       }}>
-      <FilterControls
-        // filters={filters}
-        // handleSelectChange={handleSelectChange}
-        filterConfigs={filterConfigs}
-        // isTimeSelectDisabled={isTimeSelectDisabled}
-      />
+      <FilterControls />
       <div id="map"
         ref={mapContainer}
         style={{
@@ -301,6 +317,21 @@ const MapComponent = () => {
           position: "relative",
         }} />
     </div>
+  );
+};
+
+// Wrapper component that optionally provides context
+const MapComponent = (props) => {
+  // If useProvider is explicitly set to false, don't wrap with provider
+  if (props.useProvider === false) {
+    return <MapComponentBase {...props} />;
+  }
+  {console.log(props)}
+
+  return (
+    <MapProvider>
+      <MapComponentBase {...props} />
+    </MapProvider>
   );
 };
 
