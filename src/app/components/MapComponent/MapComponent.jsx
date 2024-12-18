@@ -16,14 +16,6 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 
 import "./MapComponent.css";
 
-const filterConfigs = [
-  { label: "Status", name: "status", options: Object.keys(config.statusOptions) },
-  { label: "Time", name: "time", options: Object.keys(config.timeOptions) },
-  { label: "Acreages", name: "acres", options: Object.keys(config.acresOptions) },
-  { label: "Statistics", name: "stat" },
-  { label: "Layer", name: "layer", options: ["State", "County"] },
-];
-
 const MapComponentBase = ({
   onFilterChange,
   height = "100%",
@@ -231,9 +223,10 @@ const MapComponentBase = ({
     }
 
     const handleMouseMove = (e) => {
-      const popupContent = createPopup(e.features[0], { states, counties }, filters, findDataDate(e.features[0]));
+      let popupContent; 
       
       if (dynamicTooltip) {
+        popupContent = createPopup(e.features[0], { states, counties }, filters, findDataDate(e.features[0]));
         let highlighted = config.statOptions[filters.status][filters.stat];
         if (filters.status === "Pending") {
           highlighted = "pending." + config.statOptions[filters.status][filters.stat];
@@ -242,6 +235,8 @@ const MapComponentBase = ({
         const selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
         if (selectedLi) selectedLi.classList.add('selected');
     
+      } else {
+        popupContent = createPopup(e.features[0], { states, counties }, config.initialPopupFilters, findDataDate(e.features[0]));
       }
 
       tooltip.setHTML(popupContent.outerHTML)
@@ -252,10 +247,12 @@ const MapComponentBase = ({
     const handleClick = (e) => {
       tooltip.remove();
       popup.remove();
+      map.current.off('mousemove', handleMouseMove); //why doesn't this work??
 
-      const popupContent = createPopup(e.features[0], { states, counties }, filters, findDataDate(e.features[0]));
+      let popupContent;
       
       if (dynamicTooltip) {
+        popupContent = createPopup(e.features[0], { states, counties }, filters, findDataDate(e.features[0]));
         let highlighted = config.statOptions[filters.status][filters.stat];
         if (filters.status === "Pending") {
           highlighted = "pending." + config.statOptions[filters.status][filters.stat];
@@ -264,6 +261,8 @@ const MapComponentBase = ({
         const selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
         if (selectedLi) selectedLi.classList.add('selected');
     
+      } else {
+        popupContent = createPopup(e.features[0], { states, counties }, config.initialPopupFilters, findDataDate(e.features[0]));
       }
 
       const popupBtn = document.createElement('a');

@@ -100,15 +100,22 @@ const FilterControls = ({ filterConfigs = [
                     </div>
                 );
             })}
-            <div style={{ marginBottom: "10px" }}>
-              <label>
-                  <input
-                  type="checkbox"
-                  checked={dynamicTooltip}
+            <div className="filter-group">
+              <label htmlFor={`popup-select`}>Popup Option:</label>
+              <select
+                  id={`popup-select`}
+                  name="popup"
+                  value={dynamicTooltip}
                   onChange={() => setDynamicTooltip(!dynamicTooltip)}
-                  />
-                  Show Selected Options in Tooltip
-              </label>
+              >
+                <option value={false}>
+                  Show previous 12 months and all acreages
+                </option>
+                <option value={true}>
+                  Show selected filters
+                </option>
+
+              </select>
             </div>
             {/* <div>
                 <IconButton

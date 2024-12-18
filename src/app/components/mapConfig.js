@@ -64,6 +64,12 @@ const config = {
             // "Absorption Rate": "absorption_rate",
             // "Months of Supply": "months_of_supply"
         },
+      },
+      "initialPopupFilters": {
+        status: 'Sold',
+        stat: 'Inventory Count',
+        time: '12 months',
+        acres: 'All Acreages',
       }
   };
   
