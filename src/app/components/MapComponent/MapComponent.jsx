@@ -141,15 +141,18 @@ const MapComponentBase = ({
     };
   
     // Subscribe to the event bus
-    eventBus.on("updateColors", updateColorsHandler);
+    // eventBus.on("updateColors", updateColorsHandler);
 
     if (map?.current && map.current.loaded() && map.current.idle()) {
       updateColorsHandler();
+
+      map.current.on('moveend', updateColorsHandler);
     }
   
     // Cleanup the event listener
     return () => {
-      eventBus.off("updateColors", updateColorsHandler);
+      // eventBus.off("updateColors", updateColorsHandler);
+      map.current.off('zoomend', updateColorsHandler);
     };
   }, [filters, legendControl]); // Ensure dependencies are updated
   
