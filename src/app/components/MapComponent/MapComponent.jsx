@@ -22,25 +22,28 @@ const MapComponentBase = ({
   width = "100%",
   useProvider = true
 }) => {
+  const context = useMapState();
+
+  // Use context or default values depending on `useProvider`
+  const { 
+    filters = {
+      status: 'Sold',
+      stat: 'Inventory Count',
+      time: '12 months',
+      acres: 'All Acreages',
+      layer: 'State',
+    }, 
+    dynamicTooltip = false, 
+    zoomToState = false, 
+    handleSelectChange = () => {} 
+  } = useProvider ? context : {};
+
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [legendControl, setLegendControl] = useState(null);
   const [states, setStates] = useState(null);
   const [counties, setCounties] = useState(null);
   const [timestamp, setTimestamp] = useState(null); 
-
-  // Use context if provider is used, otherwise create local state
-  const { filters, dynamicTooltip, zoomToState } = useProvider ? useMapState() : {
-    filters: {
-      status: 'Sold',
-      stat: 'Inventory Count',
-      time: '12 months',
-      acres: 'All Acreages',
-      layer: 'State',
-    },
-    dynamicTooltip: false,
-    handleSelectChange: () => {}
-  };
 
   const tooltip = new mapboxgl.Popup({ closeButton: false, className: 'map-tooltip' });
   const popup = new mapboxgl.Popup({ closeButton: false, className: 'map-tooltip' });
@@ -329,7 +332,6 @@ const MapComponent = (props) => {
   if (props.useProvider === false) {
     return <MapComponentBase {...props} />;
   }
-  {console.log(props)}
 
   return (
     <MapProvider>
