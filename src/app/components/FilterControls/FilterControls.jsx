@@ -65,8 +65,8 @@ const FilterControls = ({ filterConfigs = [
     const [isDialogOpen, setDialogOpen] = useState(false);
 
     const { filters, handleSelectChange, isTimeSelectDisabled, 
-      dynamicTooltip, setDynamicTooltip, zoomToState, setZoomToState,
-      recalculateLegend, setRecalculateLegend } = useMapState();
+      dynamicTooltip, setDynamicTooltip, zoomToState, setZoomToState, 
+      showZips, setShowZips, } = useMapState();
 
     return (
     <div id="map-filters">
@@ -101,9 +101,9 @@ const FilterControls = ({ filterConfigs = [
                 );
             })}
             <div className="filter-group">
-              <label htmlFor={`popup-select`}>Popup Option:</label>
+              <label htmlFor="popup-select">Popup Option:</label>
               <select
-                  id={`popup-select`}
+                  id="popup-select"
                   name="popup"
                   value={dynamicTooltip}
                   onChange={() => setDynamicTooltip(!dynamicTooltip)}
@@ -116,6 +116,16 @@ const FilterControls = ({ filterConfigs = [
                 </option>
 
               </select>
+            </div>
+            <div className="filter-group">
+              <label>
+                  <input
+                  type="checkbox"
+                  checked={showZips}
+                  onChange={() => setShowZips(!showZips)}
+                  />
+                  Click a county to show ZIPs
+              </label>
             </div>
             {/* <div>
                 <IconButton

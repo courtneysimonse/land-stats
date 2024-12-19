@@ -35,6 +35,7 @@ const MapComponentBase = ({
     }, 
     dynamicTooltip = false, 
     zoomToState = false, 
+    showZips = false,
     handleSelectChange = () => {} 
   } = useProvider ? context : {};
 
@@ -45,8 +46,8 @@ const MapComponentBase = ({
   const [counties, setCounties] = useState(null);
   const [timestamp, setTimestamp] = useState(null); 
 
-  const tooltip = new mapboxgl.Popup({ closeButton: false, className: 'map-tooltip' });
-  const popup = new mapboxgl.Popup({ closeButton: false, className: 'map-tooltip' });
+  const tooltip = new mapboxgl.Popup({ closeButton: false, className: 'map-tooltip hover' });
+  const popup = new mapboxgl.Popup({ closeButton: false, className: 'map-tooltip click' });
 
   useEffect(() => {
     if (onFilterChange) {

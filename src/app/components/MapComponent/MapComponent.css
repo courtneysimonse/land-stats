@@ -64,3 +64,11 @@
 .mapboxgl-popup-content .selected {
     background-color: #fecc08;
 }
+
+.map-tooltip.hover {
+    z-index: 10;
+}
+
+.map-tooltip.click {
+    z-index: 20;
+}
