@@ -1,6 +1,7 @@
 const config = {
     stateLayers: ["states-totals"],
     countyLayers: ["counties-totals-part-1", "counties-totals-part-2"],
+    zipLayers: ["zips-totals-part-1", "zips-totals-part-2"],
     layers: ["states-totals", "counties-totals-part-1", "counties-totals-part-2"],
     bounds: [[-128, 22], [-63, 50]],
     style: 'mapbox://styles/landstats/clvfmorch02dd01pecuq9e0hr',

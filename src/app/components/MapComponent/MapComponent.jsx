@@ -255,42 +255,55 @@ const MapComponentBase = ({
       popup.remove();
       map.current.off('mousemove', handleMouseMove); //why doesn't this work??
 
-      let popupContent;
+      if (!showZips || filters.layer === 'State') {
+        let popupContent;
       
-      if (dynamicTooltip) {
-        popupContent = createPopup(e.features[0], { states, counties }, filters, findDataDate(e.features[0]));
-        let highlighted = config.statOptions[filters.status][filters.stat];
-        if (filters.status === "Pending") {
-          highlighted = "pending." + config.statOptions[filters.status][filters.stat];
+        if (dynamicTooltip) {
+          popupContent = createPopup(e.features[0], { states, counties }, filters, findDataDate(e.features[0]));
+          let highlighted = config.statOptions[filters.status][filters.stat];
+          if (filters.status === "Pending") {
+            highlighted = "pending." + config.statOptions[filters.status][filters.stat];
+          }
+      
+          const selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
+          if (selectedLi) selectedLi.classList.add('selected');
+      
+        } else {
+          popupContent = createPopup(e.features[0], { states, counties }, config.initialPopupFilters, findDataDate(e.features[0]));
+          popupContent.querySelector(`[data-stat="timeframe"]`).classList.add('selected');
+          popupContent.querySelector(`[data-stat="acreage"]`).classList.add('selected');
         }
+  
+        const popupBtn = document.createElement('a');
+        popupBtn.className = 'btn btn-primary';
+        popupBtn.innerText = "Go to Table";
     
-        const selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
-        if (selectedLi) selectedLi.classList.add('selected');
+        const featureId = e.features[0].id.toString().padStart(5, '0');
+        const stateAbbrev = states.find(x => x["GEOID"] === e.features[0].properties["GEOID"])?.STUSPS;
+        
+        const href = e.features[0].layer.id === 'states-totals'
+          ? `${process.env.NEXT_PUBLIC_BASE_URL}search-results?state=${stateAbbrev}`
+          : `${process.env.NEXT_PUBLIC_BASE_URL}search-results?county=${featureId}`;
+        
+        popupBtn.setAttribute('href', href);
     
+        popupContent.appendChild(popupBtn);
+    
+        popup.setHTML(popupContent.outerHTML)
+          .setLngLat(e.lngLat)
+          .addTo(map.current);   
       } else {
-        popupContent = createPopup(e.features[0], { states, counties }, config.initialPopupFilters, findDataDate(e.features[0]));
-        popupContent.querySelector(`[data-stat="timeframe"]`).classList.add('selected');
-        popupContent.querySelector(`[data-stat="acreage"]`).classList.add('selected');
+        let zoom = map.current.getZoom();
+        let newZoom = zoom > 7 ? zoom : 7;
+        map.current.flyTo({center: e.lngLat, zoom: newZoom});  
+
+        // show zip layers
+        config.zipLayers.forEach(layer => {
+          map.current.setLayoutProperty(layer, 'visibility', 'visible');
+        });
       }
 
-      const popupBtn = document.createElement('a');
-      popupBtn.className = 'btn btn-primary';
-      popupBtn.innerText = "Go to Table";
-  
-      const featureId = e.features[0].id.toString().padStart(5, '0');
-      const stateAbbrev = states.find(x => x["GEOID"] === e.features[0].properties["GEOID"])?.STUSPS;
-      
-      const href = e.features[0].layer.id === 'states-totals'
-        ? `${process.env.NEXT_PUBLIC_BASE_URL}search-results?state=${stateAbbrev}`
-        : `${process.env.NEXT_PUBLIC_BASE_URL}search-results?county=${featureId}`;
-      
-      popupBtn.setAttribute('href', href);
-  
-      popupContent.appendChild(popupBtn);
-  
-      popup.setHTML(popupContent.outerHTML)
-        .setLngLat(e.lngLat)
-        .addTo(map.current);
+     
     };
   
     map.current.on('mousemove', [...config.layers], handleMouseMove);
@@ -301,7 +314,7 @@ const MapComponentBase = ({
       map.current.off('click', handleClick);
     };
   
-  }, [filters, states, counties, timestamp, dynamicTooltip]); // Dependencies ensure updates on filter changes.
+  }, [filters, states, counties, timestamp, dynamicTooltip, showZips]); // Dependencies ensure updates on filter changes.
 
   return (
     <div 
