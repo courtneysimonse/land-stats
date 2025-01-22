@@ -17,7 +17,7 @@ export const MapProvider = ({ children }) => {
   
   const [dynamicTooltip, setDynamicTooltip] = useState(false);
   const [zoomToState, setZoomToState] = useState(false);
-  const [showZips, setShowZips] = useState(false);
+  const [enableZips, setEnableZips] = useState(false);
   const [isTimeSelectDisabled, setTimeSelectDisabled] = useState(false);
 
   const handleSelectChange = (e) => {
@@ -41,8 +41,8 @@ export const MapProvider = ({ children }) => {
       setDynamicTooltip,
       zoomToState,
       setZoomToState,
-      showZips,
-      setShowZips,
+      enableZips,
+      setEnableZips,
       isTimeSelectDisabled,
       handleSelectChange,
     }}>

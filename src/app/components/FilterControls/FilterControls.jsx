@@ -66,7 +66,7 @@ const FilterControls = ({ filterConfigs = [
 
     const { filters, handleSelectChange, isTimeSelectDisabled, 
       dynamicTooltip, setDynamicTooltip, zoomToState, setZoomToState, 
-      showZips, setShowZips, } = useMapState();
+      enableZips, setEnableZips, } = useMapState();
 
     return (
     <div id="map-filters">
@@ -121,8 +121,8 @@ const FilterControls = ({ filterConfigs = [
               <label>
                   <input
                   type="checkbox"
-                  checked={showZips}
-                  onChange={() => setShowZips(!showZips)}
+                  checked={enableZips}
+                  onChange={() => setEnableZips(!enableZips)}
                   />
                   Click a county to show ZIPs
               </label>

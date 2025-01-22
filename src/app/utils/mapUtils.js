@@ -99,10 +99,15 @@ function createListItem(label, value, propName) {
   
 function createGeoListItem(feature, {states, counties}) {
   let li = document.createElement('li');
-  let geoName = feature.layer.id === 'states-totals' 
-    ? states.find(x => x["GEOID"] == feature.properties["GEOID"])?.NAME 
-    : counties.find(x => x['GEOID'] == feature.id)?.NAME;
+  let geoName;
 
+  if (config.zipLayers.includes(feature.layer.id)) {
+    geoName = feature.properties['ZCTA5CE20'];
+  } else if (feature.layer.id === 'states-totals') {
+    geoName = states.find(x => x["GEOID"] == feature.properties["GEOID"])?.NAME;
+  } else {
+    geoName = counties.find(x => x['GEOID'] == feature.id)?.NAME;
+  }
   li.innerHTML = `<strong>SELECTED:</strong> ${geoName || 'N/A'}`;
   return li;
 }

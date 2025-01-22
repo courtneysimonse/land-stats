@@ -35,7 +35,7 @@ const MapComponentBase = ({
     }, 
     dynamicTooltip = false, 
     zoomToState = false, 
-    showZips = false,
+    enableZips = false,
     handleSelectChange = () => {} 
   } = useProvider ? context : {};
 
@@ -45,6 +45,7 @@ const MapComponentBase = ({
   const [states, setStates] = useState(null);
   const [counties, setCounties] = useState(null);
   const [timestamp, setTimestamp] = useState(null); 
+  const [showZips, setShowZips] = useState(false);
 
   const tooltip = new mapboxgl.Popup({ closeButton: false, className: 'map-tooltip hover' });
   const popup = new mapboxgl.Popup({ closeButton: false, className: 'map-tooltip click' });
@@ -86,7 +87,7 @@ const MapComponentBase = ({
 
   useEffect(() => {
     const updateColorsHandler = () => {
-      const mapLayers = showZips ? config.zipLayers : (filters.layer === "State" ? config.stateLayers : config.countyLayers);
+      const mapLayers = (showZips && enableZips) ? config.zipLayers : (filters.layer === "State" ? config.stateLayers : config.countyLayers);
   
       const varName = filters.status === "Pending"
         ? `${config.acresOptions[filters.acres]}.PENDING.${config.statOptions[filters.status][filters.stat]}`
@@ -117,12 +118,15 @@ const MapComponentBase = ({
         map.current.setPaintProperty(l, 'fill-color', colorExp);
       });
   
-      const isCounty = filters.layer === 'County';
+      const isCounty = filters.layer === 'County' && (!enableZips || !showZips);
       const visibilityMap = {
         'counties-totals-part-1': isCounty,
         'counties-totals-part-2': isCounty,
-        'counties-lines': isCounty,
-        'states-totals': !isCounty,
+        'counties-lines': isCounty || showZips,
+        'states-totals': !isCounty && (!enableZips || !showZips),
+        'zips-totals-part-1': (enableZips || showZips),
+        'zips-totals-part-2': (enableZips || showZips),
+        'zip-labels': (enableZips || showZips),
       };
   
       Object.entries(visibilityMap).forEach(([layer, visible]) => {
@@ -152,8 +156,8 @@ const MapComponentBase = ({
     return () => {
       eventBus.off("updateColors", updateColorsHandler);
     };
-  }, [filters, legendControl, showZips]); // Ensure dependencies are updated
-  
+  }, [filters, legendControl, enableZips, showZips]); // Ensure dependencies are updated
+
   useEffect(() => {
     if (!states || !counties || timestamp == undefined) return; // Wait for the data to load
     
@@ -256,9 +260,46 @@ const MapComponentBase = ({
       const clickedFeature = e.features[0];
       map.current.off('mousemove', handleMouseMove); //why doesn't this work??
 
-      if (!showZips || filters.layer === 'State') {
+      // Show zip layers
+      if (enableZips && filters.layer === "County") {
+        let zoom = map.current.getZoom();
+        let newZoom = zoom > 7 ? zoom : 7;
+        setShowZips(true);
+        eventBus.emit("updateColors");
+        map.current.flyTo({center: e.lngLat, zoom: newZoom});  
+
+        config.zipLayers.forEach(layer => {
+          map.current.setLayoutProperty(layer, 'visibility', 'visible');
+          map.current.setPaintProperty(layer, 'fill-opacity', 0.8);
+        });
+
+        map.current.setLayoutProperty('zip-labels', 'visibility', 'visible');
+
+        config.countyLayers.forEach(layer => {
+          map.current.setLayoutProperty(layer, 'visibility', 'none');
+        });
+
+        config.stateLayers.forEach(layer => {
+          map.current.setLayoutProperty(layer, 'visibility', 'none');
+        });
+      } else {
+        // Show state or county layers based on filters.layer
+        const layersToShow = filters.layer === "State" ? config.stateLayers : config.countyLayers;
+        const layersToHide = filters.layer === "State" ? config.countyLayers : config.stateLayers;
+
+        layersToShow.forEach(layer => {
+          map.current.setLayoutProperty(layer, 'visibility', 'visible');
+          map.current.setPaintProperty(layer, 'fill-opacity', 0.8);
+        });
+
+        layersToHide.forEach(layer => {
+          map.current.setLayoutProperty(layer, 'visibility', 'none');
+        });
+
+        map.current.setLayoutProperty('zip-labels', 'visibility', 'none');
+
         let popupContent;
-      
+        
         if (dynamicTooltip) {
           popupContent = createPopup(e.features[0], { states, counties }, filters, findDataDate(e.features[0]));
           let highlighted = config.statOptions[filters.status][filters.stat];
@@ -274,7 +315,7 @@ const MapComponentBase = ({
           popupContent.querySelector(`[data-stat="timeframe"]`).classList.add('selected');
           popupContent.querySelector(`[data-stat="acreage"]`).classList.add('selected');
         }
-  
+
         const popupBtn = document.createElement('a');
         popupBtn.className = 'btn btn-primary';
         popupBtn.innerText = "Go to Table";
@@ -293,56 +334,10 @@ const MapComponentBase = ({
         popup.setHTML(popupContent.outerHTML)
           .setLngLat(e.lngLat)
           .addTo(map.current);   
-      } else {
-        let zoom = map.current.getZoom();
-        let newZoom = zoom > 7 ? zoom : 7;
-        map.current.flyTo({center: e.lngLat, zoom: newZoom});  
 
-        map.current.once('idle', () => {
-
-          let zipFeatures = [];
-          let feature = {
-            "type": "Feature",
-            "geometry": clickedFeature.geometry,
-          };
-
-          config.zipLayers.forEach(layer => {
-            let filteredZips = map.current.querySourceFeatures('composite', {
-              sourceLayer: layer,
-              // filter: ['within', feature]
-              }
-            )
-
-            if (filteredZips.length > 0) {
-              filteredZips.forEach(zip => {
-                zipFeatures.push(zip.properties['ZCTA5CE20']);
-              });
-            }
-          });
-
-           // show zip layers
-          config.zipLayers.forEach(layer => {
-            map.current.setLayoutProperty(layer, 'visibility', [
-              'case',
-              ['in', ['literal', ['get', 'ZCTA5CE20']], zipFeatures], 'visible',
-              'none'
-            ]);
-            map.current.setPaintProperty(layer, 'fill-opacity', 0.8);
-          });
-
-          map.current.setLayoutProperty('zip-labels', 'visibility', 'visible');
-
-          config.countyLayers.forEach(layer => {
-            map.current.setLayoutProperty(layer, 'visibility', 'none');
-          });
-
-
-        });
-
-       
       }
 
-     
+      
     };
   
     map.current.on('mousemove', [...config.layers], handleMouseMove);
@@ -353,7 +348,7 @@ const MapComponentBase = ({
       map.current.off('click', handleClick);
     };
   
-  }, [filters, states, counties, timestamp, dynamicTooltip, showZips]); // Dependencies ensure updates on filter changes.
+  }, [filters, states, counties, timestamp, dynamicTooltip, enableZips, showZips]); // Dependencies ensure updates on filter changes.
 
   return (
     <div 
