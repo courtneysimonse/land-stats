@@ -86,7 +86,7 @@ const MapComponentBase = ({
 
   useEffect(() => {
     const updateColorsHandler = () => {
-      const mapLayers = filters.layer === "State" ? config.stateLayers : config.countyLayers;
+      const mapLayers = showZips ? config.zipLayers : (filters.layer === "State" ? config.stateLayers : config.countyLayers);
   
       const varName = filters.status === "Pending"
         ? `${config.acresOptions[filters.acres]}.PENDING.${config.statOptions[filters.status][filters.stat]}`
@@ -152,7 +152,7 @@ const MapComponentBase = ({
     return () => {
       eventBus.off("updateColors", updateColorsHandler);
     };
-  }, [filters, legendControl]); // Ensure dependencies are updated
+  }, [filters, legendControl, showZips]); // Ensure dependencies are updated
   
   useEffect(() => {
     if (!states || !counties || timestamp == undefined) return; // Wait for the data to load
@@ -253,6 +253,7 @@ const MapComponentBase = ({
     const handleClick = (e) => {
       tooltip.remove();
       popup.remove();
+      const clickedFeature = e.features[0];
       map.current.off('mousemove', handleMouseMove); //why doesn't this work??
 
       if (!showZips || filters.layer === 'State') {
@@ -297,10 +298,48 @@ const MapComponentBase = ({
         let newZoom = zoom > 7 ? zoom : 7;
         map.current.flyTo({center: e.lngLat, zoom: newZoom});  
 
-        // show zip layers
-        config.zipLayers.forEach(layer => {
-          map.current.setLayoutProperty(layer, 'visibility', 'visible');
+        map.current.once('idle', () => {
+
+          let zipFeatures = [];
+          let feature = {
+            "type": "Feature",
+            "geometry": clickedFeature.geometry,
+          };
+
+          config.zipLayers.forEach(layer => {
+            let filteredZips = map.current.querySourceFeatures('composite', {
+              sourceLayer: layer,
+              // filter: ['within', feature]
+              }
+            )
+
+            if (filteredZips.length > 0) {
+              filteredZips.forEach(zip => {
+                zipFeatures.push(zip.properties['ZCTA5CE20']);
+              });
+            }
+          });
+
+           // show zip layers
+          config.zipLayers.forEach(layer => {
+            map.current.setLayoutProperty(layer, 'visibility', [
+              'case',
+              ['in', ['literal', ['get', 'ZCTA5CE20']], zipFeatures], 'visible',
+              'none'
+            ]);
+            map.current.setPaintProperty(layer, 'fill-opacity', 0.8);
+          });
+
+          map.current.setLayoutProperty('zip-labels', 'visibility', 'visible');
+
+          config.countyLayers.forEach(layer => {
+            map.current.setLayoutProperty(layer, 'visibility', 'none');
+          });
+
+
         });
+
+       
       }
 
      
