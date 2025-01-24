@@ -48,6 +48,26 @@ const MapComponentBase = ({
   const tooltip = new mapboxgl.Popup({ closeButton: false, className: 'map-tooltip' });
   const popup = new mapboxgl.Popup({ closeButton: false, className: 'map-tooltip' });
 
+  const findDataDate = (feature) => {
+    let dataDate = formatDate(timestamp);
+    if (feature.layer.id === 'states-totals' && feature.properties["timestamp"]) {
+      dataDate = formatDate(feature.properties["timestamp"]);
+    } else if (config.countyLayers.includes(feature.layer.id)) {
+      const stateFeatures = map.current.querySourceFeatures('composite',
+        {
+          sourceLayer: 'states-totals',
+          filter: ["==", ["get", "GEOID"], feature.properties["ST_GEOID"]]
+        }
+      )
+      if (stateFeatures.length > 0) {
+        dataDate = formatDate(stateFeatures[0].properties["timestamp"]);
+      }
+      
+    }
+    return dataDate
+  }
+
+
   useEffect(() => {
     if (onFilterChange) {
       onFilterChange(filters);
@@ -206,25 +226,6 @@ const MapComponentBase = ({
   useEffect(() => {
     if (!map.current || !map.current.loaded) return; // Ensure map is initialized
   
-    const findDataDate = (feature) => {
-      let dataDate = formatDate(timestamp);
-      if (feature.layer.id === 'states-totals' && feature.properties["timestamp"]) {
-        dataDate = formatDate(feature.properties["timestamp"]);
-      } else if (config.countyLayers.includes(feature.layer.id)) {
-        const stateFeatures = map.current.querySourceFeatures('composite',
-          {
-            sourceLayer: 'states-totals',
-            filter: ["==", ["get", "GEOID"], feature.properties["ST_GEOID"]]
-          }
-        )
-        if (stateFeatures.length > 0) {
-          dataDate = formatDate(stateFeatures[0].properties["timestamp"]);
-        }
-        
-      }
-      return dataDate
-    }
-
     const handleMouseMove = (e) => {
       let popupContent; 
       
