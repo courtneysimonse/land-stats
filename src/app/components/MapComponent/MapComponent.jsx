@@ -45,8 +45,8 @@ const MapComponentBase = ({
   const [counties, setCounties] = useState(null);
   const [timestamp, setTimestamp] = useState(null); 
 
-  const tooltip = new mapboxgl.Popup({ closeButton: false, className: 'map-tooltip' });
-  const popup = new mapboxgl.Popup({ closeButton: false, className: 'map-tooltip' });
+  const popupOnHover = new mapboxgl.Popup({ closeButton: false, className: 'map-tooltip' });
+  const popupOnClick = new mapboxgl.Popup({ closeButton: true, className: 'map-tooltip' });
 
   const findDataDate = (feature) => {
     let dataDate = formatDate(timestamp);
@@ -178,6 +178,11 @@ const MapComponentBase = ({
     
     if (map.current) return; // initialize map only once
 
+    if (process.env.NEXT_PUBLIC_MAPBOX_TOKEN == undefined) {
+      console.error("Mapbox token not found. Please set the NEXT_PUBLIC_MAPBOX_TOKEN environment variable."); 
+      return;
+    }
+
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
     let timestampMessage = "";
@@ -213,12 +218,6 @@ const MapComponentBase = ({
     );
     
     return () => {
-      if (map.current) {
-        map.current.off('mouseenter');
-        map.current.off('mousemove');
-        map.current.off('mouseleave');
-        map.current.off('click');
-      }
     };
 
   }, [states, counties, timestamp]);
@@ -227,7 +226,9 @@ const MapComponentBase = ({
     if (!map.current || !map.current.loaded) return; // Ensure map is initialized
   
     const handleMouseMove = (e) => {
-      let popupContent; 
+
+      if (!popupOnClick.isOpen()) {
+        let popupContent; 
       
       if (dynamicTooltip) {
         popupContent = createPopup(e.features[0], { states, counties }, filters, findDataDate(e.features[0]));
@@ -245,14 +246,16 @@ const MapComponentBase = ({
         popupContent.querySelector(`[data-stat="acreage"]`).classList.add('selected');      
       }
 
-      tooltip.setHTML(popupContent.outerHTML)
+      popupOnHover.setHTML(popupContent.outerHTML)
         .setLngLat(e.lngLat)
         .addTo(map.current);
+      }
+      
     };
   
     const handleClick = (e) => {
-      tooltip.remove();
-      popup.remove();
+      popupOnHover.remove();
+      popupOnClick.remove();
       map.current.off('mousemove', handleMouseMove); //why doesn't this work??
 
       let popupContent;
@@ -288,7 +291,7 @@ const MapComponentBase = ({
   
       popupContent.appendChild(popupBtn);
   
-      popup.setHTML(popupContent.outerHTML)
+      popupOnClick.setHTML(popupContent.outerHTML)
         .setLngLat(e.lngLat)
         .addTo(map.current);
     };
