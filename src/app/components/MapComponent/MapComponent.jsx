@@ -147,6 +147,12 @@ const MapComponentBase = ({
       Object.entries(visibilityMap).forEach(([layer, visible]) => {
         map.current.setLayoutProperty(layer, 'visibility', visible ? 'visible' : 'none');
       });
+
+      if (filters.layer == 'State') {
+        map.current.setPaintProperty('states-lines', 'line-color', config.stateBoundaryColors[0]);
+      } else {
+        map.current.setPaintProperty('states-lines', 'line-color', config.stateBoundaryColors[1]);
+      }
   
       if (legendControl) {
         const statName = Object.keys(config.statOptions[filters.status]).find(
