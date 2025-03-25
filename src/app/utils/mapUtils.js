@@ -101,7 +101,8 @@ function createGeoListItem(feature, {states, counties}) {
   let li = document.createElement('li');
   let geoName = feature.layer.id === 'states-totals' 
     ? states.find(x => x["GEOID"] == feature.properties["GEOID"])?.NAME 
-    : counties.find(x => x['GEOID'] == feature.id)?.NAME;
+    : counties.find(x => x['GEOID'] == feature.id)?.NAME.replace(' County', ' Co.') + ", " + 
+        states.find(x => x["GEOID"] == feature.properties["ST_GEOID"])?.STUSPS;
 
   li.innerHTML = `<strong>SELECTED:</strong> ${geoName || 'N/A'}`;
   return li;

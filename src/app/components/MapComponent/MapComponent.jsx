@@ -44,9 +44,29 @@ const MapComponentBase = ({
   const [states, setStates] = useState(null);
   const [counties, setCounties] = useState(null);
   const [timestamp, setTimestamp] = useState(null); 
+  const popupHover = useRef(null);
+  const popupClick = useRef(null);
+  
 
-  const tooltip = new mapboxgl.Popup({ closeButton: false, className: 'map-tooltip' });
-  const popup = new mapboxgl.Popup({ closeButton: false, className: 'map-tooltip' });
+  const findDataDate = (feature) => {
+    let dataDate = formatDate(timestamp);
+    if (feature.layer.id === 'states-totals' && feature.properties["timestamp"]) {
+      dataDate = formatDate(feature.properties["timestamp"]);
+    } else if (config.countyLayers.includes(feature.layer.id)) {
+      const stateFeatures = map.current.querySourceFeatures('composite',
+        {
+          sourceLayer: 'states-totals',
+          filter: ["==", ["get", "GEOID"], feature.properties["ST_GEOID"]]
+        }
+      )
+      if (stateFeatures.length > 0) {
+        dataDate = formatDate(stateFeatures[0].properties["timestamp"]);
+      }
+      
+    }
+    return dataDate
+  }
+
 
   useEffect(() => {
     if (onFilterChange) {
@@ -127,6 +147,12 @@ const MapComponentBase = ({
       Object.entries(visibilityMap).forEach(([layer, visible]) => {
         map.current.setLayoutProperty(layer, 'visibility', visible ? 'visible' : 'none');
       });
+
+      if (filters.layer == 'State') {
+        map.current.setPaintProperty('states-lines', 'line-color', config.stateBoundaryColors[0]);
+      } else {
+        map.current.setPaintProperty('states-lines', 'line-color', config.stateBoundaryColors[1]);
+      }
   
       if (legendControl) {
         const statName = Object.keys(config.statOptions[filters.status]).find(
@@ -160,6 +186,11 @@ const MapComponentBase = ({
     if (!states || !counties || timestamp == undefined) return; // Wait for the data to load
     
     if (map.current) return; // initialize map only once
+
+    if (process.env.NEXT_PUBLIC_MAPBOX_TOKEN == undefined) {
+      console.error("Mapbox token not found. Please set the NEXT_PUBLIC_MAPBOX_TOKEN environment variable."); 
+      return;
+    }
 
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
@@ -196,66 +227,49 @@ const MapComponentBase = ({
     );
     
     return () => {
-      if (map.current) {
-        map.current.off('mouseenter');
-        map.current.off('mousemove');
-        map.current.off('mouseleave');
-        map.current.off('click');
-      }
     };
 
   }, [states, counties, timestamp]);
 
   useEffect(() => {
     if (!map.current || !map.current.loaded) return; // Ensure map is initialized
-  
-    const findDataDate = (feature) => {
-      let dataDate = formatDate(timestamp);
-      if (feature.layer.id === 'states-totals' && feature.properties["timestamp"]) {
-        dataDate = formatDate(feature.properties["timestamp"]);
-      } else if (config.countyLayers.includes(feature.layer.id)) {
-        const stateFeatures = map.current.querySourceFeatures('composite',
-          {
-            sourceLayer: 'states-totals',
-            filter: ["==", ["get", "GEOID"], feature.properties["ST_GEOID"]]
-          }
-        )
-        if (stateFeatures.length > 0) {
-          dataDate = formatDate(stateFeatures[0].properties["timestamp"]);
-        }
-        
-      }
-      return dataDate
-    }
+    // Clean up existing popups
+    if (popupHover.current) popupHover.current.remove();
+    if (popupClick.current) popupClick.current.remove();
 
+    // Create new popup instances
+    popupHover.current = new mapboxgl.Popup({ closeButton: false, className: 'map-tooltip' });
+    popupClick.current = new mapboxgl.Popup({ closeButton: true, className: 'map-tooltip' });
+  
     const handleMouseMove = (e) => {
-      let popupContent; 
+      if (!popupClick.current.isOpen()) {
+        let popupContent; 
       
-      if (dynamicTooltip) {
-        popupContent = createPopup(e.features[0], { states, counties }, filters, findDataDate(e.features[0]));
-        let highlighted = config.statOptions[filters.status][filters.stat];
-        if (filters.status === "Pending") {
-          highlighted = "pending." + config.statOptions[filters.status][filters.stat];
+        if (dynamicTooltip) {
+          popupContent = createPopup(e.features[0], { states, counties }, filters, findDataDate(e.features[0]));
+          let highlighted = config.statOptions[filters.status][filters.stat];
+          if (filters.status === "Pending") {
+            highlighted = "pending." + config.statOptions[filters.status][filters.stat];
+          }
+      
+          const selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
+          if (selectedLi) selectedLi.classList.add('selected');
+      
+        } else {
+          popupContent = createPopup(e.features[0], { states, counties }, config.initialPopupFilters, findDataDate(e.features[0]));
+          popupContent.querySelector(`[data-stat="timeframe"]`).classList.add('selected');
+          popupContent.querySelector(`[data-stat="acreage"]`).classList.add('selected');      
         }
-    
-        const selectedLi = popupContent.querySelector(`[data-stat="${highlighted}"]`);
-        if (selectedLi) selectedLi.classList.add('selected');
-    
-      } else {
-        popupContent = createPopup(e.features[0], { states, counties }, config.initialPopupFilters, findDataDate(e.features[0]));
-        popupContent.querySelector(`[data-stat="timeframe"]`).classList.add('selected');
-        popupContent.querySelector(`[data-stat="acreage"]`).classList.add('selected');      
-      }
 
-      tooltip.setHTML(popupContent.outerHTML)
-        .setLngLat(e.lngLat)
-        .addTo(map.current);
+        popupHover.current.setHTML(popupContent.outerHTML)
+          .setLngLat(e.lngLat)
+          .addTo(map.current);
+      }
     };
-  
+
     const handleClick = (e) => {
-      tooltip.remove();
-      popup.remove();
-      map.current.off('mousemove', handleMouseMove); //why doesn't this work??
+      popupHover.current.remove();
+      popupClick.current.remove();
 
       let popupContent;
       
@@ -290,19 +304,24 @@ const MapComponentBase = ({
   
       popupContent.appendChild(popupBtn);
   
-      popup.setHTML(popupContent.outerHTML)
+      popupClick.current.setHTML(popupContent.outerHTML)
         .setLngLat(e.lngLat)
         .addTo(map.current);
     };
-  
+
+    // Setup listeners
+    map.current.off('mousemove', handleMouseMove);
+    map.current.off('click', handleClick);
     map.current.on('mousemove', [...config.layers], handleMouseMove);
     map.current.on('click', [...config.stateLayers, ...config.countyLayers], handleClick);
-  
+
     return () => {
       map.current.off('mousemove', handleMouseMove);
       map.current.off('click', handleClick);
+      popupHover.current.remove();
+      popupClick.current.remove();
     };
-  
+
   }, [filters, states, counties, timestamp, dynamicTooltip]); // Dependencies ensure updates on filter changes.
 
   return (

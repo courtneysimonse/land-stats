@@ -11,6 +11,7 @@ const config = {
         "#f69938",
         "#f3663a"
     ],
+    stateBoundaryColors: ["#ffffff","red"],
     statusOptions: {
       "Sold": "sold_count",
       "For Sale": "for_sale_count",
